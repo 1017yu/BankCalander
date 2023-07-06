@@ -4,5 +4,7 @@ import { DefaultTheme } from 'styled-components';
 export const theme: DefaultTheme = {
   colors: {
     green: '#33ff99',
+    lightgreen: '#b9fad9',
+    red: '#e73273',
   },
 };
