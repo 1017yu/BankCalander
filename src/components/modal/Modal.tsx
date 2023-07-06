@@ -1,5 +1,10 @@
-function modal() {
-  return <div>modal</div>;
+import React from 'react'
+import Expenses from './Expenses'
+
+function Modal() {
+  return (
+    <Expenses />
+  )
 }
 
-export default modal;
+export default Modal
