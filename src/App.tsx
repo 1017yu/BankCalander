@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { styled } from 'styled-components';
 import Header from '@/components/common/Header';
 import NotFound from '@/components/common/NotFound';
+import Button from './components/common/Button';
 
 const App = () => {
   const [count, setCount] = useState(0);
@@ -21,6 +22,9 @@ const App = () => {
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
         <Counter onClick={onClick}>{count}</Counter>
+        <Button green="true" />
+        <Button lightgreen="true" />
+        <Button red="true" />
       </BrowserRouter>
     </div>
   );
