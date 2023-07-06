@@ -3,7 +3,11 @@ import { useState } from 'react';
 import { styled } from 'styled-components';
 import Header from '@/components/common/Header';
 import NotFound from '@/components/common/NotFound';
+
 import Graph from './components/graph/Graph';
+
+
+import Button from './components/common/Button';
 
 
 const App = () => {
@@ -23,6 +27,9 @@ const App = () => {
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
         <Counter onClick={onClick}>{count}</Counter>
+        <Button green="true" />
+        <Button lightgreen="true" />
+        <Button red="true" />
       </BrowserRouter>
       <Graph />
     </div>
