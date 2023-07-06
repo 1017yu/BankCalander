@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { styled } from 'styled-components';
 import Header from '@/components/common/Header';
 import NotFound from '@/components/common/NotFound';
+import Graph from './components/graph/Graph';
+
 
 const App = () => {
   const [count, setCount] = useState(0);
@@ -22,6 +24,7 @@ const App = () => {
         </Routes>
         <Counter onClick={onClick}>{count}</Counter>
       </BrowserRouter>
+      <Graph />
     </div>
   );
 };
