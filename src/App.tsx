@@ -3,7 +3,12 @@ import { useState } from 'react';
 import { styled } from 'styled-components';
 import Header from '@/components/common/Header';
 import NotFound from '@/components/common/NotFound';
+
+import Graph from './components/graph/Graph';
+
+
 import Button from './components/common/Button';
+
 
 const App = () => {
   const [count, setCount] = useState(0);
@@ -26,6 +31,7 @@ const App = () => {
         <Button lightgreen="true" />
         <Button red="true" />
       </BrowserRouter>
+      <Graph />
     </div>
   );
 };
