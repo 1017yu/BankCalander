@@ -29,4 +29,5 @@ const StyledSelect = styled.select`
   width: 70px;
   height: 30px;
   font-size: 20px;
+  
 `

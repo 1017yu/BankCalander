@@ -13,7 +13,7 @@ const SearchCategory: React.FC<SearchCategoryProps> = ({ onCategorySearch }) => 
   const handleSearch = () => {
     if (searchValue.trim() !== '') {
       onCategorySearch(searchValue);
-      navigator(`/detail/q=${searchValue}`);
+      console.log(searchValue);
     } else {
       navigator(`/`);
     }
@@ -30,18 +30,30 @@ const SearchCategory: React.FC<SearchCategoryProps> = ({ onCategorySearch }) => 
   };
 
   return (
-    <div>
+    <StyledSearch>
       <StyledSearchCategory
         placeholder="카테고리 검색"
         value={searchValue}
         onChange={handleInputChange}
         onKeyPress={handleKeyPress}
       />
-      <button onClick={handleSearch}>검색</button>
-    </div>
+      <StyledButton onClick={handleSearch}>검색</StyledButton>
+    </StyledSearch>
   );
 };
 
 export default SearchCategory;
 
-const StyledSearchCategory = styled.input``;
+const StyledSearch = styled.div `
+
+`
+
+const StyledSearchCategory = styled.input`
+  width: 200px;
+  height: 30px;
+  font-size: 20px;
+`;
+
+const StyledButton = styled.button `
+  height: 30px;
+`
