@@ -1,7 +1,11 @@
-import React from 'react';
+import { styled } from 'styled-components';
 
 function Header() {
-  return <div>Header</div>;
+  return <StyledHeader>Header</StyledHeader>;
 }
+
+const StyledHeader = styled.div`
+  text-align: center;
+`;
 
 export default Header;
