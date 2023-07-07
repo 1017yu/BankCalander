@@ -1,41 +1,26 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
-import { styled } from 'styled-components';
+import Graph from '@/components/graph/Graph';
+import Layout from '@/components/common/Layout';
 import Header from '@/components/common/Header';
 import NotFound from '@/components/common/NotFound';
-
-import Graph from './components/graph/Graph';
-
-
-import Button from './components/common/Button';
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Calander from './components/calander/Calander';
 
 const App = () => {
-  const [count, setCount] = useState(0);
-
-  const onClick = () => {
-    setCount((prev) => prev + 1);
-  };
-
   return (
     <div className="App">
       <BrowserRouter>
         <Header />
         <Routes>
-          {/* <Route path="/" element={<Main />}></Route> */}
-          {/* 상단에 위치하는 라우트들의 규칙을 모두 확인, 일치하는 라우트가 없는경우 처리 */}
-          <Route path="*" element={<NotFound />}></Route>
+          <Route path="/" element={<Layout />}>
+            <Route path="/" element={<Calander />}></Route>
+            {/* 상단에 위치하는 라우트들의 규칙을 모두 확인, 일치하는 라우트가 없는경우 처리 */}
+            <Route path="*" element={<NotFound />} />
+            <Route path="/graph" element={<Graph />}></Route>
+          </Route>
         </Routes>
-        <Counter onClick={onClick}>{count}</Counter>
-        <Button green="true" />
-        <Button lightgreen="true" />
-        <Button red="true" />
       </BrowserRouter>
-      <Graph />
     </div>
   );
 };
-
-const Counter = styled.div``;
 
 export default App;
