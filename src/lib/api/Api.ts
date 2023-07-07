@@ -22,7 +22,7 @@ export const createdExpense = async (data: ExpenseData) => {
 };
 
 // 소비 품목 목록
-export const category = async (userId: string) => {
+export const expenseCategory = async (userId: string) => {
     try {
         const res = await fetch(`${API_URL}/categories?userId=${userId}`, {
             method: 'GET',
@@ -42,7 +42,7 @@ export const category = async (userId: string) => {
 };
 
 // 검색어에 해당하는 소비 항목 및 금액 조회
-export const search = async (keyword: string, userId: string) => {
+export const expenseSearch = async (keyword: string, userId: string) => {
     try {
         const encodedKeyword = encodeURIComponent(keyword);
         const res = await fetch(`${API_URL}/expenses/search?q=${encodedKeyword}&userId=${userId}`, {
@@ -64,7 +64,7 @@ export const search = async (keyword: string, userId: string) => {
   };
 
 // 일별, 주별, 월별 소비 조회
-  export const summary = async (period: string, userId: string) => {
+  export const expenseSummary = async (period: string, userId: string) => {
     try {
       const res = await fetch(`${API_URL}/expenses/summary?period=${period}&userId=${userId}`, {
         method: 'GET',
