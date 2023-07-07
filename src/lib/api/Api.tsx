@@ -127,8 +127,7 @@ export const search = async (keyword: string, userId: string) => {
   // 소비 기록 달력 호출
   export const calendar = async(year: number, month: number, userId: string ) => {
     try {
-        const encodedUserId = encodeURIComponent(userId);
-        const res = await fetch(`${API_URL}/calendar?year=${year}&month=${month}&userId=${encodedUserId}`, {
+        const res = await fetch(`${API_URL}/calendar?year=${year}&month=${month}&userId=${userId}`, {
             method: 'GET',
             headers: HEADERS
         });
