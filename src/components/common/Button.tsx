@@ -14,7 +14,7 @@ const StyledButton = styled.button<{
   lightgreen?: boolean;
   red?: boolean;
 }>`
-  width: 200px;
+  width: 50%;
   height: 200px;
   cursor: pointer;
 
