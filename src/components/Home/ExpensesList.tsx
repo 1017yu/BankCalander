@@ -1,5 +1,6 @@
-import { expenseSearch, expenseSummary } from '@/lib/api/Api';
+import ExpenseLayout from '@/ui/ExpenseLayout';
 import { useCallback, useEffect, useState } from 'react';
+import { expenseSearch, expenseSummary } from '@/lib/api/Api';
 
 interface SummaryResponseItem {
   _id: string;
@@ -11,8 +12,9 @@ function ExpensesList() {
   const [cateoryList, setCateoryList] = useState<SearchResponseItem[]>([]);
 
   const fetchList = useCallback(async () => {
-    const period = await expenseSummary('daily');
-    const category = await expenseSearch('식비');
+    const period = await expenseSummary('daily'); // 일별 소비 조회
+    const category = await expenseSearch('식비'); // 검색어(식비)에 해당하는 소비 일자와 금액을 조회
+
     setPeriodList(period);
     setCateoryList(category);
   }, []);
@@ -25,15 +27,15 @@ function ExpensesList() {
     <div>
       <div>일간, 주간, 월간 조회</div>
       {periodList.map((item) => (
-        <li key={item._id}>
-          {item._id}: {item.totalAmount}
-        </li>
+        <ExpenseLayout
+          key={item._id}
+          date={item._id}
+          totalAmount={item.totalAmount}
+        />
       ))}
       <div>카테고리 기반 검색</div>
       {cateoryList.map((item) => (
-        <li key={item._id}>
-          {item.date}: {item.amount}
-        </li>
+        <ExpenseLayout key={item._id} date={item.date} amount={item.amount} />
       ))}
     </div>
   );
