@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState, useRef, useEffect } from 'react'
+import { ChangeEvent, useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 
 function ExpensesAmount() {
