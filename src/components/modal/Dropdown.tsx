@@ -2,8 +2,8 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 interface DropdownProps {
-    options: string[];
-    onSelect: (selectedOption: string) => void;
+  options: string[];
+  onSelect: (selectedOption: string) => void;
 }
 
 function Dropdown({ options, onSelect }: DropdownProps) {
@@ -24,13 +24,13 @@ function Dropdown({ options, onSelect }: DropdownProps) {
     <DropdownWrapper onClick={toggleDropdown}>
       <Title>{selectedOption}</Title>
       <Menu closed={isClosed ? 'true' : undefined}>
-       <ItemBoard>
-       {options.map((option: string) => (
-          <MenuItem key={option} onClick={() => handleOptionSelect(option)}>
-            {option}
-          </MenuItem>
-        ))}
-       </ItemBoard>
+        <ItemBoard>
+          {options.map((option: string) => (
+            <MenuItem key={option} onClick={() => handleOptionSelect(option)}>
+              {option}
+            </MenuItem>
+          ))}
+        </ItemBoard>
       </Menu>
     </DropdownWrapper>
   );
