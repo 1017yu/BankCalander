@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 function Expenses() {
   const [dropDown, setDropDown] = useState(true);
+  const [selectTag, setSelectTag] = useState('소비태그')
 
   const toggleDropDown = () => {
     setDropDown(!dropDown);
@@ -26,13 +27,19 @@ function Expenses() {
     {id: "카드대금", value: "카드대금"},
     {id: "기타", value: "기타"}
   ]
+
+  const selectTagHandle = (tagValue: string) => {
+    setSelectTag(tagValue);
+    setDropDown(!dropDown);
+  }
+
   return (
     <DropdownWrapper onClick={toggleDropDown}>
-      <Title>소비 태그</Title>
+      <Title>{selectTag}</Title>
       <Menu closed={dropDown}>
         <ItemBoard>
           {expensesTags.map(expense => (
-          <MenuItem key={expense.id}>{expense.value}</MenuItem>
+          <MenuItem key={expense.id} onClick={() => selectTagHandle(expense.value)}>{expense.value}</MenuItem>
         ))}
         </ItemBoard>
       </Menu>
