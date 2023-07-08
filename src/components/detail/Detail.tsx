@@ -1,26 +1,47 @@
 import { useState, useEffect, useRef } from 'react';
 import PeriodSelect from './PeriodSelect';
 import SearchCategory from './CategorySearch';
+import ExpensesSelect from './ExpensesSelect';
 import styled from 'styled-components';
 import Chart from 'chart.js/auto';
+import {summary, search} from '@/lib/api/Api';
 
 interface ChartType {
   datasets: [{ data: number[] }],
   labels: string[]
 }
 
-const DetailGraph = () => {
+export default function Detail () {
 
   // 기간
-  const [period, setPeriod] = useState('');
+  const [period, setPeriod] = useState('weekly');
+  const [summaries, setSummeries] = useState<SummaryResponse>([])
 
-  // 카테고리 검색
-  const [category, setCategory] = useState('');
+  const periodApi = async (selectedPeriod: string) => {
+    try {
+      const userId = 'team1'
+      const response = await summary(selectedPeriod, userId);
+      setSummeries(response)
+    } catch (error) {
+      console.log('error :', error)
+    }
+  }
+
+  useEffect(() => {
+    periodApi(period)
+  }, [period])
+
+  console.log(typeof summaries)
+
+  // 수입, 지출
+  const [expenses, setExpenses] = useState('');
+
+
 
   // 차트
   const chartRef = useRef(null);
 
-
+  // 차트
   useEffect(() => {
     const chartData = {
       labels: ['1주', '2주', '3주', '4주'],
@@ -38,6 +59,7 @@ const DetailGraph = () => {
     const chartOptions = {
       responsive: true,
       scales: {
+
         y: {
           beginAtZero: true,
           ticks: {
@@ -46,12 +68,14 @@ const DetailGraph = () => {
         },
       },
     };
+
     // 차트 생성
     const myChart = new Chart(chartRef.current, {
-      type: 'pie',
+      type: 'bar',
       data: chartData,
       options: chartOptions,
     });
+
     // 컴포넌트 언마운트 시 차트 인스턴스 제거
     return () => {
       myChart.destroy();
@@ -59,13 +83,15 @@ const DetailGraph = () => {
   }, []);
 
 
+
+
     const handlePeriod = (value: string) => {
       setPeriod(value);
       console.log(value);
     }
 
-    const handleCategory = (value: string) => {
-      setCategory(value);
+    const handleExpenses = (value: string) => {
+      setExpenses(value)
       console.log(value);
     }
 
@@ -73,7 +99,7 @@ const DetailGraph = () => {
       <>
         <Check>
           <PeriodSelect onPeriodChange={handlePeriod} />
-          <SearchCategory onCategorySearch={handleCategory} />
+          <ExpensesSelect onExpensesSelect={handleExpenses}/>
         </Check>
         <div>
           <div>DetailGraph</div>
@@ -82,11 +108,10 @@ const DetailGraph = () => {
         <div>
           List
         </div>
+        {summaries.map((summary, index) => <li key={index}>{summary._id}: {summary.totalAmount}</li>)}
       </>
     );
   }
-
-export default DetailGraph;
 
 const Check = styled.div`
   display: flex;

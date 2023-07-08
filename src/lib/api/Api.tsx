@@ -66,7 +66,7 @@ export const search = async (keyword: string, userId: string) => {
 // 일별, 주별, 월별 소비 조회
   export const summary = async (period: string, userId: string) => {
     try {
-      const res = await fetch(`${API_URL}/expenses/summary?period=${period}&userId=${userId}`, {
+      const res = await fetch(`http://52.78.195.183:3003/api/expenses/summary?period=${period}&userId=${userId}`, {
         method: 'GET',
         headers: HEADERS
       });

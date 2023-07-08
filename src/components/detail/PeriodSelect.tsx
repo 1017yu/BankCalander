@@ -12,11 +12,11 @@ const PeriodSelect: React.FC<OnPeriodProps> = ({ onPeriodChange }) => {
   };
 
   return (
-    <StyledSelect onChange={handleChange}>
-      <option key="weekly" value="weekly">
+    <StyledSelect onChange={handleChange} >
+      <option value="weekly">
         주간
       </option>
-      <option key="monthly" value="monthly">
+      <option value="monthly">
         월간
       </option>
     </StyledSelect>
