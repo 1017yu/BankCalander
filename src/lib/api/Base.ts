@@ -1,7 +1,7 @@
-export const API_URL = import.meta.env.VITE_API_URL
+export const API_URL = import.meta.env.VITE_BASE_URL;
 
 export const HEADERS = {
-    'content-Type': 'application/json',
-}
+  'content-Type': 'application/json',
+};
 
-export const userId = 'Team7Test'
+export const userId = 'Team7Test';
