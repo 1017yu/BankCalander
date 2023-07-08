@@ -16,6 +16,7 @@ type CategoriesResponse = string[]
 
 // 검색어에 해당하는 소비 품목과 금액을 조회하는 서버 요청 데이터
 interface SearchResponseItem {
+    _id: string;
     amount: number;
     userId: string;
     category: string;
