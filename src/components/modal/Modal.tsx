@@ -3,6 +3,8 @@ import ExpensesAmount from './ExpensesAmount'
 import { styled } from 'styled-components'
 import ExpensesTag from './ExpensesTag'
 import DepositTag from './DepositTag'
+import { createdExpense } from '@/lib/api/Api'
+
 
 function Modal() {
   return (
