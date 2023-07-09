@@ -1,19 +1,13 @@
 import Dropdown from './Dropdown';
 
-interface DepositTagProps {
-  handleTagChange: (tags: string) => void;
-}
+function DepositTag() {
+  const depositTags = ['월급', '용돈', '기타'];
 
-function DepositTag({ handleTagChange }: DepositTagProps) {
-  const depositTags = [
-    '월급',
-    '용돈',
-    '기타',
-  ];
+  const handleTagSelect = (tag: string) => {
+    console.log(tag);
+  };
 
-  return (
-    <Dropdown options={depositTags} onSelect={handleTagChange} />
-  );
+  return <Dropdown options={depositTags} onSelect={handleTagSelect} />;
 }
 
 export default DepositTag;
