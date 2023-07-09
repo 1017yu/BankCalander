@@ -4,7 +4,7 @@ import SearchCategory from './CategorySearch';
 import ExpensesSelect from './ExpensesSelect';
 import styled from 'styled-components';
 import Chart from 'chart.js/auto';
-import {summary, search} from '@/lib/api/Api';
+import {expenseSummary, expenseSearch} from '@/lib/api/Api';
 
 interface ChartType {
   datasets: [{ data: number[] }],
@@ -14,14 +14,15 @@ interface ChartType {
 export default function Detail () {
 
   // 기간
-  const [period, setPeriod] = useState('weekly');
+  const [period, setPeriod] = useState('monthly');
   const [summaries, setSummeries] = useState<SummaryResponse>([])
+  const [sortSummaries, setSortSummeries] = useState<SummaryResponse>([])
 
   const periodApi = async (selectedPeriod: string) => {
     try {
-      const userId = 'team1'
-      const response = await summary(selectedPeriod, userId);
+      const response = await expenseSummary(selectedPeriod);
       setSummeries(response)
+      console.log(response)
     } catch (error) {
       console.log('error :', error)
     }
@@ -31,24 +32,53 @@ export default function Detail () {
     periodApi(period)
   }, [period])
 
-  console.log(typeof summaries)
+  const sortSummariesFunc = () => {
+    setSortSummeries(summaries.sort((acc, cur) => {
+      const idA = Number(acc._id.replace(/-/g, ''))
+      const idB = Number(cur._id.replace(/-/g, ''))
+      return idA - idB
+    }))
+  }
+
+  useEffect(() => {
+    sortSummariesFunc()
+  }, [summaries])
+
+  console.log(3)
+  console.log(sortSummaries)
+  console.log(4)
 
   // 수입, 지출
   const [expenses, setExpenses] = useState('');
 
-
+  // const filterExpenses = () => {
+  //   summaries.filter((item) => {item.totalAmount > 0})
+  // }
 
   // 차트
   const chartRef = useRef(null);
 
   // 차트
   useEffect(() => {
+    const chartLabels = summaries.map((summary) => {
+      if(period === 'monthly') {
+        const [year, month] = summary._id.split('-')
+        return `${year}년-${month}월`
+      } else if ( period === 'weekly'){
+        const weekNum = summary._id.split('-')[1]
+        return `주${weekNum}`
+      } else if ( period === 'daily') {
+        const [, monthNum, dayNum] = summary._id.split('-')
+        return `${monthNum}월 ${dayNum}일`
+      }
+    })
+
     const chartData = {
-      labels: ['1주', '2주', '3주', '4주'],
+      labels: chartLabels,
       datasets: [
         {
-          label: '주 별 지출',
-          data: [100, 200, 0, 300], // 각 주에 해당하는 지출 데이터
+          label: '지출 내역',
+          data: summaries.map((summary) => summary.totalAmount), // 각 주에 해당하는 지출 데이터
           backgroundColor: 'rgba(75, 192, 192, 0.6)', // 차트 영역 배경색
           borderColor: 'rgba(75, 192, 192, 1)', // 차트 선 색상
           borderWidth: 1, // 차트 선 두께
@@ -80,7 +110,7 @@ export default function Detail () {
     return () => {
       myChart.destroy();
     };
-  }, []);
+  }, [summaries, period]);
 
 
 
@@ -108,7 +138,12 @@ export default function Detail () {
         <div>
           List
         </div>
-        {summaries.map((summary, index) => <li key={index}>{summary._id}: {summary.totalAmount}</li>)}
+        {sortSummaries.map((summary, index) => 
+          <li key={index}>
+            <div>
+              date: {summary._id} 금액: {summary.totalAmount.toLocaleString()+'원'}
+            </div>
+          </li>)}
       </>
     );
   }

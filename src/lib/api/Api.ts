@@ -1,4 +1,4 @@
-import { API_URL, HEADERS } from "@/lib/api/Base";
+import { API_URL, HEADERS, userId } from "@/lib/api/Base";
 
 // 소비 기록 작성
 export const createdExpense = async (data: ExpenseData) => {
@@ -22,7 +22,7 @@ export const createdExpense = async (data: ExpenseData) => {
 };
 
 // 소비 품목 목록
-export const category = async (userId: string) => {
+export const expenseCategory = async () => {
     try {
         const res = await fetch(`${API_URL}/categories?userId=${userId}`, {
             method: 'GET',
@@ -42,7 +42,7 @@ export const category = async (userId: string) => {
 };
 
 // 검색어에 해당하는 소비 항목 및 금액 조회
-export const search = async (keyword: string, userId: string) => {
+export const expenseSearch = async (keyword: string) => {
     try {
         const encodedKeyword = encodeURIComponent(keyword);
         const res = await fetch(`${API_URL}/expenses/search?q=${encodedKeyword}&userId=${userId}`, {
@@ -64,9 +64,9 @@ export const search = async (keyword: string, userId: string) => {
   };
 
 // 일별, 주별, 월별 소비 조회
-  export const summary = async (period: string, userId: string) => {
+  export const expenseSummary = async (period: string) => {
     try {
-      const res = await fetch(`http://52.78.195.183:3003/api/expenses/summary?period=${period}&userId=${userId}`, {
+      const res = await fetch(`${API_URL}/expenses/summary?period=${period}&userId=${userId}`, {
         method: 'GET',
         headers: HEADERS
       });
@@ -125,10 +125,9 @@ export const search = async (keyword: string, userId: string) => {
   };
 
   // 소비 기록 달력 호출
-  export const calendar = async(year: number, month: number, userId: string ) => {
+  export const calendarData = async(year: number, month: number) => {
     try {
-        const encodedUserId = encodeURIComponent(userId);
-        const res = await fetch(`${API_URL}/calendar?year=${year}&month=${month}&userId=${encodedUserId}`, {
+        const res = await fetch(`${API_URL}/calendar?year=${year}&month=${month}&userId=${userId}`, {
             method: 'GET',
             headers: HEADERS
         });

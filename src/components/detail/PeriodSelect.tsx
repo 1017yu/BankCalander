@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-
 interface OnPeriodProps {
   onPeriodChange: (value: string) => void;
 }
@@ -12,12 +11,15 @@ const PeriodSelect: React.FC<OnPeriodProps> = ({ onPeriodChange }) => {
   };
 
   return (
-    <StyledSelect onChange={handleChange} >
+    <StyledSelect onChange={handleChange}>
+      <option value="monthly">
+        월간
+      </option>
       <option value="weekly">
         주간
       </option>
-      <option value="monthly">
-        월간
+      <option value = 'daily'>
+        일간
       </option>
     </StyledSelect>
   );
