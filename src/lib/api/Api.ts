@@ -6,7 +6,7 @@ export const createdExpense = async (data: ExpenseData) => {
     const res = await fetch(`${API_URL}/expenses`, {
       method: 'POST',
       headers: HEADERS,
-      body: JSON.stringify(data),
+      body: JSON.stringify({...data, userId}),
     });
     // 소비 기록 작성 성공
     if (res.ok) {
