@@ -12,7 +12,7 @@ function ExpensesList() {
   const [cateoryList, setCateoryList] = useState<SearchResponseItem[]>([]);
 
   const fetchList = useCallback(async () => {
-    const period = await expenseSummary('daily'); // 일별 소비 조회
+    const period = await expenseSummary('weekly'); // 일별 소비 조회
     const category = await expenseSearch('식비'); // 검색어(식비)에 해당하는 소비 일자와 금액을 조회
 
     setPeriodList(period);
