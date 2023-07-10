@@ -62,9 +62,8 @@ const Menu = styled.div<{ closed?: string | undefined }>`
 `;
 
 const ItemBoard = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-}
+  display: flex;
+  flex-wrap: wrap;
 `;
 
 const MenuItem = styled.span`

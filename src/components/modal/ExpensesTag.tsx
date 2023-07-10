@@ -23,11 +23,7 @@ function ExpensesTag({ handleTagChange }: ExpensesTagProps) {
     '기타',
   ];
 
-  const handleTagSelect = (tag: string) => {
-    console.log(tag);
-  };
-
-  return <Dropdown options={ExpensesTags} onSelect={handleTagSelect} />;
+  return <Dropdown options={ExpensesTags} onSelect={handleTagChange} />;
 }
 
 export default ExpensesTag;
