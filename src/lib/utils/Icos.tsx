@@ -4,13 +4,13 @@ import {
     FaFilm,
     FaSprayCan,
     FaTshirt,
-    FaPalette,
+    FaCut,
     FaStethoscope,
     FaPencilAlt,
     FaMobileAlt,
     FaBeer,
-    FaTickets,
-    FaMoneyBill,
+    FaRegHandshake,
+    FaPiggyBank,
     FaTv,
     FaReceipt,
     FaCreditCard,
@@ -22,15 +22,33 @@ import {
   const culturalIcon = <FaFilm />;
   const dailyNecessityIcon = <FaSprayCan />;
   const clothesIcon = <FaTshirt />;
-  const beautyIcon = <FaPalette />;
+  const beautyIcon = <FaCut />;
   const medicalHealthIcon = <FaStethoscope />;
   const educationIcon = <FaPencilAlt />;
   const communicationIcon = <FaMobileAlt />;
   const gatheringIcon = <FaBeer />;
-  const eventsIcon = <FaTickets />;
-  const savingIcon = <FaMoneyBill />;
+  const eventsIcon = <FaRegHandshake />;
+  const savingIcon = <FaPiggyBank />;
   const electronicsIcon = <FaTv />;
   const utilitiesIcon = <FaReceipt />;
   const cardIcon = <FaCreditCard />;
   const etcIcon = <FaEllipsisH />;
   
+  export {
+    foodIcon,
+    transportationIcon,
+    culturalIcon,
+    dailyNecessityIcon,
+    clothesIcon,
+    beautyIcon,
+    medicalHealthIcon,
+    educationIcon,
+    communicationIcon,
+    gatheringIcon,
+    eventsIcon,
+    savingIcon,
+    electronicsIcon,
+    utilitiesIcon,
+    cardIcon,
+    etcIcon
+  }
