@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from '@/components/Home/Home';
 import Modal from '@/components/modal/Modal';
 
-
 const App = () => {
   return (
     <div className="App">
