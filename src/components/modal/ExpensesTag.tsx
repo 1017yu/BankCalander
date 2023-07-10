@@ -1,6 +1,10 @@
 import Dropdown from './Dropdown';
 
-function ExpensesTag() {
+interface ExpensesTagProps {
+  handleTagChange: (tags: string) => void;
+}
+
+function ExpensesTag({ handleTagChange }: ExpensesTagProps) {
   const ExpensesTags = [
     '식비',
     '교통비',
@@ -19,13 +23,8 @@ function ExpensesTag() {
     '기타',
   ];
 
-  const handleTagSelect = (tag: string) => {
-    
-    console.log(tag);
-  };
-
   return (
-    <Dropdown options={ExpensesTags} onSelect={handleTagSelect} />
+    <Dropdown options={ExpensesTags} onSelect={handleTagChange} />
   );
 }
 

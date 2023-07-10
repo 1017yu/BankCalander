@@ -1,8 +1,12 @@
-import { ChangeEvent, useState, useRef, useEffect } from 'react'
+import { ChangeEvent, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 
-function ExpensesAmount() {
-    const [amount, setAmount] = useState(0);
+interface ExpensesAmountProps {
+    amount: number;
+    handleAmountChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  }
+
+function ExpensesAmount({ amount, handleAmountChange }: ExpensesAmountProps) {
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
@@ -11,16 +15,11 @@ function ExpensesAmount() {
         }
     }, []);
 
-    const handleChage = (e: ChangeEvent<HTMLInputElement>) => {
-        const input = e.target.value;
-        const numericInput = Number(input.replace(/[^0-9]/g, ''));
-        setAmount(numericInput);
-    }
 
    
   return (
     <AmountContainer>
-        <Won>\</Won><AmountInput ref={inputRef} dir="rtl" type="text" value={amount.toLocaleString()} onChange={handleChage}/>
+        <Won>\</Won><AmountInput ref={inputRef} dir="rtl" type="text" value={amount.toLocaleString()} onChange={handleAmountChange}/>
     </AmountContainer>
   )
 }
