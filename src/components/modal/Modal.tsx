@@ -3,7 +3,7 @@ import ExpensesAmount from './ExpensesAmount';
 import ExpensesTag from './ExpensesTag';
 import DepositTag from './DepositTag';
 import PaymentMethod from './PaymentMethod';
-import { numeric } from '../common/Numeric';
+import { numeric } from '@/lib/utils/Numeric';
 import { createdExpense } from '@/lib/api/Api';
 import { styled, css } from 'styled-components';
 import { theme } from '@/styles/theme';
