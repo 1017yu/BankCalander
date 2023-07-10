@@ -1,47 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ExpensesAmount from './ExpensesAmount';
 import ExpensesTag from './ExpensesTag';
 import DepositTag from './DepositTag';
-import PaymentMethod from './PaymentMethod';
-import { numeric } from '../common/Numeric';
 import { createdExpense } from '@/lib/api/Api';
-import { styled } from 'styled-components';
 
 function Modal() {
-  const [type, setType] = useState<string | undefined>('');
-  const [amount, setAmount] = useState(0);
-  const [tag, setTag] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState('');
-
-  const handleButtonClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
-    const formType = e.currentTarget.dataset.formType;
-    setType(formType);
-  };
-
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value;
-    setAmount(numeric(input));
-  };
-
-  const handleTagChange = (tags: string) => {
-    setTag(tags);
-  };
-
-  const handleMethodChange = (tags: string) => {
-    setPaymentMethod(tags);
-  };
-
-  const handleSubmit = async () => {
-    const data = {
-      amount,
-      category: tag,
-      date: new Date().toISOString(),
-    };
-    await createdExpense(data);
-  };
-
   return (
     <Container>
       <ButtonCotainer>
