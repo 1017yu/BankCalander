@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
-import ExpensesAmount from './ExpensesAmount'
-import ExpensesTag from './ExpensesTag'
-import DepositTag from './DepositTag'
-import PaymentMethod from './PaymentMethod'
-import { numeric } from '../common/Numeric'
-import { createdExpense } from '@/lib/api/Api'
-import { styled } from 'styled-components'
+import React, { useState } from 'react';
+import ExpensesAmount from './ExpensesAmount';
+import ExpensesTag from './ExpensesTag';
+import DepositTag from './DepositTag';
+import PaymentMethod from './PaymentMethod';
+import { numeric } from '../common/Numeric';
+import { createdExpense } from '@/lib/api/Api';
+import { styled, css } from 'styled-components';
+import { theme } from '@/styles/theme';
 
 
 function Modal() {
@@ -44,8 +45,8 @@ function Modal() {
   return (
     <Container>
       <ButtonCotainer>
-        <DepositButton data-form-type="deposit" onClick={handleButtonClick}>입금</DepositButton>
-        <ExpenseButton data-form-type="expense" onClick={handleButtonClick}>지출</ExpenseButton>
+        <DepositButton $green="true" data-form-type="deposit" onClick={handleButtonClick}>입금</DepositButton>
+        <ExpenseButton $red="ture" data-form-type="expense" onClick={handleButtonClick}>지출</ExpenseButton>
       </ButtonCotainer>
       <ExpensesAmount amount={amount} handleAmountChange={handleAmountChange}/>
       {type === 'deposit' ? <DepositTag handleTagChange={handleTagChange} /> : 
@@ -58,28 +59,68 @@ function Modal() {
 }
 
 const Container = styled.div `
+  width: 390px;
   display:flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
 `
 
 const ButtonCotainer = styled.div `
   display: flex;
   gap: 50px;
   justify-content: center;
+  margin: 10px;
+
+  
 `
 
-const DepositButton = styled.button `
+const DepositButton = styled.button  <{
+  $green?: string;
+}> `
   width: 100px;
   height: 30px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+
+  ${(props) =>
+    props.$green &&
+    css`
+      background-color: ${theme.colors.green};
+      color: #ffffffdb;
+      background-image: linear-gradient(315deg, #b9fad9, transparent);
+    `}
 `
 
-const ExpenseButton = styled.button `
+const ExpenseButton = styled.button <{
+  $red?: string;
+}> `
   width: 100px;
   height: 30px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+
+  ${(props) =>
+    props.$red &&
+    css`
+      background-color: ${theme.colors.red};
+      color: #ffffffdb;
+      background-image: linear-gradient(315deg, #e6b0c3, transparent);
+    `}
 `
 
 const Submit = styled.button `
+  width: 250px;
+  height: 30px;
+  margin: 10px;
+
+ 
 `
 export default Modal

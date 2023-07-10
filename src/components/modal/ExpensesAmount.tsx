@@ -42,6 +42,7 @@ const AmountInput = styled.input `
     &:focus {
         border: none;
         outline: none;
+        font-weight: bold;
     }
 `
 
