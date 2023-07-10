@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
+interface Option {
+  label: string;
+  icon: React.ReactNode;
+}
+
 interface DropdownProps {
-    options: string[];
-    onSelect: (selectedOption: string) => void;
+  options: Option[];
+  onSelect: (selectedOption: string) => void;
 }
 
 function Dropdown({ options, onSelect }: DropdownProps) {
@@ -14,23 +19,24 @@ function Dropdown({ options, onSelect }: DropdownProps) {
     setIsClosed(!isClosed);
   };
 
-  const handleOptionSelect = (option: string) => {
-    setSelectedOption(option);
+  const handleOptionSelect = (option: Option) => {
+    setSelectedOption(option.label);
     setIsClosed(!isClosed);
-    onSelect(option);
+    onSelect(option.label);
   };
 
   return (
     <DropdownWrapper onClick={toggleDropdown}>
       <Title>{selectedOption}</Title>
       <Menu closed={isClosed ? 'true' : undefined}>
-       <ItemBoard>
-       {options.map((option: string) => (
-          <MenuItem key={option} onClick={() => handleOptionSelect(option)}>
-            {option}
-          </MenuItem>
-        ))}
-       </ItemBoard>
+        <ItemBoard>
+          {options.map((option: Option, index: number) => (
+            <MenuItem key={index} onClick={() => handleOptionSelect(option)}>
+              <IconWrapper>{option.icon}</IconWrapper>
+              <Label>{option.label}</Label>
+            </MenuItem>
+          ))}
+        </ItemBoard>
       </Menu>
     </DropdownWrapper>
   );
@@ -62,14 +68,16 @@ const Menu = styled.div<{ closed?: string | undefined }>`
 `;
 
 const ItemBoard = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-}
+  display: flex;
+  flex-wrap: wrap;
 `;
 
-const MenuItem = styled.span`
+const MenuItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   font-size: 16px;
-  text-align: center;
   padding: 14px 10px;
   flex: 1 0 24%;
   margin: 0.5%;
@@ -77,6 +85,14 @@ const MenuItem = styled.span`
   &:hover {
     color: red;
   }
+`;
+
+const IconWrapper = styled.div`
+  margin-bottom: 8px;
+`;
+
+const Label = styled.span`
+  font-size: 12px;
 `;
 
 export default Dropdown;
