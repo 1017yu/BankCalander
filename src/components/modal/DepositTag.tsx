@@ -5,9 +5,15 @@ interface DepositTagProps {
 }
 
 function DepositTag({ handleTagChange }: DepositTagProps) {
-  const depositTags = ['월급', '용돈', '기타'];
+  const depositTags = [
+    '월급',
+    '용돈',
+    '기타',
+  ];
 
-  return <Dropdown options={depositTags} onSelect={handleTagChange} />;
+  return (
+    <Dropdown options={depositTags} onSelect={handleTagChange} />
+  );
 }
 
 export default DepositTag;

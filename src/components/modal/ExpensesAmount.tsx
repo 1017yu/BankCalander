@@ -1,52 +1,48 @@
-import { ChangeEvent, useRef, useEffect } from 'react';
-import styled from 'styled-components';
+import { ChangeEvent, useRef, useEffect } from 'react'
+import styled from 'styled-components'
 
 interface ExpensesAmountProps {
-  amount: number;
-  handleAmountChange: (e: ChangeEvent<HTMLInputElement>) => void;
-}
+    amount: number;
+    handleAmountChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  }
 
 function ExpensesAmount({ amount, handleAmountChange }: ExpensesAmountProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, []);
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, []);
 
+
+   
   return (
     <AmountContainer>
-      <Won>\</Won>
-      <AmountInput
-        ref={inputRef}
-        dir="rtl"
-        type="text"
-        value={amount.toLocaleString()}
-        onChange={handleAmountChange}
-      />
+        <Won>\</Won><AmountInput ref={inputRef} dir="rtl" type="text" value={amount.toLocaleString()} onChange={handleAmountChange}/>
     </AmountContainer>
-  );
+  )
 }
 
-const AmountContainer = styled.div`
-  width: 150px;
-  border-bottom: 1px solid;
-  display: flex;
-  justify-content: space-between;
-  line-height: 1.5;
-`;
+const AmountContainer = styled.div `
+    width: 150px;
+    border-bottom: 1px solid;
+    display: flex;
+    justify-content: space-between;
+    line-height: 1.5;
+`
 
-const Won = styled.span``;
+const Won = styled.span `
+`
 
-const AmountInput = styled.input`
-  border: none;
-  width: 100px;
-
-  &:focus {
+const AmountInput = styled.input `
     border: none;
-    outline: none;
-  }
-`;
+    width: 100px;
 
-export default ExpensesAmount;
+    &:focus {
+        border: none;
+        outline: none;
+    }
+`
+
+export default ExpensesAmount
