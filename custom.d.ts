@@ -1,7 +1,7 @@
 // 소비 기록을 추가하거나 수정할 때 서버 요청 데이터
 interface ExpenseData {
   amount: number;
-  userId: string;
+  userId?: string;
   category: string;
   date: string;
 }
