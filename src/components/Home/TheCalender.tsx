@@ -2,7 +2,7 @@ import { theme } from '@/styles/theme';
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import WeeklyExpenses from '@/components/Home/WeeklyExpenses';
-import weekNumFn from '@/lib/utils/WeekNumFn';
+import weekNumFn from '@/lib/utils/weekNumFn';
 
 interface CalendarProps {
   date: Date;
