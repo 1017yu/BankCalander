@@ -1,12 +1,8 @@
-import { ChangeEvent, useRef, useEffect } from 'react';
+import { ChangeEvent, useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
-interface ExpensesAmountProps {
-  amount: number;
-  handleAmountChange: (e: ChangeEvent<HTMLInputElement>) => void;
-}
-
-function ExpensesAmount({ amount, handleAmountChange }: ExpensesAmountProps) {
+function ExpensesAmount() {
+  const [amount, setAmount] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -14,6 +10,12 @@ function ExpensesAmount({ amount, handleAmountChange }: ExpensesAmountProps) {
       inputRef.current.focus();
     }
   }, []);
+
+  const handleChage = (e: ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
+    const numericInput = Number(input.replace(/[^0-9]/g, ''));
+    setAmount(numericInput);
+  };
 
   return (
     <AmountContainer>
@@ -23,7 +25,7 @@ function ExpensesAmount({ amount, handleAmountChange }: ExpensesAmountProps) {
         dir="rtl"
         type="text"
         value={amount.toLocaleString()}
-        onChange={handleAmountChange}
+        onChange={handleChage}
       />
     </AmountContainer>
   );
