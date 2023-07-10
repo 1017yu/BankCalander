@@ -4,7 +4,7 @@ import ExpensesList from './ExpensesList';
 function Home() {
   return (
     <div>
-      <TheCalendar />
+      <TheCalendar date={new Date()} />
       <ExpensesList />
     </div>
   );
