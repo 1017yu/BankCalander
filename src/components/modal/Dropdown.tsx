@@ -28,7 +28,7 @@ function Dropdown({ options, onSelect }: DropdownProps) {
   return (
     <DropdownWrapper onClick={toggleDropdown}>
       <Title>{selectedOption}</Title>
-      <Menu closed={isClosed ? 'true' : undefined}>
+      <Menu $closed={isClosed ? 'true' : undefined}>
         <ItemBoard>
           {options.map((option: Option, index: number) => (
             <MenuItem key={index} onClick={() => handleOptionSelect(option)}>
