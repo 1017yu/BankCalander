@@ -35,16 +35,23 @@ function Modal() {
     setPaymentMethod(tags);
   };
 
-  const handleSubmit =  async () => {
+  const handleSubmit = async () => {
     let formAmount = amount;
     if (type === 'expense') {
       formAmount = -amount;
     }
-   const data = {
-    amount: formAmount,
-    category: `${tag}, ${paymentMethod}`,
-    date: new Date().toISOString()
+    
+    let category = tag;
+    if (paymentMethod) {
+      category += `, ${paymentMethod}`;
+    }
+    
+    const data = {
+      amount: formAmount,
+      category: category,
+      date: new Date().toISOString()
     };
+    
     await createdExpense(data);
   };
 
@@ -82,7 +89,7 @@ const ButtonCotainer = styled.div `
 
 const DepositButton = styled.button<{ 
   $green?: string 
-  $active?: string
+  $active?: boolean
 }>`
   width: 100px;
   height: 30px;
@@ -115,7 +122,7 @@ const DepositButton = styled.button<{
 
 const ExpenseButton = styled.button <{
   $red?: string;
-  $active?: string
+  $active?: boolean
 }> `
   width: 100px;
   height: 30px;
