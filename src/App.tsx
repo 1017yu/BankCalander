@@ -4,7 +4,6 @@ import Header from '@/components/common/Header';
 import NotFound from '@/components/common/NotFound';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from '@/components/Home/Home';
-import Modal from '@/components/modal/Test';
 
 const App = () => {
   return (
