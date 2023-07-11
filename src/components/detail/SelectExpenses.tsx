@@ -5,27 +5,27 @@ interface OnExpensesProps {
   onExpensesSelect: (value: string) => void;
 }
 
-const ExpensesSelect: React.FC<OnExpensesProps> = ({ onExpensesSelect }) => {
+const SelectExpenses: React.FC<OnExpensesProps> = ({ onExpensesSelect }) => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     onExpensesSelect(value);
   };
 
   return (
-    <StyledSelect onChange={handleChange}>
+    <StyledSelectExpenses onChange={handleChange}>
       <option key="수입" value="">
         수입
       </option>
       <option key="지출" value="">
         지출
       </option>
-    </StyledSelect>
+    </StyledSelectExpenses>
   );
 };
 
-export default ExpensesSelect;
+export default SelectExpenses;
 
-const StyledSelect = styled.select`
+const StyledSelectExpenses = styled.select`
   width: 70px;
   height: 30px;
   font-size: 20px;

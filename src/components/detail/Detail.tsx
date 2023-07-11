@@ -1,22 +1,23 @@
-import { useState, useEffect, useRef } from 'react';
-import PeriodSelect from './PeriodSelect';
-import SearchCategory from './CategorySearch';
-import ExpensesSelect from './ExpensesSelect';
+import { useState, useEffect } from 'react';
+import SelectPeriod from './SelectPeriod';
+import ExpensesSelect from './SelectExpenses';
 import styled from 'styled-components';
-import Chart from 'chart.js/auto';
 import {expenseSummary, expenseSearch} from '@/lib/api/Api';
+import DetailChart from './DetailChart';
+import DetailList from './DetailList';
+import { DatePicker } from 'antd';
+import SelectChart from './SelectChart';
+import SelectCategory from './SelectCategory';
 
-interface ChartType {
-  datasets: [{ data: number[] }],
-  labels: string[]
-}
+const { RangePicker } = DatePicker;
 
-export default function Detail () {
+function Detail () {
 
   // 기간
   const [period, setPeriod] = useState('monthly');
   const [summaries, setSummeries] = useState<SummaryResponse>([])
   const [sortSummaries, setSortSummeries] = useState<SummaryResponse>([])
+  const [selectDays, setSelectDays] = useState(false)
 
   const periodApi = async (selectedPeriod: string) => {
     try {
@@ -29,7 +30,12 @@ export default function Detail () {
   }
 
   useEffect(() => {
-    periodApi(period)
+    if(period !== '기간선택') {
+      periodApi(period)
+    } else {
+      console.log(period)
+      setPeriod('daily')
+    }
   }, [period])
 
   const sortSummariesFunc = () => {
@@ -44,10 +50,23 @@ export default function Detail () {
     sortSummariesFunc()
   }, [summaries])
 
-  console.log(3)
-  console.log(sortSummaries)
-  console.log(4)
+  const handlePeriod = (value: string) => {
+    setPeriod(value);
+  }
 
+  const selectDay = (dates, dateStrings) => {
+    if (dates && dates.length > 0) {
+      setSelectDays(true);
+      const [startDay, endDay] = dateStrings;
+      const filteredSummaries = summaries.filter((summary) => {
+        return summary._id >= startDay && summary._id <= endDay;
+      });
+      setSortSummeries(filteredSummaries);
+    } else {
+      setSelectDays(false);
+      sortSummariesFunc();
+    }
+  };
   // 수입, 지출
   const [expenses, setExpenses] = useState('');
 
@@ -55,101 +74,98 @@ export default function Detail () {
   //   summaries.filter((item) => {item.totalAmount > 0})
   // }
 
-  // 차트
-  const chartRef = useRef(null);
-
-  // 차트
-  useEffect(() => {
-    const chartLabels = summaries.map((summary) => {
-      if(period === 'monthly') {
-        const [year, month] = summary._id.split('-')
-        return `${year}년-${month}월`
-      } else if ( period === 'weekly'){
-        const weekNum = summary._id.split('-')[1]
-        return `주${weekNum}`
-      } else if ( period === 'daily') {
-        const [, monthNum, dayNum] = summary._id.split('-')
-        return `${monthNum}월 ${dayNum}일`
-      }
-    })
-
-    const chartData = {
-      labels: chartLabels,
-      datasets: [
-        {
-          label: '지출 내역',
-          data: summaries.map((summary) => summary.totalAmount), // 각 주에 해당하는 지출 데이터
-          backgroundColor: 'rgba(75, 192, 192, 0.6)', // 차트 영역 배경색
-          borderColor: 'rgba(75, 192, 192, 1)', // 차트 선 색상
-          borderWidth: 1, // 차트 선 두께
-        },
-      ],
-    };
-    // 차트 옵션
-    const chartOptions = {
-      responsive: true,
-      scales: {
-
-        y: {
-          beginAtZero: true,
-          ticks: {
-            stepSize: 100, // y 축 간격
-          },
-        },
-      },
-    };
-
-    // 차트 생성
-    const myChart = new Chart(chartRef.current, {
-      type: 'bar',
-      data: chartData,
-      options: chartOptions,
-    });
-
-    // 컴포넌트 언마운트 시 차트 인스턴스 제거
-    return () => {
-      myChart.destroy();
-    };
-  }, [summaries, period]);
-
-
-
-
-    const handlePeriod = (value: string) => {
-      setPeriod(value);
-      console.log(value);
-    }
-
-    const handleExpenses = (value: string) => {
-      setExpenses(value)
-      console.log(value);
-    }
-
-    return (
-      <>
-        <Check>
-          <PeriodSelect onPeriodChange={handlePeriod} />
-          <ExpensesSelect onExpensesSelect={handleExpenses}/>
-        </Check>
-        <div>
-          <div>DetailGraph</div>
-          <canvas ref={chartRef} />
-        </div>
-        <div>
-          List
-        </div>
-        {sortSummaries.map((summary, index) => 
-          <li key={index}>
-            <div>
-              date: {summary._id} 금액: {summary.totalAmount.toLocaleString()+'원'}
-            </div>
-          </li>)}
-      </>
-    );
+  const handleExpenses = (value: string) => {
+    setExpenses(value)
+    console.log(value);
   }
+
+  // 카테고리 검색
+  const [categories, setCategories] = useState([])
+  const [tests, setTests] = useState([])
+
+  const categoryApi = async() => {
+    try {
+      const response = await expenseSearch('')
+      setCategories(response)
+      console.log(1)
+      setTests([...sortSummaries, ...categories])
+      console.log(response)
+    } catch (error) {
+      console.log('error :' + error)
+    }
+  }
+
+  console.log(tests)
+
+  useEffect(() => {
+    categoryApi()
+  }, [])
+
+  
+
+  // 차트 
+  const [chart, setChart] = useState('bar')
+
+  const handleChart = (value: string) => {
+    setChart(value)
+  }
+
+
+
+  return (
+    <>
+      <Check>
+        <SelectPeriod onPeriodChange={handlePeriod} />
+        <ExpensesSelect onExpensesSelect={handleExpenses}/>
+        <SelectChart onSelectChart = {handleChart}/>
+        <SelectCategory/>
+      </Check>
+      {period === 'daily' && (
+        <StyleRangePicker>
+          <RangePicker
+            onChange={selectDay}
+          />
+        </StyleRangePicker>
+      )}
+      <div>
+        <DetailChart summaries = {sortSummaries} period = {period} selectChart = {chart} />
+      </div>
+      <div>
+        List
+        <DetailList summaries = {sortSummaries}/>
+      </div>
+      <span>-----------------------------------------------</span>
+      <div>
+        {categories.map((category, index) => 
+          <StyledLi key={index}>
+            <div>{category.category} : </div>
+            <div>{category.amount}원</div>
+            <div>{category.date.replace(/T.*$/, '')}</div>
+          </StyledLi>
+        )}
+      </div>
+
+    </>
+  );
+}
+
+export default Detail
 
 const Check = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
 `;
+
+const StyleRangePicker = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const StyledLi = styled.li`
+  display: flex;
+  margin: 10px;
+  text-align: center;
+  justify-content: center;
+`

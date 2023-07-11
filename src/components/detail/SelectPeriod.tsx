@@ -4,32 +4,32 @@ interface OnPeriodProps {
   onPeriodChange: (value: string) => void;
 }
 
-const PeriodSelect: React.FC<OnPeriodProps> = ({ onPeriodChange }) => {
+const SelectPeriod: React.FC<OnPeriodProps> = ({ onPeriodChange }) => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     onPeriodChange(value);
   };
 
   return (
-    <StyledSelect onChange={handleChange}>
+    <StyledSelectPeriod onChange={handleChange}>
       <option value="monthly">
         월간
       </option>
       <option value="weekly">
         주간
       </option>
-      <option value = 'daily'>
-        일간
+      <option>
+        기간선택
       </option>
-    </StyledSelect>
+    </StyledSelectPeriod>
   );
 };
 
-export default PeriodSelect;
+export default SelectPeriod;
 
-const StyledSelect = styled.select`
-  width: 70px;
+const StyledSelectPeriod = styled.select`
+  width: 120px;
   height: 30px;
   font-size: 20px;
-  
+  text-align: center;
 `
