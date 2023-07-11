@@ -14,7 +14,10 @@ import {
     FaTv,
     FaReceipt,
     FaCreditCard,
-    FaEllipsisH
+    FaEllipsisH,
+    FaMoneyBill,
+    FaMoneyCheck,
+    FaMoneyCheckAlt,
   } from 'react-icons/fa';
   
   const foodIcon = <FaUtensils />;
@@ -33,6 +36,11 @@ import {
   const utilitiesIcon = <FaReceipt />;
   const cardIcon = <FaCreditCard />;
   const etcIcon = <FaEllipsisH />;
+  const salaryIcon = <FaMoneyBill />;
+  const moneyIcon = <FaMoneyCheck />;
+  const cashIcon = <FaMoneyCheckAlt  />;
+  const debitCardIcon = <FaCreditCard />;
+  const creditCardIcon = <FaCreditCard />;
   
   export {
     foodIcon,
@@ -50,5 +58,10 @@ import {
     electronicsIcon,
     utilitiesIcon,
     cardIcon,
-    etcIcon
+    etcIcon,
+    salaryIcon,
+    moneyIcon,
+    cashIcon,
+    debitCardIcon,
+    creditCardIcon
   }
