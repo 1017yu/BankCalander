@@ -1,4 +1,8 @@
 import Dropdown from './Dropdown';
+import { etcIcon,
+  salaryIcon,
+  moneyIcon } from '@/lib/utils/Icons'
+
 
 interface DepositTagProps {
   handleTagChange: (tags: string) => void;
@@ -6,9 +10,9 @@ interface DepositTagProps {
 
 function DepositTag({ handleTagChange }: DepositTagProps) {
   const depositTags = [
-    '월급',
-    '용돈',
-    '기타',
+    { label: '월급', icon: salaryIcon },
+    { label: '용돈', icon: moneyIcon },
+    { label: '기타', icon: etcIcon },
   ];
 
   return (
