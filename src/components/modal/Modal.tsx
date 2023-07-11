@@ -42,7 +42,7 @@ function Modal() {
     }
    const data = {
     amount: formAmount,
-    category: tag,
+    category: `${tag}, ${paymentMethod}`,
     date: new Date().toISOString()
     };
     await createdExpense(data);
