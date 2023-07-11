@@ -28,17 +28,7 @@ function Dropdown({ options, onSelect }: DropdownProps) {
   return (
     <DropdownWrapper onClick={toggleDropdown}>
       <Title>{selectedOption}</Title>
-<<<<<<< HEAD
       <Menu $closed={isClosed ? 'true' : undefined}>
-       <ItemBoard>
-       {options.map((option: string) => (
-          <MenuItem key={option} onClick={() => handleOptionSelect(option)}>
-            {option}
-          </MenuItem>
-        ))}
-       </ItemBoard>
-=======
-      <Menu closed={isClosed ? 'true' : undefined}>
         <ItemBoard>
           {options.map((option: Option, index: number) => (
             <MenuItem key={index} onClick={() => handleOptionSelect(option)}>
@@ -47,7 +37,6 @@ function Dropdown({ options, onSelect }: DropdownProps) {
             </MenuItem>
           ))}
         </ItemBoard>
->>>>>>> ff1ca701fe453890e354c6eb1b025d1fcce0f39f
       </Menu>
     </DropdownWrapper>
   );
