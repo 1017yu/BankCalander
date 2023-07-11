@@ -16,6 +16,8 @@ function DepositTag({ handleTagChange }: DepositTagProps) {
   ];
 
   return (
+    // options으로 depositTags 배열을 하위 컴포넌트로 전달
+    // 상위 컴포넌트에서 전달 받은 handleTagChange를 onSelect로 하위 컴포넌트로 props 전달
     <Dropdown options={depositTags} onSelect={handleTagChange} />
   );
 }
