@@ -1,7 +1,7 @@
 // 소비 기록을 추가하거나 수정할 때 서버 요청 데이터
 interface ExpenseData {
   amount: number;
-  userId: string;
+  userId?: string;
   category: string;
   date: string;
 }
@@ -16,13 +16,13 @@ type CategoriesResponse = string[];
 
 // 검색어에 해당하는 소비 품목과 금액을 조회하는 서버 요청 데이터
 interface SearchResponseItem {
-    _id: string;
-    amount: number;
-    userId: string;
-    category: string;
-    date: string;
-  }
-  
+  _id: string;
+  amount: number;
+  userId: string;
+  category: string;
+  date: string;
+}
+
 type SearchResponse = SearchResponseItem[];
 
 // 일별, 주별, 월별 소비 조회를 위한 서버 요청 데이터
