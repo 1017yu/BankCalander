@@ -18,10 +18,11 @@ interface UpdateModalProps {
 // props로 전달받은 amount를 initialAmount로 받음.
 function UpdateModal({ amount: initialAmount, category, _id, date }: UpdateModalProps) {
   const [type, setType] = useState<string | undefined>();
-  const [amount, setAmount] = useState<number>(Math.abs(initialAmount)); // porps로 받은 amount값을 마운트될 때 정수로
-  const [tag, setTag] = useState<string>(category);
-  const [paymentMethod, setPaymentMethod] = useState<string>('');
-
+  const [amount, setAmount] = useState<number>(Math.abs(initialAmount)); // porps로 받은 amount값을 렌더링될 때 정수로
+  const splitCategory = category.split(', ');
+  const [tag, setTag] = useState<string>(splitCategory[0]);
+  const [paymentMethod, setPaymentMethod] = useState<string>(splitCategory[1]);
+  
 // useEffect를 사용해서 마운트 될 때 initialAmount가 0보다 크거나 같으면 type은 depost 아니면 expense가 된다.
   useEffect(() => {
       setType(initialAmount >= 0 ? 'deposit' : 'expense');
@@ -67,9 +68,9 @@ function UpdateModal({ amount: initialAmount, category, _id, date }: UpdateModal
       <DateContainer>{krDate.toLocaleDateString('ko-KR')}</DateContainer>
       <ExpensesAmount amount={amount} handleAmountChange={handleAmountChange} />
       {/* type이 deposit일 때와 expense일 때 삼항연산자를 사용하여 렌더링 되는 컴포넌트 설정 */}
-      {type === 'deposit' ? <DepositTag handleTagChange={handleTagChange} /> : <ExpensesTag handleTagChange={handleTagChange} />}
+      {type === 'deposit' ? <DepositTag tag={tag} handleTagChange={handleTagChange} /> : <ExpensesTag tag={tag} handleTagChange={handleTagChange} />}
       {/* type이 expense일 때만 PaymentMethod 컴포넌트가 렌더링되게*/}
-      {type === 'expense' ? <PaymentMethod handleMethodChange={handleMethodChange} /> : null}
+      {type === 'expense' ? <PaymentMethod tag={paymentMethod} handleMethodChange={handleMethodChange} /> : null}
       <Submit onClick={handleSubmit}>확인</Submit>
     </Container>
   );
