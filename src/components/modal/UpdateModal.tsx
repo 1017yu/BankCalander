@@ -102,7 +102,7 @@ const DeleteButton = styled.button `
   margin: 15px;
   cursor: pointer;
   
-  &: hover {
+  &:hover {
     color: ${theme.colors.red};
   }
 `

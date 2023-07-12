@@ -184,7 +184,7 @@ const Submit = styled.button`
   font-size: 18px;
   font-weight: bold;
 
-  &: hover {
+  &:hover {
     background-color: #33ff99;
     color: #ffffffdb;
   }
