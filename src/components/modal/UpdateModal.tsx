@@ -19,7 +19,9 @@ interface UpdateModalProps {
 function UpdateModal({ amount: initialAmount, category, _id, date }: UpdateModalProps) {
   const [type, setType] = useState<string | undefined>();
   const [amount, setAmount] = useState<number>(Math.abs(initialAmount)); // porps로 받은 amount값을 렌더링될 때 정수로
-  const splitCategory = category.split(', ');
+  // props로 받은 category의 값이 "소비 태그, 결제 방법" 형식이고 초기 수정폼을 렌더링 할 때
+  // 전달 받은 소비 태그와 결제 방법이 렌더링 될 수 있게 split을 이용해서 , 기준으로 배열을 생성
+  const splitCategory = category.split(', '); 
   const [tag, setTag] = useState<string>(splitCategory[0]);
   const [paymentMethod, setPaymentMethod] = useState<string>(splitCategory[1]);
   
