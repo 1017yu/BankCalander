@@ -158,7 +158,7 @@ const ExpenseButton = styled.button<{
   ${(props) =>
     props.$red &&
     css`
-      &: hover {
+      &:hover {
         background-color: ${theme.colors.red};
         color: #ffffffdb;
         background-image: linear-gradient(315deg, #e6b0c3, transparent);

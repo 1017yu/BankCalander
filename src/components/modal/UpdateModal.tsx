@@ -14,10 +14,11 @@ interface UpdateModalProps {
   category: string;
   date: string;
   _id: string;
+  close: () => void;
 }
 
 // props로 전달받은 amount를 initialAmount로 받음.
-function UpdateModal({ amount: initialAmount, category, _id, date }: UpdateModalProps) {
+function UpdateModal({ amount: initialAmount, category, _id, date, close }: UpdateModalProps) {
   const [type, setType] = useState<string | undefined>();
   const [amount, setAmount] = useState<number>(Math.abs(initialAmount)); // porps로 받은 amount값을 렌더링될 때 정수로
   // props로 받은 category의 값이 "소비 태그, 결제 방법" 형식이고 초기 수정폼을 렌더링 할 때
@@ -65,6 +66,7 @@ function UpdateModal({ amount: initialAmount, category, _id, date }: UpdateModal
 
   const handleDeleted = async () => {
     await deletedRecord(_id)
+    close()
   }
 
 // props로 전달 받은 date값을 변형
@@ -80,6 +82,7 @@ function UpdateModal({ amount: initialAmount, category, _id, date }: UpdateModal
       {/* type이 expense일 때만 PaymentMethod 컴포넌트가 렌더링되게*/}
       {type === 'expense' ? <PaymentMethod tag={paymentMethod} handleMethodChange={handleMethodChange} /> : null}
       <Submit onClick={handleSubmit}>확인</Submit>
+      <button onClick={close}>닫기</button>
     </Container>
   );
 }
