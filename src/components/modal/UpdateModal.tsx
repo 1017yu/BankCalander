@@ -4,8 +4,10 @@ import ExpensesTag from './ExpensesTag';
 import DepositTag from './DepositTag';
 import PaymentMethod from './PaymentMethod';
 import { numeric } from '@/lib/utils/Numeric';
-import { updatedRecord } from '@/lib/api/Api';
+import { updatedRecord, deletedRecord } from '@/lib/api/Api';
 import { styled } from 'styled-components';
+import { FaTrashAlt } from 'react-icons/fa'
+import { theme } from '@/styles/theme';
 
 interface UpdateModalProps {
   amount: number;
@@ -13,7 +15,6 @@ interface UpdateModalProps {
   date: string;
   _id: string;
 }
-
 
 // props로 전달받은 amount를 initialAmount로 받음.
 function UpdateModal({ amount: initialAmount, category, _id, date }: UpdateModalProps) {
@@ -62,11 +63,16 @@ function UpdateModal({ amount: initialAmount, category, _id, date }: UpdateModal
     await updatedRecord(_id, data);
   };
 
+  const handleDeleted = async () => {
+    await deletedRecord(_id)
+  }
+
 // props로 전달 받은 date값을 변형
   const krDate = new Date(date)
 
   return (
     <Container>
+      <DeleteButton onClick={handleDeleted}><FaTrashAlt /></DeleteButton>
       <DateContainer>{krDate.toLocaleDateString('ko-KR')}</DateContainer>
       <ExpensesAmount amount={amount} handleAmountChange={handleAmountChange} />
       {/* type이 deposit일 때와 expense일 때 삼항연산자를 사용하여 렌더링 되는 컴포넌트 설정 */}
@@ -86,6 +92,20 @@ const Container = styled.div`
   align-items: center;
   margin: 0 auto;
 `;
+
+const DeleteButton = styled.button `
+  position: relative;
+  right: -140px;
+  background-color: #fff;
+  border: none;
+  font-size: 20px;
+  margin: 15px;
+  cursor: pointer;
+  
+  &: hover {
+    color: ${theme.colors.red};
+  }
+`
 
 const DateContainer = styled.div`
   margin-bottom: 10px;
