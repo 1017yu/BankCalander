@@ -28,7 +28,7 @@ function Dropdown({ options, onSelect }: DropdownProps) {
   return (
     <DropdownWrapper onClick={toggleDropdown}>
       <Title>{selectedOption}</Title>
-      <Menu closed={isClosed ? 'true' : undefined}>
+      <Menu $closed={isClosed ? 'true' : undefined}>
         <ItemBoard>
           {options.map((option: Option, index: number) => (
             <MenuItem key={index} onClick={() => handleOptionSelect(option)}>
@@ -60,11 +60,11 @@ const Title = styled.h2`
   align-items: center;
 `;
 
-const Menu = styled.div<{ closed?: string | undefined }>`
+const Menu = styled.div<{ $closed?: string | undefined }>`
   margin: 0;
   padding: 0;
   list-style-type: none;
-  height: ${(props) => (props.closed === 'true' ? '0px' : 'auto')};
+  height: ${(props) => (props.$closed === 'true' ? '0px' : 'auto')};
 `;
 
 const ItemBoard = styled.div`
