@@ -1,28 +1,41 @@
-import { theme } from '@/styles/theme';
-import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
+import { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import WeeklyExpenses from '@/components/Home/WeeklyExpenses';
-import weekNumFn from '@/lib/utils/weekNumFn';
+import NotCurrentMonth from '@/components/Home/NotCurrentMonth';
+import CurrentMonth from './CurrentMonth';
+import { calendarData } from '@/lib/api/Api';
 
-interface CalendarProps {
-  date: Date;
-}
-
-interface DayProps {
-  $isCurrentMonth: boolean;
-}
-
-interface DayContentProps extends DayProps {
+export interface DayProps {
+  $isCurrentMonth?: boolean;
   $day?: number;
 }
-
 interface GetDaysProps {
   year: number;
   month: number;
 }
 
-const Calendar: React.FC<CalendarProps> = ({ date }) => {
-  const [currentDate, setCurrentDate] = useState(date || new Date());
+interface ListProps {
+  amount: number;
+  category: string;
+  date: Date;
+  userId: string;
+  _id: string;
+  __v?: number;
+}
+
+interface ListCalendarProps {
+  [key: number]: ListProps[];
+}
+
+interface CalendarProps {
+  onDayClick: (year: number, month: number, currentDay: number) => void;
+}
+
+const Calendar = ({ onDayClick }: CalendarProps) => {
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [list, setList] = useState<ListCalendarProps[]>([]);
 
   // 마지막 날짜 반환 함수
   const getLastDate = ({ year, month }: GetDaysProps) => {
@@ -38,23 +51,52 @@ const Calendar: React.FC<CalendarProps> = ({ date }) => {
 
   // 이전 Month로 이동하는 클릭 이벤트
   const handlePrevMonth = () => {
-    const prevMonth = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth() - 1,
-    );
-    setCurrentDate(prevMonth);
+    let prevMonth: Date;
+    // 현재 1월에서 prev할 때
+    if (currentMonth === 1) {
+      // 작년 12월 1일의 데이터를 저장
+      prevMonth = new Date(currentYear - 1, 11);
+      // 연도를 작년 연도로 바꿈
+      setCurrentYear(currentYear - 1);
+      // 1월 -> 12월이 아닌, 일반적으로 1개월씩 줄일 때
+    } else {
+      // prevMonth에 현재년도 이전 월 저장
+      prevMonth = new Date(currentYear, currentMonth - 2);
+    }
+    //
+    setCurrentDate(prevMonth); // 이전 월 1일로 저장
+    setCurrentMonth(prevMonth.getMonth() + 1);
   };
 
   // 다음 Month로 이동하는 클릭 이벤트
   const handleNextMonth = () => {
-    const nextMonth = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth() + 1,
-    );
-    setCurrentDate(nextMonth);
+    let nextMonth: Date;
+    // 현재 12월에서 next할 때
+    if (currentMonth === 12) {
+      // 내년 1월 1일의 데이터를 저장
+      nextMonth = new Date(currentYear + 1, 0);
+      // 연도를 내년 연도로 바꿈
+      setCurrentYear(currentYear + 1);
+      // 12월 -> 1월이 아닌, 일반적으로 1개월씩 줄일 때
+    } else {
+      // nextMonth에 현재년도 내년 월 저장
+      nextMonth = new Date(currentYear, currentMonth);
+    }
+    //
+    setCurrentDate(nextMonth); // 이전 월 1일로 저장
+    setCurrentMonth(nextMonth.getMonth() + 1);
   };
 
   const renderCalendar = () => {
+    useEffect(() => {
+      const fetchData = async () => {
+        const res = await calendarData(year, month + 1);
+        setList(res);
+      };
+      fetchData();
+      console.log(list);
+    }, []);
+
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
     const lastDate = getLastDate({ year, month }); // 해당 월의 마지막 날짜
@@ -71,10 +113,8 @@ const Calendar: React.FC<CalendarProps> = ({ date }) => {
       year: nextMonth.getFullYear(), // 이후 month의 연도(2023)
       month: nextMonth.getMonth(), // 이후 month index (7)
     });
-    console.log(weekNumFn(2023, 7, 8));
 
     const calendar = [];
-
     let currentDay = 1;
 
     // week 0주차부터 5주차까지
@@ -85,47 +125,40 @@ const Calendar: React.FC<CalendarProps> = ({ date }) => {
       // day 한 주에 1일부터 7일까지
       for (let day = 1; day <= 7; day++) {
         // 구하고자 하는 달력 외의 날짜 표기
-        // '0주차이고, 첫 번째 요일 인덱스보다 day 값이 작거나 같을 경우' 또는 '현재 날짜(currentDay)가 마지막 날짜(lastDate)를 초과한 경우'
         if ((week === 0 && day <= firstDayIdx) || currentDay > lastDate) {
-          // 0주차이고, 첫 번째 요일 인덱스보다 day 값이 작거나 같을 경우 (1일 이전)
-          if (week === 0 && day <= firstDayIdx) {
-            weekDays.push(
-              <Day key={`prev-${week}-${day}`} $isCurrentMonth={false}>
-                <DayContent $isCurrentMonth={false}>
-                  {/* 30 - firstDayIndex + day */}
-                  {prevMonthLastDate - (firstDayIdx - day)}
-                </DayContent>
-              </Day>,
-            );
-            // 현재 날짜(currentDay)가 마지막 날짜를 초과한 경우(31일 이후)
-          } else if (currentDay > lastDate) {
-            weekDays.push(
-              <Day key={`next-${week}-${day}`} $isCurrentMonth={false}>
-                <DayContent $isCurrentMonth={false}>
-                  {/* 현재 날짜 - 마지막 해당 월의 날짜 + day - 다음 달의 첫 날짜 index - 1 */}
-                  {currentDay - lastDate + day - nextMonthFirstIdx - 1}
-                </DayContent>
-              </Day>,
-            );
-          }
-          // 구하고자 하는 날짜 표기
+          weekDays.push(
+            <NotCurrentMonth
+              key={`${month + 1}-${day}`}
+              week={week}
+              day={day}
+              prevMonthLastDate={prevMonthLastDate}
+              firstDayIdx={firstDayIdx}
+              $isCurrentMonth={false}
+              currentDay={currentDay}
+              lastDate={lastDate}
+              nextMonthFirstIdx={nextMonthFirstIdx}
+            />,
+          );
         } else {
           weekDays.push(
-            <Day key={`${week}-${day}`} $isCurrentMonth={true}>
-              <DayContent $day={day} $isCurrentMonth={true}>
-                {currentDay}
-              </DayContent>
-            </Day>,
+            <CurrentMonth
+              key={`${year}-${month + 1}-${currentDay}`}
+              year={year}
+              month={month + 1}
+              day={day}
+              $isCurrentMonth={true}
+              currentDay={currentDay}
+              onDayClick={onDayClick}
+            />,
           );
-
           currentDay++;
         }
       }
       // 캘린더라는 배열에 한 주차씩 push
       calendar.push(
         <div key={`week-${week}`}>
-          <WeeklyExpenses />
-          <CalendarWeek key={`week-${week}`}>{weekDays}</CalendarWeek>
+          <WeeklyExpenses year={year} month={month + 1} />
+          <CalendarWeek key={`week-${week + 6}`}>{weekDays}</CalendarWeek>
         </div>,
       );
       // 현재 날짜(currentDay)가 마지막 날짜(lastDate)를 초과한 경우,
@@ -142,7 +175,7 @@ const Calendar: React.FC<CalendarProps> = ({ date }) => {
       <CalendarHeader>
         <button onClick={handlePrevMonth}>Previous</button>
         <h2>
-          {currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월
+          {currentYear}년 {currentMonth}월
         </h2>
         <button onClick={handleNextMonth}>Next</button>
       </CalendarHeader>
@@ -175,41 +208,6 @@ const CalendarWeek = styled.div`
   justify-content: space-evenly;
   margin-bottom: 0.5rem;
   min-height: 5rem;
-`;
-
-const Day = styled.button<DayProps>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #888888;
-  border: none;
-  cursor: pointer;
-  background-color: inherit;
-`;
-
-const DayContent = styled.div<DayContentProps>`
-  color: #000;
-
-  ${(props) =>
-    props.$day === 7 &&
-    css`
-      color: blue;
-    `}
-
-  ${(props) =>
-    props.$day === 1 &&
-    css`
-      color: ${theme.colors.red};
-    `}
-    
-
-  ${(props) => props.$isCurrentMonth && css``}
-
-   ${(props) =>
-    !props.$isCurrentMonth &&
-    css`
-      color: #b9b7b7;
-    `}
 `;
 
 export default Calendar;
