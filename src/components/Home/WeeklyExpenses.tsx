@@ -1,7 +1,17 @@
 import { styled } from 'styled-components';
 
-function WeeklyExpenses() {
-  return <Wrapper>WeeklyExpenses</Wrapper>;
+interface WeeklyExpensesProps {
+  year: number;
+  month: number;
+}
+
+function WeeklyExpenses({ year, month }: WeeklyExpensesProps) {
+  return (
+    <Wrapper>
+      {year}
+      {month}
+    </Wrapper>
+  );
 }
 const Wrapper = styled.div`
   height: 1rem;

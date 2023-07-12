@@ -1,4 +1,21 @@
 import {
+  medicalHealthIcon,
+  educationIcon,
+  communicationIcon,
+  gatheringIcon,
+  eventsIcon,
+  savingIcon,
+  electronicsIcon,
+  utilitiesIcon,
+  cardIcon,
+  etcIcon,
+  salaryIcon,
+  moneyIcon,
+  cashIcon,
+  debitCardIcon,
+  creditCardIcon,
+};
+=======
     FaUtensils,
     FaBus,
     FaFilm,
