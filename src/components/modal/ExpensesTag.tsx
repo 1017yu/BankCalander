@@ -18,9 +18,10 @@ import {     foodIcon,
 
 interface ExpensesTagProps {
   handleTagChange: (tags: string) => void;
+  tag?: string;
 }
 
-function ExpensesTag({ handleTagChange }: ExpensesTagProps) {
+function ExpensesTag({ handleTagChange, tag }: ExpensesTagProps) {
   const expensesTags = [
     { label: '식비', icon: foodIcon },
     { label: '문화생활', icon: culturalIcon },
@@ -41,7 +42,7 @@ function ExpensesTag({ handleTagChange }: ExpensesTagProps) {
   ];
 
   return (
-    <Dropdown options={expensesTags} onSelect={handleTagChange} />
+    <Dropdown tag={tag} options={expensesTags} onSelect={handleTagChange} />
   );
 }
 
