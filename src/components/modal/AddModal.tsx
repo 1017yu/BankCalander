@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import ExpensesAmount from './ExpensesAmount';
 import ExpensesTag from './ExpensesTag';
 import DepositTag from './DepositTag';
@@ -7,13 +7,19 @@ import { numeric } from '@/lib/utils/Numeric';
 import { createdExpense } from '@/lib/api/Api';
 import { styled, css } from 'styled-components';
 import { theme } from '@/styles/theme';
+import { FaArrowLeft } from 'react-icons/fa';
 
-function Modal() {
+interface AddModalProps {
+  close: () => void;
+}
+
+function AddModal({ close }: AddModalProps) {
   const [type, setType] = useState<string | undefined>(''); // 입금/지출 form
   const [amount, setAmount] = useState(0); // 소비 금액
   const [tag, setTag] = useState(''); // 카테고리 소비 태그
   const [paymentMethod, setPaymentMethod] = useState(''); // 결제 방식
   const [activeButton, setActiveButton] = useState(''); // 버튼 활성화 상태 확인
+  const modalRef = useRef(null);
 
   const handleButtonClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -23,7 +29,7 @@ function Modal() {
     setActiveButton(formType || ''); // 지정된 type에 따라 버튼 활성화
   };
 
-// numeric 
+  // numeric
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
     setAmount(numeric(input));
@@ -56,40 +62,54 @@ function Modal() {
     };
 
     await createdExpense(data);
+    close()
   };
+
+  const handleRef = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (e.target === modalRef.current) close();
+  };
+
 
   return (
     <Container>
-      <ButtonCotainer>
-        {/*입금 버튼*/}
-        <DepositButton
-          $green="true"
-          data-form-type="deposit" // 데이터셋을 이용해서 type지정
-          $active={activeButton === 'deposit'}
-          onClick={handleButtonClick}
-        >
-          입금
-        </DepositButton>
-        {/*지출 버튼*/}
-        <ExpenseButton
-          $red="ture"
-          data-form-type="expense"
-          $active={activeButton === 'expense'}
-          onClick={handleButtonClick}
-        >
-          지출
-        </ExpenseButton>
-      </ButtonCotainer>
-      <ExpensesAmount amount={amount} handleAmountChange={handleAmountChange} />
-      {type === 'deposit' ? (
-        <DepositTag handleTagChange={handleTagChange} />
-      ) : type === 'expense' ? (
-        <ExpensesTag handleTagChange={handleTagChange} />
-      ) : null}
-      {type === 'deposit' ? null : type === 'expense' ? (
-        <PaymentMethod handleMethodChange={handleMethodChange} />
-      ) : null}
-      <Submit onClick={handleSubmit}>확인</Submit>
+      <AddModalWraaper ref={modalRef} onClick={handleRef}>
+        <Modal>
+          <BackButton onClick={close}><FaArrowLeft /></BackButton>
+          <ButtonCotainer>
+            {/*입금 버튼*/}
+            <DepositButton
+              $green="true"
+              data-form-type="deposit" // 데이터셋을 이용해서 type지정
+              $active={activeButton === 'deposit'}
+              onClick={handleButtonClick}
+            >
+              입금
+            </DepositButton>
+            {/*지출 버튼*/}
+            <ExpenseButton
+              $red="ture"
+              data-form-type="expense"
+              $active={activeButton === 'expense'}
+              onClick={handleButtonClick}
+            >
+              지출
+            </ExpenseButton>
+          </ButtonCotainer>
+          <ExpensesAmount
+            amount={amount}
+            handleAmountChange={handleAmountChange}
+          />
+          {type === 'deposit' ? (
+            <DepositTag handleTagChange={handleTagChange} />
+          ) : type === 'expense' ? (
+            <ExpensesTag handleTagChange={handleTagChange} />
+          ) : null}
+          {type === 'deposit' ? null : type === 'expense' ? (
+            <PaymentMethod handleMethodChange={handleMethodChange} />
+          ) : null}
+          <Submit onClick={handleSubmit}>확인</Submit>
+        </Modal>
+      </AddModalWraaper>
     </Container>
   );
 }
@@ -103,11 +123,25 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
+const BackButton = styled.button`
+border: none;
+font-size: 20px;
+margin: 15px;
+cursor: pointer;
+background-color: #fff;
+position: relative;
+left: -150px;
+
+&: hover {
+  color: ${theme.colors.red};
+`;
+
 const ButtonCotainer = styled.div`
   display: flex;
   gap: 50px;
   justify-content: center;
   margin: 10px;
+  left: 
 `;
 
 const DepositButton = styled.button<{
@@ -189,4 +223,30 @@ const Submit = styled.button`
     color: #ffffffdb;
   }
 `;
-export default Modal;
+
+const AddModalWraaper = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+`;
+
+const Modal = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+`;
+export default AddModal;

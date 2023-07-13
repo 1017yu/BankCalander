@@ -5,7 +5,6 @@ import NotFound from '@/components/common/NotFound';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from '@/components/Home/Home';
 import Test from '@/components/modal/Test'
-import Modal from '@/components/modal/AddModal'
 
 
 const App = () => {
@@ -14,7 +13,6 @@ const App = () => {
       <BrowserRouter>
         <Header />
         <Test />
-        <Modal />
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="/" element={<Home />}></Route>
