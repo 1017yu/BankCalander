@@ -27,7 +27,7 @@ const StyledButton = styled.button<{
   ${(props) =>
     props.lightgreen &&
     css`
-      background-color: ${theme.colors.lightgreen};
+      background-color: ${theme.colors.lightGreen};
     `}
 
   ${(props) =>

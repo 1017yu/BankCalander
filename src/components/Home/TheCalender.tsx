@@ -1,10 +1,10 @@
 import CurrentMonth from './CurrentMonth';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import WeeklyExpenses from '@/components/Home/WeeklyExpenses';
 import NotCurrentMonth from '@/components/Home/NotCurrentMonth';
 import Header from '../common/Header';
-import { SelectedDailyProps } from './ExpensesList';
+import { expenseSummary } from '@/lib/api/Api';
 
 export interface DayProps {
   $isCurrentMonth?: boolean;
@@ -19,10 +19,16 @@ interface CalendarProps {
   onDayClick: (year: number, month: number, currentDay: number) => void;
 }
 
-const Calendar = ({ onDayClick }: CalendarProps) => {
+interface WeeklyListProps {
+  _id: string;
+  totalAmount: number;
+}
+
+const TheCalendar = ({ onDayClick }: CalendarProps) => {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [weeklyList, setWeeklyList] = useState<WeeklyListProps[]>([]);
 
   // 마지막 날짜 반환 함수
   const getLastDate = ({ year, month }: GetDaysProps) => {
@@ -135,7 +141,12 @@ const Calendar = ({ onDayClick }: CalendarProps) => {
       // 캘린더라는 배열에 한 주차씩 push
       calendar.push(
         <WeekWrapper key={`week-${week}`}>
-          <WeeklyExpenses month={month + 1} week={week + 1} />
+          <WeeklyExpenses
+            year={year}
+            month={month + 1}
+            week={week + 1}
+            weeklyList={weeklyList}
+          />
           <Week key={`week-${week + 6}`}>{weekDays}</Week>
         </WeekWrapper>,
       );
@@ -145,6 +156,14 @@ const Calendar = ({ onDayClick }: CalendarProps) => {
         break;
       }
     }
+    // Weekly 조회
+    useEffect(() => {
+      const fetchList = async () => {
+        const res = await expenseSummary('weekly');
+        setWeeklyList(res);
+      };
+      fetchList();
+    }, []);
 
     return calendar;
   };
@@ -157,7 +176,7 @@ const Calendar = ({ onDayClick }: CalendarProps) => {
         currentYear={currentYear}
         currentMonth={currentMonth}
       />
-      <Body>{renderCalendar()}</Body>
+      <Calendar>{renderCalendar()}</Calendar>
     </Container>
   );
 };
@@ -169,7 +188,7 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const Body = styled.div`
+const Calendar = styled.div`
   width: 100%;
 `;
 
@@ -179,7 +198,7 @@ const Week = styled.div`
   display: flex;
   justify-content: space-evenly;
   margin-bottom: 0.5rem;
-  min-height: 4rem;
+  min-height: 3.5rem;
 `;
 
-export default Calendar;
+export default TheCalendar;

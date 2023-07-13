@@ -9,9 +9,10 @@ interface SummaryResponseItem {
 }
 
 export interface SelectedDailyProps {
+  [x: string]: any;
   amount: number;
   category: string;
-  date: Date;
+  date: string;
   userId: string;
   _id: string;
 }
@@ -26,11 +27,11 @@ function ExpensesList({ selectedDate }: ExpensesListProps) {
   useEffect(() => {
     const fetchList = async () => {
       if (selectedDate) {
-        const response = await calendarData(
+        const res = await calendarData(
           selectedDate?.year as number,
           selectedDate?.month as number,
         );
-        setDailyList(response[selectedDate.currentDay]);
+        setDailyList(res[selectedDate.currentDay]);
       }
     };
     fetchList();
