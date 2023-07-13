@@ -21,7 +21,7 @@ function SearchedDailyList({ dailyList }: { dailyList: SelectedDailyProps[] }) {
                 <Wrapper>
                   <Category>
                     <Icon label={[...item.category.split(',')][0]} />
-                    {[...item.category.split(',')][0]}
+                    <Title>{[...item.category.split(',')][0]}</Title>
                   </Category>
                   <Amount $isSpend={item.amount > 0}>{item.amount}</Amount>
                 </Wrapper>
@@ -35,7 +35,9 @@ function SearchedDailyList({ dailyList }: { dailyList: SelectedDailyProps[] }) {
 
 const Container = styled.div``;
 
-const Title = styled.h1``;
+const Title = styled.h1`
+  margin-left: 0.5rem;
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -43,12 +45,13 @@ const Wrapper = styled.div`
   justify-content: space-between;
   border-top: 1px solid #000;
   margin-bottom: 0.5rem;
-  padding-top: 0.5rem;
+  padding: 1rem 0.5rem 0.5rem;
 `;
 
 const Category = styled.span`
   font-size: 1rem;
   color: ${theme.colors.gray};
+  display: flex;
 `;
 
 const Amount = styled.span<{
