@@ -11,7 +11,7 @@ import { FaArrowLeft } from 'react-icons/fa';
 
 interface AddModalProps {
   close: () => void;
-}
+};
 
 function AddModal({ close }: AddModalProps) {
   const [type, setType] = useState<string | undefined>(''); // 입금/지출 form

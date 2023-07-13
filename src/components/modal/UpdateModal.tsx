@@ -9,14 +9,13 @@ import { styled } from 'styled-components';
 import { FaTrashAlt, FaArrowLeft } from 'react-icons/fa';
 import { theme } from '@/styles/theme';
 
-
 interface UpdateModalProps {
   amount: number;
   category: string;
   date: string;
   _id: string;
   close: () => void;
-}
+};
 
 // props로 전달받은 amount를 initialAmount로 받음.
 function UpdateModal({
@@ -54,6 +53,16 @@ function UpdateModal({
   };
 
   const handleSubmit = async () => {
+    const chageData = 
+    amount !== Math.abs(initialAmount) ||
+    tag !== splitCategory[0] ||
+    paymentMethod !== splitCategory[1];
+
+    if (!chageData) {
+      close();
+      return;
+    };
+
     // type이 expense일 때 서버로 전달하는 데이터 amount가 음수가 되게 아니면 정수로
     const formAmount = type === 'expense' ? -amount : amount;
 
@@ -66,10 +75,11 @@ function UpdateModal({
     const data = {
       amount: formAmount,
       category: updatedCategory,
-      date: new Date().toISOString(),
+      date: date
     };
 
     await updatedRecord(_id, data);
+    close();
   };
 
   const handleDeleted = async () => {
@@ -78,7 +88,8 @@ function UpdateModal({
   };
 
   const handleRef = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (e.target === modalRef.current) close();
+    if (e.target === modalRef.current) 
+    close();
   };
 
   // props로 전달 받은 date값을 변형
@@ -180,29 +191,29 @@ const Submit = styled.button`
 `;
 
 const ModalWrapper = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.5);
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 9999;
 `;
 
 const Modal = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  width: 100%;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+background-color: #fff;
+padding: 20px;
+border-radius: 4px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+max-width: 400px;
+width: 100%;
 `;
 
 export default UpdateModal;
