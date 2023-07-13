@@ -38,12 +38,11 @@ function CurrentMonth({
 }
 const Day = styled.button<DayProps>`
   display: flex;
-  align-items: center;
   justify-content: center;
-  color: #888888;
-  border: none;
+  color: ${theme.colors.gray[1]};
   cursor: pointer;
   background-color: inherit;
+  min-width: 1.5rem;
 `;
 
 const DayContent = styled.div<DayProps>`
