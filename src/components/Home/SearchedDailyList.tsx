@@ -1,7 +1,7 @@
 import { theme } from '@/styles/theme';
 import { css, styled } from 'styled-components';
 import { SelectedDailyProps } from './ExpensesList';
-import tags from '@/lib/utils/tags';
+import { tags } from '@/lib/utils/Tags';
 
 function SearchedDailyList({ dailyList }: { dailyList: SelectedDailyProps[] }) {
   const Icon = ({ label }: { label: string }) => {
