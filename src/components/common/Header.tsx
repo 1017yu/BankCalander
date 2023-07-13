@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { leftIcon, rightIcon, searchIcon } from '@/lib/utils/icons';
+import { leftIcon, rightIcon, searchIcon } from '@/lib/utils/Icons';
 import Button from './Button';
 import { theme } from '@/styles/theme';
 import { useEffect, useState } from 'react';
