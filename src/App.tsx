@@ -3,11 +3,13 @@ import Layout from '@/components/common/Layout';
 import NotFound from '@/components/common/NotFound';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from '@/components/Home/Home';
+import Test from '@/components/modal/Test'
 
 const App = () => {
   return (
     <div className="App">
       <BrowserRouter>
+        <Test />
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="/" element={<Home />}></Route>

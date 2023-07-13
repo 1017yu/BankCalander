@@ -1,19 +1,55 @@
+import { useState, useCallback, useEffect } from 'react';
 import UpdateModal from './UpdateModal';
+import AddModal from './AddModal';
+import { expenseSearch } from '@/lib/api/Api';
 
 function TestPage() {
-  // 더미 데이터 생성 (서버에 저장되있는 데이터를 가져옴)
-  const dummyData = {
-    amount: -100,
-    category: '식비, 현금',
-    date: '2023-07-10T00:00:00.000Z',
-    _id: '64ad4eea6b539f3fca3410dc'
+  const [dummy, setDummy] = useState([]);
+  const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
+  const [showAddModal, setShowAddModal] = useState<boolean>(false);
+
+  const search = useCallback(async () => {
+    const data = await expenseSearch('식비');
+    setDummy(data);
+  }, []);
+
+  useEffect(() => {
+    search();
+  }, [search]);
+
+  const handleOpenAddModal = () => {
+    setShowAddModal(true);
+  };
+
+  const handleCloseAddModal = () => {
+    setShowAddModal(false);
+  };
+
+  const handleOpenUpdateModal = () => {
+    setShowUpdateModal(true);
+  };
+
+  const handleCloseUpdateModal = () => {
+    setShowUpdateModal(false);
   };
 
   return (
     <div>
       <h1>테스트 페이지</h1>
-      {/* 더미 데이터를 UpdateModal 컴포넌트로 전달 */}
-      <UpdateModal amount={dummyData.amount} category={dummyData.category} date={dummyData.date} _id={dummyData._id} />
+      <button onClick={handleOpenAddModal}>추가</button>
+      {showAddModal && <AddModal close={handleCloseAddModal} />}
+      <button onClick={handleOpenUpdateModal}>수정</button>
+      {showUpdateModal &&
+        dummy.map((item, index) => (
+          <UpdateModal
+            key={index}
+            amount={item.amount}
+            category={item.category}
+            date={item.date}
+            _id={item._id}
+            close={handleCloseUpdateModal}
+          />
+        ))}
     </div>
   );
 }
