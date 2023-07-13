@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import CurrentMonth from './CurrentMonth';
+import { useState } from 'react';
 import styled from 'styled-components';
 import WeeklyExpenses from '@/components/Home/WeeklyExpenses';
 import NotCurrentMonth from '@/components/Home/NotCurrentMonth';
-import CurrentMonth from './CurrentMonth';
-import { calendarData } from '@/lib/api/Api';
+import Header from '../common/Header';
+import { SelectedDailyProps } from './ExpensesList';
 
 export interface DayProps {
   $isCurrentMonth?: boolean;
@@ -14,19 +15,6 @@ interface GetDaysProps {
   month: number;
 }
 
-interface ListProps {
-  amount: number;
-  category: string;
-  date: Date;
-  userId: string;
-  _id: string;
-  __v?: number;
-}
-
-interface ListCalendarProps {
-  [key: number]: ListProps[];
-}
-
 interface CalendarProps {
   onDayClick: (year: number, month: number, currentDay: number) => void;
 }
@@ -35,7 +23,6 @@ const Calendar = ({ onDayClick }: CalendarProps) => {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [list, setList] = useState<ListCalendarProps[]>([]);
 
   // 마지막 날짜 반환 함수
   const getLastDate = ({ year, month }: GetDaysProps) => {
@@ -88,15 +75,6 @@ const Calendar = ({ onDayClick }: CalendarProps) => {
   };
 
   const renderCalendar = () => {
-    useEffect(() => {
-      const fetchData = async () => {
-        const res = await calendarData(year, month + 1);
-        setList(res);
-      };
-      fetchData();
-      console.log(list);
-    }, []);
-
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
     const lastDate = getLastDate({ year, month }); // 해당 월의 마지막 날짜
@@ -156,10 +134,10 @@ const Calendar = ({ onDayClick }: CalendarProps) => {
       }
       // 캘린더라는 배열에 한 주차씩 push
       calendar.push(
-        <div key={`week-${week}`}>
-          <WeeklyExpenses year={year} month={month + 1} />
-          <CalendarWeek key={`week-${week + 6}`}>{weekDays}</CalendarWeek>
-        </div>,
+        <WeekWrapper key={`week-${week}`}>
+          <WeeklyExpenses month={month + 1} week={week + 1} />
+          <Week key={`week-${week + 6}`}>{weekDays}</Week>
+        </WeekWrapper>,
       );
       // 현재 날짜(currentDay)가 마지막 날짜(lastDate)를 초과한 경우,
       // 반복문을 종료하여 남은 주차를 표시하지 않음
@@ -167,47 +145,41 @@ const Calendar = ({ onDayClick }: CalendarProps) => {
         break;
       }
     }
+
     return calendar;
   };
 
   return (
-    <CalendarContainer>
-      <CalendarHeader>
-        <button onClick={handlePrevMonth}>Previous</button>
-        <h2>
-          {currentYear}년 {currentMonth}월
-        </h2>
-        <button onClick={handleNextMonth}>Next</button>
-      </CalendarHeader>
-      <CalendarBody>{renderCalendar()}</CalendarBody>
-    </CalendarContainer>
+    <Container>
+      <Header
+        onPrev={handlePrevMonth}
+        onNext={handleNextMonth}
+        currentYear={currentYear}
+        currentMonth={currentMonth}
+      />
+      <Body>{renderCalendar()}</Body>
+    </Container>
   );
 };
 
-const CalendarContainer = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: Arial, sans-serif;
   width: 100%;
 `;
 
-const CalendarHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
-`;
-
-const CalendarBody = styled.div`
+const Body = styled.div`
   width: 100%;
 `;
 
-const CalendarWeek = styled.div`
+const WeekWrapper = styled.div``;
+
+const Week = styled.div`
   display: flex;
   justify-content: space-evenly;
   margin-bottom: 0.5rem;
-  min-height: 5rem;
+  min-height: 4rem;
 `;
 
 export default Calendar;
