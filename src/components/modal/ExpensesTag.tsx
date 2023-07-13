@@ -1,5 +1,6 @@
 import Dropdown from './Dropdown';
-import {     foodIcon,
+import {
+  foodIcon,
   transportationIcon,
   culturalIcon,
   dailyNecessityIcon,
@@ -14,7 +15,8 @@ import {     foodIcon,
   electronicsIcon,
   utilitiesIcon,
   cardIcon,
-  etcIcon } from '@/lib/utils/Icons'
+  etcIcon,
+} from '@/lib/utils/Icons';
 
 interface ExpensesTagProps {
   handleTagChange: (tags: string) => void;
@@ -38,11 +40,15 @@ function ExpensesTag({ handleTagChange, tag }: ExpensesTagProps) {
     { label: '가전', icon: electronicsIcon },
     { label: '공과금', icon: utilitiesIcon },
     { label: '카드대금', icon: cardIcon },
-    { label: '기타', icon: etcIcon }
+    { label: '기타', icon: etcIcon },
   ];
 
   return (
-    <Dropdown tag={tag} options={expensesTags} onSelect={handleTagChange} />
+    <Dropdown
+      tag={tag as string}
+      options={expensesTags}
+      onSelect={handleTagChange}
+    />
   );
 }
 

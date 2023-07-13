@@ -55,6 +55,11 @@ const GlobalStyle = createGlobalStyle`
     color: inherit;
     display: block;
   }
+  button {
+    border: none;
+    cursor: pointer;
+    background: none;
+  }
   * {
     box-sizing: inherit;
   }

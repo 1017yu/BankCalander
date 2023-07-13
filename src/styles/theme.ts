@@ -6,7 +6,7 @@ export const theme: DefaultTheme = {
     green: '#33ff99',
     lightgreen: '#b9fad9',
     red: '#e73273',
-    gray: '#b9b7b7',
+    gray: ['#EAEAEA', '#B2B2B2', '#3C4048'],
     blue: '#8CC0DE',
   },
 };
