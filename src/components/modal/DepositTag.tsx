@@ -1,7 +1,5 @@
 import Dropdown from './Dropdown';
-import { etcIcon,
-  salaryIcon,
-  moneyIcon } from '@/lib/utils/Icons'
+import { depositTags } from '@/lib/utils/Tags';
 
 
 interface DepositTagProps {
@@ -10,11 +8,6 @@ interface DepositTagProps {
 }
 
 function DepositTag({ handleTagChange, tag }: DepositTagProps) {
-  const depositTags = [
-    { label: '월급', icon: salaryIcon },
-    { label: '용돈', icon: moneyIcon },
-    { label: '기타', icon: etcIcon },
-  ];
 
   return (
     // options으로 depositTags 배열을 하위 컴포넌트로 전달
