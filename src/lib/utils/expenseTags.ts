@@ -20,7 +20,7 @@ import {
   cashIcon,
   debitCardIcon,
   creditCardIcon,
-} from '@/lib/utils/Icons';
+} from '@/lib/utils/icons';
 
 const expenseTags = [
   { label: '식비', icon: foodIcon },
