@@ -1,23 +1,18 @@
+import { theme } from '@/styles/theme';
 import { styled } from 'styled-components';
 
 interface WeeklyExpensesProps {
-  year: number;
+  week: number;
   month: number;
 }
 
-function WeeklyExpenses({ year, month }: WeeklyExpensesProps) {
-  return (
-    <Wrapper>
-      {year}
-      {month}
-    </Wrapper>
-  );
+function WeeklyExpenses({ week, month }: WeeklyExpensesProps) {
+  return <Wrapper>{week}</Wrapper>;
 }
 const Wrapper = styled.div`
-  height: 1rem;
   text-align: right;
   font-size: 0.8rem;
-  background-color: #b9b7b7;
+  background-color: ${theme.colors.gray[0]};
 `;
 
 export default WeeklyExpenses;
