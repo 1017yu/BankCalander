@@ -6,7 +6,7 @@ export const createdExpense = async (data: ExpenseData) => {
     const res = await fetch(`${API_URL}/expenses`, {
       method: 'POST',
       headers: HEADERS,
-      body: JSON.stringify({...data, userId}),
+      body: JSON.stringify({ ...data, userId }),
     });
     // 소비 기록 작성 성공
     if (res.ok) {
@@ -79,7 +79,6 @@ export const expenseSummary = async (period: string) => {
     console.log(API_URL);
     if (res.ok) {
       const data: SummaryResponseItem[] = await res.json();
-      console.log(data);
       return data;
     }
 
@@ -135,7 +134,7 @@ export const deletedRecord = async (id: string) => {
 export const calendarData = async (year: number, month: number) => {
   try {
     const res = await fetch(
-      `${API_URL}/calendar?year=${year}&month=${month}&userId=${userId}`,
+      `${API_URL}/expenses/calendar?year=${year}&month=${month}&userId=${userId}`,
       {
         method: 'GET',
         headers: HEADERS,
@@ -143,7 +142,7 @@ export const calendarData = async (year: number, month: number) => {
     );
 
     if (res.ok) {
-      const data: CalendarResponse = await res.json();
+      const data = await res.json();
       return data;
     }
 

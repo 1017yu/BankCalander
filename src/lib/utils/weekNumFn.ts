@@ -15,4 +15,19 @@ function weekNumFn(year: number, month: number, day: number): number {
   return weekNumber;
 }
 
-export default weekNumFn;
+function weekToNumFn(year: number, month: number, week: number): number {
+  const firstDayOfYear = new Date(year, 0, 1);
+  const firstWeekDay = firstDayOfYear.getDay(); // 해당 연도의 첫째 날의 요일 (0-6)
+  const daysOffset = (week - 1) * 7 - firstWeekDay; // 해당 연도의 첫째 날로부터의 날짜 차이 계산을 위한 오프셋
+
+  const date = new Date(year, month - 1, 1); // 지정된 월의 첫째 날로 시작
+  date.setDate(date.getDate() + daysOffset); // 계산된 날짜 차이만큼 날짜 오프셋
+
+  const daysDifference =
+    (date.valueOf() - firstDayOfYear.valueOf()) / (1000 * 60 * 60 * 24); // 오프셋된 날짜와 해당 연도의 첫째 날 사이의 날짜 차이 계산
+
+  const weekNumber = Math.ceil((daysDifference + 1) / 7); // 주차 계산
+
+  return weekNumber;
+}
+export { weekNumFn, weekToNumFn };

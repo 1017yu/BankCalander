@@ -12,7 +12,6 @@ function Layout() {
 const Container = styled.div`
   max-width: 500px;
   margin: 0 auto;
-  background-color: ${theme.colors.lightgreen};
   height: 100vh;
 `;
 

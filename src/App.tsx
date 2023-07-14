@@ -1,19 +1,16 @@
 import Graph from '@/components/graph/Graph';
 import Layout from '@/components/common/Layout';
-import Header from '@/components/common/Header';
 import NotFound from '@/components/common/NotFound';
 import Detail from '@/components/detail/Detail';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from '@/components/Home/Home';
-import Modal from '@/components/modal/Modal';
-
+import Test from '@/components/modal/Test'
 
 const App = () => {
   return (
     <div className="App">
       <BrowserRouter>
-        <Header />
-        <Modal />
+        <Test />
         <Routes>
           {/* <Route path="/" element={<Main />}></Route> */}
           <Route path="/" element={<Layout />}>

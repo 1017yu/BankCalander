@@ -1,43 +1,49 @@
-import ExpenseLayout from '@/ui/ExpenseLayout';
-import { useCallback, useEffect, useState } from 'react';
-import { expenseSearch, expenseSummary } from '@/lib/api/Api';
+import SearchedDailyList from './SearchedDailyList';
+import { useEffect, useState } from 'react';
+import { calendarData } from '@/lib/api/Api';
+import { SelectedDateProps } from './Home';
 
 interface SummaryResponseItem {
   _id: string;
   totalAmount: number;
 }
 
-function ExpensesList() {
-  const [periodList, setPeriodList] = useState<SummaryResponseItem[]>([]);
+export interface SelectedDailyProps {
+  [x: string]: any;
+  amount: number;
+  category: string;
+  date: string;
+  userId: string;
+  _id: string;
+}
+interface ExpensesListProps {
+  selectedDate?: SelectedDateProps;
+}
+
+function ExpensesList({ selectedDate }: ExpensesListProps) {
+  const [dailyList, setDailyList] = useState<SelectedDailyProps[]>([]);
   const [cateoryList, setCateoryList] = useState<SearchResponseItem[]>([]);
 
-  const fetchList = useCallback(async () => {
-    const period = await expenseSummary('weekly'); // 일별 소비 조회
-    const category = await expenseSearch('식비'); // 검색어(식비)에 해당하는 소비 일자와 금액을 조회
-
-    setPeriodList(period);
-    setCateoryList(category);
-  }, []);
-
   useEffect(() => {
+    const fetchList = async () => {
+      if (selectedDate) {
+        const res = await calendarData(
+          selectedDate?.year as number,
+          selectedDate?.month as number,
+        );
+        setDailyList(res[selectedDate.currentDay]);
+      }
+    };
     fetchList();
-  }, [fetchList]);
+  }, [selectedDate]);
+  // // 일별 소비 조회
+  // const category = await expenseSearch('식비'); // 검색어(식비)에 해당하는 소비 일자와 금액을 조회
+  // setCateoryList(category);
 
   return (
-    <div>
-      <div>일간, 주간, 월간 조회</div>
-      {periodList.map((item) => (
-        <ExpenseLayout
-          key={item._id}
-          date={item._id}
-          totalAmount={item.totalAmount}
-        />
-      ))}
-      <div>카테고리 기반 검색</div>
-      {cateoryList.map((item) => (
-        <ExpenseLayout key={item._id} date={item.date} amount={item.amount} />
-      ))}
-    </div>
+    <>
+      <SearchedDailyList dailyList={dailyList} />
+    </>
   );
 }
 

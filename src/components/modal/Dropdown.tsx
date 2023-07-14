@@ -9,16 +9,21 @@ interface Option {
 interface DropdownProps {
   options: Option[];
   onSelect: (selectedOption: string) => void;
+  tag?: string;
 }
 
-function Dropdown({ options, onSelect }: DropdownProps) {
-  const [isClosed, setIsClosed] = useState(true);
-  const [selectedOption, setSelectedOption] = useState('태그를 선택하세요.');
+function Dropdown({ options, onSelect, tag = "태그를 선택하세요." }: DropdownProps) {
+  const [isClosed, setIsClosed] = useState(true); // 드롭다운 형식을 여닫는 상태관리
+  const [selectedOption, setSelectedOption] = useState(tag); // tag를 선택하기 전 초기값
 
+  // 드롭다운 메뉴를 토글식으로
   const toggleDropdown = () => {
     setIsClosed(!isClosed);
   };
 
+  // 태그를 선택하면 selectedOption값으로 선택한 option의 label을 전달
+  // 그리고 드롭다운 메뉴 닫힘
+  // 상위 컴포넌트로 option.label을 전달
   const handleOptionSelect = (option: Option) => {
     setSelectedOption(option.label);
     setIsClosed(!isClosed);
@@ -28,8 +33,9 @@ function Dropdown({ options, onSelect }: DropdownProps) {
   return (
     <DropdownWrapper onClick={toggleDropdown}>
       <Title>{selectedOption}</Title>
-      <Menu closed={isClosed ? 'true' : undefined}>
+      <Menu $closed={isClosed ? 'true' : undefined}>
         <ItemBoard>
+          {/*전달 받은 options 배열을 map메서드를 이용해서 각각의 label과 icon을 렌더링되게*/}
           {options.map((option: Option, index: number) => (
             <MenuItem key={index} onClick={() => handleOptionSelect(option)}>
               <IconWrapper>{option.icon}</IconWrapper>
@@ -60,11 +66,11 @@ const Title = styled.h2`
   align-items: center;
 `;
 
-const Menu = styled.div<{ closed?: string | undefined }>`
+const Menu = styled.div<{ $closed?: string | undefined }>`
   margin: 0;
   padding: 0;
   list-style-type: none;
-  height: ${(props) => (props.closed === 'true' ? '0px' : 'auto')};
+  height: ${(props) => (props.$closed === 'true' ? '0px' : 'auto')};
 `;
 
 const ItemBoard = styled.div`
