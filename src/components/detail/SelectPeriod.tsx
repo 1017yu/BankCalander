@@ -5,8 +5,8 @@ interface OnPeriodProps {
 }
 
 const SelectPeriod: React.FC<OnPeriodProps> = ({ onPeriodChange }) => {
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = event.target.value;
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
     onPeriodChange(value);
   };
 
@@ -14,9 +14,6 @@ const SelectPeriod: React.FC<OnPeriodProps> = ({ onPeriodChange }) => {
     <StyledSelectPeriod onChange={handleChange}>
       <option value="monthly">
         월간
-      </option>
-      <option value="weekly">
-        주간
       </option>
       <option>
         기간선택

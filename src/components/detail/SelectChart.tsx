@@ -1,12 +1,11 @@
-import React from 'react'
 import styled from 'styled-components'
 
 interface OnSelectChartProps {
   onSelectChart: (value: string) => void
 }
 
-function SelectChart({onSelectChart}) {
-  const handleSelectChart = (e) => {
+function SelectChart({onSelectChart}: OnSelectChartProps) {
+  const handleSelectChart = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value
     onSelectChart(value)
   }
@@ -22,7 +21,6 @@ function SelectChart({onSelectChart}) {
       <option value = 'doughnut'>
         doughnut
       </option>
-
     </StyledSelectChart>
   )
 }

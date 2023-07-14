@@ -1,20 +1,29 @@
 import {useEffect, useRef} from 'react'
-import Chart from 'chart.js/auto';
+import Chart, {ChartType} from 'chart.js/auto';
+import styled from 'styled-components';
 
-function DeatilChart({summaries, period, selectChart}) {
+interface Summaries {
+  summaries: SummaryResponseItem[]
+  period: string
+  selectChart: string
+}
 
-  const chartRef = useRef('');
+function DeatilChart({summaries, period, selectChart}: Summaries) {
+
+  const chartRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    const chartLabels = summaries.map((summary) => {
+    if (!chartRef.current) return;
+
+    const chartLabels = summaries.map((item) => {
       if(period === 'monthly') {
-        const [year, month] = summary._id.split('-')
+        const [year, month] = item._id.split('-')
         return `${year}년 ${month}월`
       } else if ( period === 'weekly'){
-        const weekNum = summary._id.split('-')[1]
+        const weekNum = item._id.split('-')[1]
         return `주${weekNum}`
       } else if ( period === 'daily') {
-        const [, monthNum, dayNum] = summary._id.split('-')
+        const [, monthNum, dayNum] = item._id.split('-')
         return `${monthNum}월 ${dayNum}일`
       }
     })
@@ -31,7 +40,7 @@ function DeatilChart({summaries, period, selectChart}) {
       datasets: [
         {
           label: '지출 내역',
-          data: summaries.map((summary) => summary.totalAmount), // 각 주에 해당하는 지출 데이터
+          data: summaries.map((item) => item.totalAmount), // 각 주에 해당하는 지출 데이터
           backgroundColor: summaries.map(() => dynaminColor()), // 차트 영역 배경색
           borderColor: 'rgba(75, 192, 192, 1)', // 차트 선 색상
           borderWidth: 2, // 차트 선 두께
@@ -45,15 +54,16 @@ function DeatilChart({summaries, period, selectChart}) {
         y: {
           beginAtZero: true,
           ticks: {
-            stepSize: 100, // y 축 간격
+            stepSize: 1000, // y 축 간격
           },
         },
       },
     };
 
     // 차트 생성
+    const chartType = selectChart as ChartType
     const myChart = new Chart(chartRef.current, {
-      type: selectChart,
+      type: chartType,
       data: chartData,
       options: chartOptions,
     });
@@ -66,9 +76,14 @@ function DeatilChart({summaries, period, selectChart}) {
 
   return (
     <div>
-      <canvas ref = {chartRef} />
+      <StyledCanvas ref = {chartRef} />
     </div>
   )
 }
 
 export default DeatilChart
+
+const StyledCanvas = styled.canvas`
+  max-height: 250px;
+  margin-bottom: 40px;
+`

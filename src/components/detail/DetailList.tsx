@@ -1,11 +1,14 @@
-import React from 'react'
+interface Summaries {
+  summaries: SummaryResponseItem[]
+}
 
-function DetailList({summaries}) {
+
+function DetailList({summaries}: Summaries) {
   return (
     <div>
-      {summaries.map((summary, index) => 
+      {summaries.map((item, index) => 
         <li key={index}>
-          date: {summary._id} 금액: {summary.totalAmount.toLocaleString()+'원'}
+          date: {item._id} 금액: {item.totalAmount.toLocaleString()+'원'}
         </li>)}
     </div>
 
