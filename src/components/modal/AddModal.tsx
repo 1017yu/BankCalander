@@ -65,14 +65,15 @@ function AddModal({ close }: AddModalProps) {
     close()
   };
 
-  const handleRef = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (e.target === modalRef.current) close();
+  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (e.target === modalRef.current) 
+    close();
   };
 
 
   return (
     <Container>
-      <AddModalWraaper ref={modalRef} onClick={handleRef}>
+      <AddModalWraaper ref={modalRef} onClick={handleClick}>
         <Modal>
           <BackButton onClick={close}><FaArrowLeft /></BackButton>
           <ButtonCotainer>
@@ -238,15 +239,15 @@ const AddModalWraaper = styled.div`
 `;
 
 const Modal = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  width: 100%;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+background-color: #fff;
+padding: 20px;
+border-radius: 4px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+max-width: 400px;
+width: 100%;
 `;
 export default AddModal;
