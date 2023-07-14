@@ -1,7 +1,6 @@
 import Dropdown from './Dropdown';
 import { depositTags } from '@/lib/utils/Tags';
 
-
 interface DepositTagProps {
   handleTagChange: (tags: string) => void;
   tag?: string;
