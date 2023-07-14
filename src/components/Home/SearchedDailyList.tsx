@@ -23,7 +23,9 @@ function SearchedDailyList({ dailyList }: { dailyList: SelectedDailyProps[] }) {
                     <Icon label={[...item.category.split(',')][0]} />
                     <Title>{[...item.category.split(',')][0]}</Title>
                   </Category>
-                  <Amount $isSpend={item.amount > 0}>{item.amount}</Amount>
+                  <Amount $isSpend={item.amount > 0}>
+                    {item.amount.toLocaleString()}원
+                  </Amount>
                 </Wrapper>
               </li>
             ))
@@ -57,7 +59,7 @@ const Category = styled.span`
 const Amount = styled.span<{
   $isSpend?: boolean;
 }>`
-  font-size: 2rem;
+  font-size: 1rem;
 
   ${(props) =>
     props.$isSpend &&
