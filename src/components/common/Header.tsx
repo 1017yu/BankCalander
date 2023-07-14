@@ -1,10 +1,11 @@
-import { styled } from 'styled-components';
-import { leftIcon, rightIcon, searchIcon } from '@/lib/utils/Icons';
+import { css, styled } from 'styled-components';
+import { leftIcon, rightIcon, searchIcon } from '@/lib/utils/icons';
 import Button from './Button';
 import { theme } from '@/styles/theme';
 import { useEffect, useState } from 'react';
-import { SelectedDailyProps } from '../Home/ExpensesList';
+import { SelectedDailyProps } from '../home/ExpensesList';
 import { calendarData } from '@/lib/api/Api';
+import AddModal from '../modal/AddModal';
 
 interface HeaderProps {
   onPrev: () => void;
@@ -15,6 +16,7 @@ interface HeaderProps {
 
 function Header({ onPrev, onNext, currentYear, currentMonth }: HeaderProps) {
   const [dailyList, setDailyList] = useState<SelectedDailyProps[]>([]);
+  const [showAddModal, setShowAddModal] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchList = async () => {
@@ -29,6 +31,13 @@ function Header({ onPrev, onNext, currentYear, currentMonth }: HeaderProps) {
     fetchList();
   }, [currentMonth]);
 
+  const handleOpenAddModal = () => {
+    setShowAddModal(true);
+  };
+  const handleCloseAddModal = () => {
+    setShowAddModal(false);
+  };
+
   const expense =
     // dailyList가 존재할 때,
     dailyList.length > 0
@@ -42,7 +51,7 @@ function Header({ onPrev, onNext, currentYear, currentMonth }: HeaderProps) {
             (sum: number, item: { amount: number }) => sum + item.amount,
             0,
           );
-          return (acc + total) * -1;
+          return acc + total * -1;
         }, 0)
       : 0;
 
@@ -70,12 +79,17 @@ function Header({ onPrev, onNext, currentYear, currentMonth }: HeaderProps) {
           {currentYear}.{currentMonth}
           <Arrow onClick={onNext}>{rightIcon}</Arrow>
         </Month>
-        <Search>{searchIcon}</Search>
+        <Search onClick={handleOpenAddModal}>{searchIcon}</Search>
+        {showAddModal && <AddModal close={handleCloseAddModal} />}
       </SearchWrapper>
       <InfoWrapper>
         <Balance>
-          <Expense>지출 {expense}</Expense>
-          <Income>수입 {income}</Income>
+          <Expense>
+            지출<Price>{expense.toLocaleString()}원</Price>
+          </Expense>
+          <Income>
+            수입<Price $deepGreen={true}>{income.toLocaleString()}원</Price>
+          </Income>
         </Balance>
         <Buttons>
           <Button gray="true">상세 분석</Button>
@@ -150,16 +164,34 @@ const Buttons = styled.div`
 `;
 
 const Expense = styled.div`
+  display: flex;
   margin-left: 1.5rem;
   margin-bottom: 1rem;
   font-size: 12px;
   color: ${theme.colors.gray[1]};
+  align-items: center;
 `;
 
 const Income = styled.div`
+  display: flex;
   margin-left: 1.5rem;
   font-size: 12px;
   color: ${theme.colors.gray[1]};
+  align-items: center;
+`;
+
+const Price = styled.div<{
+  $deepGreen?: boolean;
+}>`
+  margin-left: 4px;
+  font-size: 1rem;
+  color: black;
+
+  ${(props) =>
+    props.$deepGreen &&
+    css`
+      color: ${theme.colors.deepGreen};
+    `};
 `;
 
 export default Header;
