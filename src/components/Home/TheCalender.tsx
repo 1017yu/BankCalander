@@ -1,10 +1,12 @@
 import CurrentMonth from './CurrentMonth';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import WeeklyExpenses from '@/components/Home/WeeklyExpenses';
-import NotCurrentMonth from '@/components/Home/NotCurrentMonth';
+import WeeklyExpenses from '@/components/home/WeeklyExpenses';
+import NotCurrentMonth from '@/components/home/NotCurrentMonth';
 import Header from '../common/Header';
 import { expenseSummary } from '@/lib/api/Api';
+import { theme } from '@/styles/theme';
+import { SelectedDailyProps } from './ExpensesList';
 
 export interface DayProps {
   $isCurrentMonth?: boolean;
@@ -17,6 +19,12 @@ interface GetDaysProps {
 
 interface CalendarProps {
   onDayClick: (year: number, month: number, currentDay: number) => void;
+  dailyList: SelectedDailyProps[];
+  monthlyList: SelectedDailyProps[];
+  currentMonth: number;
+  setCurrentMonth: React.Dispatch<React.SetStateAction<number>>;
+  currentYear: number;
+  setCurrentYear: React.Dispatch<React.SetStateAction<number>>;
 }
 
 interface WeeklyListProps {
@@ -24,11 +32,18 @@ interface WeeklyListProps {
   totalAmount: number;
 }
 
-const TheCalendar = ({ onDayClick }: CalendarProps) => {
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
+const TheCalendar = ({
+  onDayClick,
+  dailyList,
+  monthlyList,
+  currentMonth,
+  setCurrentMonth,
+  currentYear,
+  setCurrentYear,
+}: CalendarProps) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [weeklyList, setWeeklyList] = useState<WeeklyListProps[]>([]);
+  const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
 
   // 마지막 날짜 반환 함수
   const getLastDate = ({ year, month }: GetDaysProps) => {
@@ -80,93 +95,93 @@ const TheCalendar = ({ onDayClick }: CalendarProps) => {
     setCurrentMonth(nextMonth.getMonth() + 1);
   };
 
-  const renderCalendar = () => {
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
-    const lastDate = getLastDate({ year, month }); // 해당 월의 마지막 날짜
-    const firstDayIdx = getFirstDayIdx({ year, month }); // 해당 월의 첫 번째 요일 인덱스
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  const lastDate = getLastDate({ year, month }); // 해당 월의 마지막 날짜
+  const firstDayIdx = getFirstDayIdx({ year, month }); // 해당 월의 첫 번째 요일 인덱스
 
-    const prevMonth = new Date(year, month - 1); // 이전 달
-    const prevMonthLastDate = getLastDate({
-      year: prevMonth.getFullYear(), // 이전 month의 연도(2023)
-      month: prevMonth.getMonth(), // 이전 month index (5)
-    });
+  const prevMonth = new Date(year, month - 1); // 이전 달
+  const prevMonthLastDate = getLastDate({
+    year: prevMonth.getFullYear(), // 이전 month의 연도(2023)
+    month: prevMonth.getMonth(), // 이전 month index (5)
+  });
 
-    const nextMonth = new Date(year, month + 1);
-    const nextMonthFirstIdx = getFirstDayIdx({
-      year: nextMonth.getFullYear(), // 이후 month의 연도(2023)
-      month: nextMonth.getMonth(), // 이후 month index (7)
-    });
+  const nextMonth = new Date(year, month + 1);
+  const nextMonthFirstIdx = getFirstDayIdx({
+    year: nextMonth.getFullYear(), // 이후 month의 연도(2023)
+    month: nextMonth.getMonth(), // 이후 month index (7)
+  });
 
-    const calendar = [];
-    let currentDay = 1;
+  console.log(monthlyList);
 
-    // week 0주차부터 5주차까지
-    for (let week = 0; week <= 5; week++) {
-      // 한 주를 담는 배열 선언
-      const weekDays = [];
+  const calendar = [];
+  let currentDay = 1;
 
-      // day 한 주에 1일부터 7일까지
-      for (let day = 1; day <= 7; day++) {
-        // 구하고자 하는 달력 외의 날짜 표기
-        if ((week === 0 && day <= firstDayIdx) || currentDay > lastDate) {
-          weekDays.push(
-            <NotCurrentMonth
-              key={`${month + 1}-${day}`}
-              week={week}
-              day={day}
-              prevMonthLastDate={prevMonthLastDate}
-              firstDayIdx={firstDayIdx}
-              $isCurrentMonth={false}
-              currentDay={currentDay}
-              lastDate={lastDate}
-              nextMonthFirstIdx={nextMonthFirstIdx}
-            />,
-          );
-        } else {
-          weekDays.push(
-            <CurrentMonth
-              key={`${year}-${month + 1}-${currentDay}`}
-              year={year}
-              month={month + 1}
-              day={day}
-              $isCurrentMonth={true}
-              currentDay={currentDay}
-              onDayClick={onDayClick}
-            />,
-          );
-          currentDay++;
-        }
-      }
-      // 캘린더라는 배열에 한 주차씩 push
-      calendar.push(
-        <WeekWrapper key={`week-${week}`}>
-          <WeeklyExpenses
+  // week 0주차부터 5주차까지
+  for (let week = 0; week <= 5; week++) {
+    // 한 주를 담는 배열 선언
+    const weekDays = [];
+
+    // day 한 주에 1일부터 7일까지
+    for (let day = 1; day <= 7; day++) {
+      // 구하고자 하는 달력 외의 날짜 표기
+      if ((week === 0 && day <= firstDayIdx) || currentDay > lastDate) {
+        weekDays.push(
+          <NotCurrentMonth
+            key={`${month + 1}-${day}`}
+            week={week}
+            day={day}
+            prevMonthLastDate={prevMonthLastDate}
+            firstDayIdx={firstDayIdx}
+            $isCurrentMonth={false}
+            currentDay={currentDay}
+            lastDate={lastDate}
+            nextMonthFirstIdx={nextMonthFirstIdx}
+          />,
+        );
+      } else {
+        weekDays.push(
+          <CurrentMonth
+            key={`${year}-${month + 1}-${currentDay}`}
             year={year}
             month={month + 1}
-            week={week + 1}
-            weeklyList={weeklyList}
-          />
-          <Week key={`week-${week + 6}`}>{weekDays}</Week>
-        </WeekWrapper>,
-      );
-      // 현재 날짜(currentDay)가 마지막 날짜(lastDate)를 초과한 경우,
-      // 반복문을 종료하여 남은 주차를 표시하지 않음
-      if (currentDay > lastDate) {
-        break;
+            day={day}
+            $isCurrentMonth={true}
+            currentDay={currentDay}
+            onDayClick={onDayClick}
+            monthlyList={monthlyList}
+          />,
+        );
+        currentDay++;
       }
     }
-    // Weekly 조회
-    useEffect(() => {
-      const fetchList = async () => {
-        const res = await expenseSummary('weekly');
-        setWeeklyList(res);
-      };
-      fetchList();
-    }, []);
+    // 캘린더라는 배열에 한 주차씩 push
+    calendar.push(
+      <WeekWrapper key={`week-${week}`}>
+        <WeeklyExpenses
+          year={year}
+          month={month + 1}
+          week={week + 1}
+          weeklyList={weeklyList}
+        />
+        <Week key={`week-${week + 6}`}>{weekDays}</Week>
+      </WeekWrapper>,
+    );
+    // 현재 날짜(currentDay)가 마지막 날짜(lastDate)를 초과한 경우,
+    // 반복문을 종료하여 남은 주차를 표시하지 않음
+    if (currentDay > lastDate) {
+      break;
+    }
+  }
 
-    return calendar;
-  };
+  // Weekly 조회
+  useEffect(() => {
+    const fetchList = async () => {
+      const res = await expenseSummary('weekly');
+      setWeeklyList(res);
+    };
+    fetchList();
+  }, []);
 
   return (
     <Container>
@@ -176,7 +191,12 @@ const TheCalendar = ({ onDayClick }: CalendarProps) => {
         currentYear={currentYear}
         currentMonth={currentMonth}
       />
-      <Calendar>{renderCalendar()}</Calendar>
+      <WeekDay>
+        {weekDays.map((date) => (
+          <Dates key={`${date}`}>{date}</Dates>
+        ))}
+      </WeekDay>
+      <Calendar>{calendar}</Calendar>
     </Container>
   );
 };
@@ -199,6 +219,24 @@ const Week = styled.div`
   justify-content: space-evenly;
   margin-bottom: 0.5rem;
   min-height: 3.5rem;
+  width: 100%;
+`;
+
+const WeekDay = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: end;
+`;
+
+const Dates = styled.div`
+  display: flex;
+  min-height: 3.5rem;
+  align-items: end;
+  margin-bottom: 0.5rem;
+  min-width: calc(500px / 7);
+  justify-content: center;
+  color: ${theme.colors.gray[1]};
 `;
 
 export default TheCalendar;
