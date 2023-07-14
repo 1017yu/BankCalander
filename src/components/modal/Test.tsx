@@ -4,7 +4,7 @@ import AddModal from './AddModal';
 import { expenseSearch } from '@/lib/api/Api';
 
 function TestPage() {
-  const [dummy, setDummy] = useState([]);
+  const [dummy, setDummy] = useState<SearchResponse>([]);
   const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
 
@@ -37,8 +37,11 @@ function TestPage() {
     <div>
       <h1>테스트 페이지</h1>
       <button onClick={handleOpenAddModal}>추가</button>
-      {showAddModal && <AddModal close={handleCloseAddModal} />}
+      
       <button onClick={handleOpenUpdateModal}>수정</button>
+
+      {showAddModal && <AddModal close={handleCloseAddModal} />}
+
       {showUpdateModal &&
         dummy.map((item, index) => (
           <UpdateModal

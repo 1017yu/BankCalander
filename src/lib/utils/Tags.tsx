@@ -73,27 +73,23 @@ export const depositTags = [
 ];
 
 const CashIcon = () => <StyledCashIcon>{cashIcon}</StyledCashIcon>;
-const DebitCardIcon = () => (
-  <StyledDebitCardIcon>{debitCardIcon}</StyledDebitCardIcon>
-);
-const CreditCardIcon = () => (
-  <StyledCreditCardIcon>{creditCardIcon}</StyledCreditCardIcon>
-);
+const DebitCardIcon = () => <StyledDebitCardIcon>{debitCardIcon}</StyledDebitCardIcon>;
+const CreditCardIcon = () => <StyledCreditCardIcon>{creditCardIcon}</StyledCreditCardIcon>;
 
 export const PaymentTags = [
   { label: '현금', icon: <CashIcon /> },
   { label: '체크카드', icon: <DebitCardIcon /> },
-  { label: '신용카드', icon: <CreditCardIcon /> },
+  { label: '신용카드', icon: <CreditCardIcon /> }
 ];
 
-const StyledCashIcon = styled.span`
+const StyledCashIcon = styled.span `
   color: green;
 `;
 
-const StyledDebitCardIcon = styled.span`
+const StyledDebitCardIcon = styled.span `
   color: blue;
 `;
 
-const StyledCreditCardIcon = styled.span`
+const StyledCreditCardIcon = styled.span `
   color: red;
 `;

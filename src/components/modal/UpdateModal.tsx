@@ -9,14 +9,13 @@ import { styled } from 'styled-components';
 import { FaTrashAlt, FaArrowLeft } from 'react-icons/fa';
 import { theme } from '@/styles/theme';
 
-
 interface UpdateModalProps {
   amount: number;
   category: string;
   date: string;
   _id: string;
   close: () => void;
-}
+};
 
 // props로 전달받은 amount를 initialAmount로 받음.
 function UpdateModal({
@@ -35,7 +34,7 @@ function UpdateModal({
   const [paymentMethod, setPaymentMethod] = useState<string>(splitCategory[1]);
   const modalRef = useRef(null);
 
-  // useEffect를 사용해서 마운트 될 때 initialAmount가 0보다 크거나 같으면 type은 depost 아니면 expense가 된다.
+  // useEffect를 사용해서 마운트 될 때 initialAmount가 0보다 크거나 같으면 type은 deposit 아니면 expense가 된다.
   useEffect(() => {
     setType(initialAmount >= 0 ? 'deposit' : 'expense');
   }, []);
@@ -54,6 +53,18 @@ function UpdateModal({
   };
 
   const handleSubmit = async () => {
+    const chageData = 
+    // amount 또는 tag나 paymentMethod의 state초기값이 바뀌는지 확인
+    amount !== Math.abs(initialAmount) ||
+    tag !== splitCategory[0] ||
+    paymentMethod !== splitCategory[1];
+    // 변경되는 데이터가 없으면 모달을 닫고 함수를 종료한다.
+    if (!chageData) {
+      close();
+      return;
+    };
+
+    // 변경 사항이 있으면 아래 코드들을 실행
     // type이 expense일 때 서버로 전달하는 데이터 amount가 음수가 되게 아니면 정수로
     const formAmount = type === 'expense' ? -amount : amount;
 
@@ -66,10 +77,11 @@ function UpdateModal({
     const data = {
       amount: formAmount,
       category: updatedCategory,
-      date: new Date().toISOString(),
+      date: date
     };
 
     await updatedRecord(_id, data);
+    close();
   };
 
   const handleDeleted = async () => {
@@ -77,8 +89,10 @@ function UpdateModal({
     close();
   };
 
+  // useRef를 사용해서 ModalWrapper를 클릭하게 되면 모달이 닫히게
   const handleRef = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (e.target === modalRef.current) close();
+    if (e.target === modalRef.current) 
+    close();
   };
 
   // props로 전달 받은 date값을 변형
@@ -180,29 +194,29 @@ const Submit = styled.button`
 `;
 
 const ModalWrapper = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.5);
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 9999;
 `;
 
 const Modal = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  width: 100%;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+background-color: #fff;
+padding: 20px;
+border-radius: 4px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+max-width: 400px;
+width: 100%;
 `;
 
 export default UpdateModal;
