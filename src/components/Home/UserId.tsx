@@ -40,7 +40,6 @@ function UserId() {
             <LogInInput onChange={handleUserId} type="text" placeholder='사용자명을 입력해주세요.'/>
             <LogInButton type='submit' disabled={!userId}>로그인</LogInButton>
           </LogInForm>
-          <Home />
         </>
         }
     </Wrapper>
