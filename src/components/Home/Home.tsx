@@ -1,7 +1,8 @@
-import TheCalendar from './TheCalender';
-import ExpensesList from './ExpensesList';
 import { useEffect, useState } from 'react';
-import { calendarData } from '@/lib/api/Api';
+import TheCalendar from '@/components/home/TheCalender';
+import ExpensesList from '@/components/home/ExpensesList';
+import { calendarData, expenseSearch } from '@/lib/api/Api';
+import { styled } from 'styled-components';
 
 export interface SelectedDateProps {
   year: number;
@@ -19,6 +20,7 @@ interface SelectedDailyProps {
 }
 
 function Home() {
+  const [tag, setTag] = useState(''); // 카테고리 소비 태그
   const [dailyList, setDailyList] = useState<SelectedDailyProps[]>([]);
   const [monthlyList, setMonthlyList] = useState<SelectedDailyProps[]>([]);
   const [selectedDate, setSelectedDate] = useState<SelectedDateProps>();
@@ -44,13 +46,25 @@ function Home() {
       const res = await calendarData(currentYear, currentMonth);
       setMonthlyList(res);
     };
+
     fetchDayList();
     fetchMonthList();
   }, [selectedDate, currentMonth]);
 
+  useEffect(() => {
+    const fetchCategoryList = async () => {
+      if (tag) {
+        const res = await expenseSearch(tag);
+        setDailyList(res);
+      }
+    };
+    fetchCategoryList();
+  }, [tag]);
+
   return (
-    <div>
+    <Container>
       <TheCalendar
+        setTag={setTag}
         onDayClick={onDayClick}
         dailyList={dailyList}
         currentMonth={currentMonth}
@@ -59,9 +73,12 @@ function Home() {
         setCurrentYear={setCurrentYear}
         monthlyList={monthlyList}
       />
-      <ExpensesList dailyList={dailyList} />
-    </div>
+
+      <ExpensesList dailyList={dailyList} tag={tag} />
+    </Container>
   );
 }
+
+const Container = styled.div``;
 
 export default Home;

@@ -1,4 +1,4 @@
-import CurrentMonth from './CurrentMonth';
+import CurrentMonth from '@/components/home/CurrentMonth';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import WeeklyExpenses from '@/components/home/WeeklyExpenses';
@@ -6,7 +6,7 @@ import NotCurrentMonth from '@/components/home/NotCurrentMonth';
 import Header from '../common/Header';
 import { expenseSummary } from '@/lib/api/Api';
 import { theme } from '@/styles/theme';
-import { SelectedDailyProps } from './ExpensesList';
+import { SelectedDailyProps } from '@/components/home/ExpensesList';
 
 export interface DayProps {
   $isCurrentMonth?: boolean;
@@ -19,6 +19,7 @@ interface GetDaysProps {
 
 interface CalendarProps {
   onDayClick: (year: number, month: number, currentDay: number) => void;
+  setTag: React.Dispatch<React.SetStateAction<string>>;
   dailyList: SelectedDailyProps[];
   monthlyList: SelectedDailyProps[];
   currentMonth: number;
@@ -33,8 +34,8 @@ interface WeeklyListProps {
 }
 
 const TheCalendar = ({
+  setTag,
   onDayClick,
-  dailyList,
   monthlyList,
   currentMonth,
   setCurrentMonth,
@@ -112,8 +113,6 @@ const TheCalendar = ({
     month: nextMonth.getMonth(), // 이후 month index (7)
   });
 
-  console.log(monthlyList);
-
   const calendar = [];
   let currentDay = 1;
 
@@ -186,6 +185,7 @@ const TheCalendar = ({
   return (
     <Container>
       <Header
+        setTag={setTag}
         onPrev={handlePrevMonth}
         onNext={handleNextMonth}
         currentYear={currentYear}
@@ -234,7 +234,7 @@ const Dates = styled.div`
   min-height: 3.5rem;
   align-items: end;
   margin-bottom: 0.5rem;
-  min-width: calc(500px / 7);
+  min-width: calc(100% / 7);
   justify-content: center;
   color: ${theme.colors.gray[1]};
 `;
