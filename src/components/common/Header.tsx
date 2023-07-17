@@ -1,10 +1,12 @@
-import { css, styled } from 'styled-components';
-import { leftIcon, rightIcon, searchIcon } from '@/lib/utils/icons';
 import Button from './Button';
 import { theme } from '@/styles/theme';
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { SelectedDailyProps } from '../home/ExpensesList';
 import { calendarData } from '@/lib/api/Api';
+import { css, styled } from 'styled-components';
+import SearchModal from '@/components/modal/SearchModal';
+import { SelectedDailyProps } from '../home/ExpensesList';
+import { leftIcon, rightIcon, searchIcon } from '@/lib/utils/Icons';
 import AddModal from '../modal/AddModal';
 
 interface HeaderProps {
@@ -12,10 +14,18 @@ interface HeaderProps {
   onNext: () => void;
   currentYear?: number;
   currentMonth?: number;
+  setTag: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function Header({ onPrev, onNext, currentYear, currentMonth }: HeaderProps) {
+function Header({
+  onPrev,
+  onNext,
+  currentYear,
+  currentMonth,
+  setTag,
+}: HeaderProps) {
   const [dailyList, setDailyList] = useState<SelectedDailyProps[]>([]);
+  const [showSearchModal, setShowSearchModal] = useState<boolean>(false);
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
 
   useEffect(() => {
@@ -31,9 +41,17 @@ function Header({ onPrev, onNext, currentYear, currentMonth }: HeaderProps) {
     fetchList();
   }, [currentMonth]);
 
+  const handleOpenSearchModal = () => {
+    setShowSearchModal(true);
+  };
+  const handleCloseSearchModal = () => {
+    setShowSearchModal(false);
+  };
+
   const handleOpenAddModal = () => {
     setShowAddModal(true);
   };
+
   const handleCloseAddModal = () => {
     setShowAddModal(false);
   };
@@ -79,8 +97,10 @@ function Header({ onPrev, onNext, currentYear, currentMonth }: HeaderProps) {
           {currentYear}.{currentMonth}
           <Arrow onClick={onNext}>{rightIcon}</Arrow>
         </Month>
-        <Search onClick={handleOpenAddModal}>{searchIcon}</Search>
-        {showAddModal && <AddModal close={handleCloseAddModal} />}
+        <Search onClick={handleOpenSearchModal}>{searchIcon}</Search>
+        {showSearchModal && (
+          <SearchModal close={handleCloseSearchModal} setTag={setTag} />
+        )}
       </SearchWrapper>
       <InfoWrapper>
         <Balance>
@@ -92,9 +112,16 @@ function Header({ onPrev, onNext, currentYear, currentMonth }: HeaderProps) {
           </Income>
         </Balance>
         <Buttons>
-          <Button gray="true">상세 분석</Button>
-          <Button gray="true">주간 분석</Button>
-          {}
+          <ButtonWrapper>
+            <Link to={'/detail'}>
+              <Button gray="true">상세 분석</Button>
+            </Link>
+            <Link to={'/graph'}>
+              <Button gray="true">주간 분석</Button>
+            </Link>
+          </ButtonWrapper>
+          <Add onClick={handleOpenAddModal}>+ 추가</Add>
+          {showAddModal && <AddModal close={handleCloseAddModal} />}
         </Buttons>
       </InfoWrapper>
     </StyledHeader>
@@ -117,6 +144,7 @@ const StyledHeader = styled.header`
   align-items: center;
   width: 100%;
   justify-content: space-between;
+  padding: 0.5rem 1rem 0 0;
 `;
 
 const SearchWrapper = styled.div`
@@ -155,12 +183,29 @@ const Balance = styled.div`
 
 const Buttons = styled.div`
   padding: 1.4rem 0;
+  display: flex;
+  flex-direction: column;
+`;
 
-  > button {
-    margin-right: 0.5rem;
+const ButtonWrapper = styled.div`
+  display: flex;
+
+  > a > button {
     padding: 8px 8px;
     font-size: 0.5rem;
   }
+
+  > a:first-child {
+    margin-right: 0.5rem;
+  }
+`;
+
+const Add = styled.button`
+  display: flex;
+  margin-top: 1rem;
+  justify-content: right;
+  align-items: center;
+  font-size: 1rem;
 `;
 
 const Expense = styled.div`
