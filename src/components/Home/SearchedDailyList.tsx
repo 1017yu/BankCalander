@@ -11,7 +11,11 @@ interface SelectedDailyProps {
   _id: string;
 }
 
-function SearchedDailyList({ dailyList }: { dailyList: SelectedDailyProps[] }) {
+interface SearchedDailyList {
+  dailyList: SelectedDailyProps[];
+}
+
+function SearchedDailyList({ dailyList }: SearchedDailyList) {
   const Icon = ({ label }: { label: string }) => {
     const tag = tags.find((tag) => tag.label === label);
     if (tag) {
