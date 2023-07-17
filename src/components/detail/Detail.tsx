@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import SelectPeriod from './SelectPeriod';
 import styled from 'styled-components';
+import { theme } from '@/styles/theme';
 import {expenseSummary, expenseSearch} from '@/lib/api/Api';
 import DetailChart from './DetailChart';
 import DetailList from './DetailList';
@@ -25,7 +26,7 @@ function Detail () {
   const periodApi = async (selectedPeriod: string) => {
     try {
       const response = await expenseSummary(selectedPeriod);
-      setSummeries(response)
+      setSummeries(response  )
       console.log(response)
     } catch (error) {
       console.log('error :', error)
@@ -125,7 +126,7 @@ function Detail () {
       </div>
     ),
     categoryName: categories.category.replace(/, .*$/, ''),
-    categoryAmount: categories.amount.toLocaleString(),
+    categoryAmount: Number(categories.amount) > 0 ? categories.amount.toLocaleString() : <StyleNagative>{categories.amount.toLocaleString()}</StyleNagative>,
     categoryDate: categories.date.replace(/T.*$/, '')
   }))
 
@@ -201,4 +202,8 @@ const StyleRangePicker = styled.div`
 
 const StyledSelect = styled.div `
  display: flex;
+`
+
+const StyleNagative = styled.div `
+  color: red;
 `
