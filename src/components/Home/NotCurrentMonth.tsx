@@ -1,4 +1,4 @@
-import { DayProps } from '@/components/Home/TheCalender';
+import { DayProps } from '@/components/home/TheCalender';
 import { css, styled } from 'styled-components';
 import { theme } from '@/styles/theme';
 
@@ -49,12 +49,10 @@ function NotCurrentMonth({
 }
 const Day = styled.button<DayProps>`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   color: #888888;
-  border: none;
-  cursor: pointer;
-  background-color: inherit;
-  min-width: 1.5rem;
+  min-width: calc(500px / 7);
+  align-items: center;
 `;
 
 const DayContent = styled.div<DayProps>`

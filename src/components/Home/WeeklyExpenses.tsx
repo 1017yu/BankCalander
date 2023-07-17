@@ -10,7 +10,7 @@ interface WeeklyExpensesProps {
   year?: number;
   month?: number;
   week?: number;
-  weeklyList: WeeklyListProps[];
+  weeklyList?: WeeklyListProps[];
 }
 
 function WeeklyExpenses({ ...props }: WeeklyExpensesProps) {
@@ -20,33 +20,37 @@ function WeeklyExpenses({ ...props }: WeeklyExpensesProps) {
     props.week as number,
   );
 
-  const targetWeek = props.weeklyList.find(
-    (v) => v._id === `2023-${weekOfYear}`,
-  );
+  // weekOfYear에 해당하는 id값을 찾음
+  const targetWeek = props.weeklyList
+    ? props.weeklyList.find((target) => target._id === `2023-${weekOfYear}`)
+    : undefined;
 
-  const targetAmount = targetWeek?.totalAmount;
+  // 해당 주차의 totalAmount 저장
+  const targetAmount = targetWeek ? targetWeek?.totalAmount : undefined;
 
+  // 주간 거래내역이 있다면, 음수 양수에 따라 구분지어 렌더링, 거래내역이 없다면 non-breaking space
   return (
     <>
       {targetAmount ? (
         <Wrapper $isPositive={(targetAmount as number) > 0}>
-          {targetAmount > 0 ? '+' : '-'}
-          {targetAmount}
+          {targetAmount > 0 ? '+' : ''}
+          {targetAmount ? targetAmount.toLocaleString() : ''}
         </Wrapper>
       ) : (
-        <Wrapper $isPositive={false}>0</Wrapper>
+        <Wrapper $isPositive={false}>&nbsp;</Wrapper>
       )}
     </>
   );
 }
 const Wrapper = styled.div<{
-  $isPositive: boolean;
+  $isPositive?: boolean;
 }>`
   display: flex;
   justify-content: right;
   padding-right: 2px;
   font-size: 0.8rem;
   background-color: ${theme.colors.gray[0]};
+  align-items: center;
   ${(props) =>
     props.$isPositive &&
     css`

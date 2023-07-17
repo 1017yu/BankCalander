@@ -5,6 +5,7 @@ import Detail from '@/components/detail/Detail';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from '@/components/Home/Home';
 
+
 const App = () => {
   return (
     <div className="App">

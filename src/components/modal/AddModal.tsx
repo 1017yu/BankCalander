@@ -11,7 +11,7 @@ import { FaArrowLeft } from 'react-icons/fa';
 
 interface AddModalProps {
   close: () => void;
-};
+}
 
 function AddModal({ close }: AddModalProps) {
   const [type, setType] = useState<string | undefined>(''); // 입금/지출 form
@@ -62,20 +62,20 @@ function AddModal({ close }: AddModalProps) {
     };
 
     await createdExpense(data);
-    close()
-  };
-
-  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (e.target === modalRef.current) 
     close();
   };
 
+  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (e.target === modalRef.current) close();
+  };
 
   return (
     <Container>
       <AddModalWraaper ref={modalRef} onClick={handleClick}>
         <Modal>
-          <BackButton onClick={close}><FaArrowLeft /></BackButton>
+          <BackButton onClick={close}>
+            <FaArrowLeft />
+          </BackButton>
           <ButtonCotainer>
             {/*입금 버튼*/}
             <DepositButton
@@ -125,16 +125,17 @@ const Container = styled.div`
 `;
 
 const BackButton = styled.button`
-border: none;
-font-size: 20px;
-margin: 15px;
-cursor: pointer;
-background-color: #fff;
-position: relative;
-left: -150px;
+  border: none;
+  font-size: 20px;
+  margin: 15px;
+  cursor: pointer;
+  background-color: #fff;
+  position: relative;
+  left: -150px;
 
-&: hover {
-  color: ${theme.colors.red};
+  &:hover {
+    color: ${theme.colors.red};
+  }
 `;
 
 const ButtonCotainer = styled.div`
@@ -142,7 +143,6 @@ const ButtonCotainer = styled.div`
   gap: 50px;
   justify-content: center;
   margin: 10px;
-  left: 
 `;
 
 const DepositButton = styled.button<{
@@ -239,15 +239,15 @@ const AddModalWraaper = styled.div`
 `;
 
 const Modal = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-background-color: #fff;
-padding: 20px;
-border-radius: 4px;
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-max-width: 400px;
-width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
 `;
 export default AddModal;
