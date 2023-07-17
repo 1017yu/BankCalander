@@ -152,3 +152,24 @@ export const calendarData = async (year: number, month: number) => {
     throw error;
   }
 };
+
+export const searchCategory = async (category: string) => {
+  try {
+    const res = await fetch(
+      `${API_URL}/expenses/category?q=${category}&userId=${userId}`,
+      {
+        method: 'GET',
+        headers: HEADERS,
+      },
+    );
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    }
+
+    throw new Error('호출에 실패했습니다.');
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
