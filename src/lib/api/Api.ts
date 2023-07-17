@@ -1,4 +1,6 @@
-import { API_URL, HEADERS, userId } from '@/lib/api/Base';
+import { API_URL, HEADERS } from '@/lib/api/Base';
+
+const userId = localStorage.getItem('userId');
 
 // 소비 기록 작성
 export const createdExpense = async (data: ExpenseData) => {
