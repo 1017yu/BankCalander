@@ -1,5 +1,5 @@
 import SearchedDailyList from './SearchedDailyList';
-import { useState } from 'react';
+import SearchedTagList from './SearchedTagList';
 
 export interface SelectedDailyProps {
   [x: string]: any;
@@ -11,18 +11,18 @@ export interface SelectedDailyProps {
 }
 interface CalendarDataProps {
   dailyList: SelectedDailyProps[];
+  tag: string;
 }
 
-function ExpensesList({ dailyList }: CalendarDataProps) {
-  const [cateoryList, setCateoryList] = useState<SearchResponseItem[]>([]);
-
-  // // 일별 소비 조회
-  // const category = await expenseSearch('식비'); // 검색어(식비)에 해당하는 소비 일자와 금액을 조회
-  // setCateoryList(category);
-
+function ExpensesList({ dailyList, tag }: CalendarDataProps) {
+  // tag가 존재면 TagList, 그렇지 않으면 DailyList 반환
   return (
     <>
-      <SearchedDailyList dailyList={dailyList} />
+      {tag ? (
+        <SearchedTagList dailyList={dailyList} tag={tag} />
+      ) : (
+        <SearchedDailyList dailyList={dailyList} />
+      )}
     </>
   );
 }

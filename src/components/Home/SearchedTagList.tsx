@@ -11,15 +11,16 @@ interface SelectedDailyProps {
   _id: string;
 }
 
-interface SearchedDailyList {
+interface SearchedTagList {
   dailyList: SelectedDailyProps[];
+  tag: string;
 }
 
-function SearchedDailyList({ dailyList }: SearchedDailyList) {
+function SearchedTagList({ dailyList, tag }: SearchedTagList) {
   const Icon = ({ label }: { label: string }) => {
-    const tag = tags.find((tag) => tag.label === label);
-    if (tag) {
-      return <div>{tag.icon}</div>;
+    const iconTag = tags.find((iconTag) => iconTag.label === label);
+    if (iconTag) {
+      return <div>{iconTag.icon}</div>;
     }
   };
 
@@ -80,4 +81,4 @@ const Amount = styled.span<{
     `}
 `;
 
-export default SearchedDailyList;
+export default SearchedTagList;
