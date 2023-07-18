@@ -1,6 +1,5 @@
-import { API_URL, HEADERS } from '@/lib/api/Base';
+import { API_URL, HEADERS, userId } from '@/lib/api/Base';
 
-const userId = localStorage.getItem('userId');
 
 // 소비 기록 작성
 export const createdExpense = async (data: ExpenseData) => {
@@ -143,27 +142,6 @@ export const calendarData = async (year: number, month: number) => {
       },
     );
 
-    if (res.ok) {
-      const data = await res.json();
-      return data;
-    }
-
-    throw new Error('호출에 실패했습니다.');
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
-export const searchCategory = async (category: string) => {
-  try {
-    const res = await fetch(
-      `${API_URL}/expenses/category?q=${category}&userId=${userId}`,
-      {
-        method: 'GET',
-        headers: HEADERS,
-      },
-    );
     if (res.ok) {
       const data = await res.json();
       return data;
