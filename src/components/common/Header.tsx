@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { calendarData } from '@/lib/api/Api';
 import { css, styled } from 'styled-components';
 import SearchModal from '@/components/modal/SearchModal';
-import { SelectedDailyProps } from '../home/ExpensesList';
+import { SelectedDailyProps } from '@/components/Home/ExpensesList';
 import { leftIcon, rightIcon, searchIcon } from '@/lib/utils/Icons';
 import AddModal from '../modal/AddModal';
 
@@ -15,6 +15,8 @@ interface HeaderProps {
   currentYear?: number;
   currentMonth?: number;
   setTag: React.Dispatch<React.SetStateAction<string>>;
+  onItemUpdated: () => void;
+  monthlyList: SelectedDailyProps[];
 }
 
 function Header({
@@ -23,23 +25,15 @@ function Header({
   currentYear,
   currentMonth,
   setTag,
+  onItemUpdated,
+  monthlyList,
 }: HeaderProps) {
   const [dailyList, setDailyList] = useState<SelectedDailyProps[]>([]);
   const [showSearchModal, setShowSearchModal] = useState<boolean>(false);
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
-
   useEffect(() => {
-    const fetchList = async () => {
-      if (currentYear) {
-        const res = await calendarData(
-          currentYear as number,
-          currentMonth as number,
-        );
-        setDailyList(Object.values(res));
-      }
-    };
-    fetchList();
-  }, [currentMonth]);
+    setDailyList(Object.values(monthlyList));
+  }, [monthlyList]);
 
   const handleOpenSearchModal = () => {
     setShowSearchModal(true);
@@ -121,16 +115,17 @@ function Header({
             </Link>
           </ButtonWrapper>
           <Add onClick={handleOpenAddModal}>+ 추가</Add>
-          {showAddModal && <AddModal close={handleCloseAddModal} />}
+          {showAddModal && (
+            <AddModal
+              close={handleCloseAddModal}
+              onItemUpdated={onItemUpdated}
+            />
+          )}
         </Buttons>
       </InfoWrapper>
     </StyledHeader>
   );
 }
-
-const Detail = styled.button``;
-
-const Graph = styled.button``;
 
 const Search = styled.button`
   > svg {
@@ -144,7 +139,7 @@ const StyledHeader = styled.header`
   align-items: center;
   width: 100%;
   justify-content: space-between;
-  padding: 0.5rem 1rem 0 0;
+  padding: 0.5rem 0;
 `;
 
 const SearchWrapper = styled.div`
