@@ -4,4 +4,4 @@ export const HEADERS = {
   'content-Type': 'application/json',
 }
 
-export const userId = 'Team7Test'
+export const userId = localStorage.getItem('userId')

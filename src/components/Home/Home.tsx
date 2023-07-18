@@ -3,6 +3,7 @@ import TheCalendar from '@/components/home/TheCalender';
 import ExpensesList from '@/components/home/ExpensesList';
 import { calendarData, expenseSearch } from '@/lib/api/Api';
 import { styled } from 'styled-components';
+import UserId from './UserId'
 
 export interface SelectedDateProps {
   year: number;
@@ -63,6 +64,7 @@ function Home() {
 
   return (
     <Container>
+      <UserId />
       <TheCalendar
         setTag={setTag}
         onDayClick={onDayClick}
