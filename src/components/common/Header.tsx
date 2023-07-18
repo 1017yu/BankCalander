@@ -128,6 +128,7 @@ function Header({
 }
 
 const Search = styled.button`
+  margin-right: 10px;
   > svg {
     font-size: 1rem;
   }
@@ -177,8 +178,9 @@ const Balance = styled.div`
 `;
 
 const Buttons = styled.div`
-  padding: 1.4rem 0;
   display: flex;
+  padding: 1.4rem 0;
+  margin-right: 1rem;
   flex-direction: column;
 `;
 
