@@ -11,9 +11,10 @@ import { FaArrowLeft } from 'react-icons/fa';
 
 interface AddModalProps {
   close: () => void;
+  onItemUpdated?: () => void;
 }
 
-function AddModal({ close }: AddModalProps) {
+function AddModal({ close, onItemUpdated }: AddModalProps) {
   const [type, setType] = useState<string | undefined>(''); // 입금/지출 form
   const [amount, setAmount] = useState(0); // 소비 금액
   const [tag, setTag] = useState(''); // 카테고리 소비 태그
@@ -62,6 +63,9 @@ function AddModal({ close }: AddModalProps) {
     };
 
     await createdExpense(data);
+    if (onItemUpdated) {
+      onItemUpdated();
+    }
     close();
   };
 
