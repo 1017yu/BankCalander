@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import TheCalendar from '@/components/home/TheCalender';
-import ExpensesList from '@/components/home/ExpensesList';
+import TheCalendar from '@/components/Home/TheCalender';
+import ExpensesList from '@/components/Home/ExpensesList';
 import { calendarData, expenseSearch } from '@/lib/api/Api';
 import { styled } from 'styled-components';
 
@@ -31,25 +31,32 @@ function Home() {
     setSelectedDate({ year, month, currentDay });
   };
 
+  const onItemUpdated = async () => {
+    const res = await calendarData(currentYear, currentMonth);
+    setMonthlyList(res);
+    if (selectedDate) {
+      setDailyList(res[selectedDate.currentDay]);
+    }
+  };
+
   useEffect(() => {
     const fetchDayList = async () => {
       if (selectedDate) {
-        const res = await calendarData(
-          selectedDate?.year as number,
-          selectedDate?.month as number,
-        );
+        const res = await calendarData(currentYear, currentMonth);
         setDailyList(res[selectedDate.currentDay]);
       }
     };
 
+    fetchDayList();
+  }, [selectedDate, currentYear, currentMonth]);
+
+  useEffect(() => {
     const fetchMonthList = async () => {
       const res = await calendarData(currentYear, currentMonth);
       setMonthlyList(res);
     };
-
-    fetchDayList();
     fetchMonthList();
-  }, [selectedDate, currentMonth]);
+  }, [currentYear, currentMonth]);
 
   useEffect(() => {
     const fetchCategoryList = async () => {
@@ -72,9 +79,14 @@ function Home() {
         currentYear={currentYear}
         setCurrentYear={setCurrentYear}
         monthlyList={monthlyList}
+        onItemUpdated={onItemUpdated}
       />
 
-      <ExpensesList dailyList={dailyList} tag={tag} />
+      <ExpensesList
+        dailyList={dailyList}
+        tag={tag}
+        onItemUpdated={onItemUpdated}
+      />
     </Container>
   );
 }
