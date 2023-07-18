@@ -1,6 +1,8 @@
 import { theme } from '@/styles/theme';
 import { css, styled } from 'styled-components';
 import { tags } from '@/lib/utils/Tags';
+import { useState } from 'react';
+import UpdateModal from '../modal/UpdateModal';
 
 interface SelectedDailyProps {
   [x: string]: any;
@@ -13,18 +15,30 @@ interface SelectedDailyProps {
 
 interface SearchedDailyList {
   dailyList: SelectedDailyProps[];
+  onItemUpdated: () => void;
 }
 
-function SearchedDailyList({ dailyList }: SearchedDailyList) {
+function SearchedDailyList({ dailyList, onItemUpdated }: SearchedDailyList) {
+  const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
+
+  const handleOpenUpdateModal = () => {
+    setShowUpdateModal(true);
+  };
+
+  const handleCloseUpdateModal = () => {
+    setShowUpdateModal(false);
+    onItemUpdated();
+  };
+
   const Icon = ({ label }: { label: string }) => {
     const tag = tags.find((tag) => tag.label === label);
     if (tag) {
       return <div>{tag.icon}</div>;
     }
   };
-
+  console.log(dailyList);
   return (
-    <Container>
+    <>
       <Title></Title>
       <ul>
         {dailyList
@@ -35,19 +49,33 @@ function SearchedDailyList({ dailyList }: SearchedDailyList) {
                     <Icon label={[...item.category.split(',')][0]} />
                     <Title>{[...item.category.split(',')][0]}</Title>
                   </Category>
-                  <Amount $isSpend={item.amount > 0}>
-                    {item.amount.toLocaleString()}원
-                  </Amount>
+                  <Detail>
+                    <Amount $isSpend={item.amount > 0}>
+                      {item.amount.toLocaleString()}원
+                    </Amount>
+                    <Buttons>
+                      <button>상세</button>
+                      <button onClick={handleOpenUpdateModal}>수정</button>
+                    </Buttons>
+                  </Detail>
                 </Wrapper>
+                {showUpdateModal && (
+                  <UpdateModal
+                    key={index}
+                    amount={item.amount}
+                    category={item.category}
+                    date={item.date}
+                    _id={item._id}
+                    close={handleCloseUpdateModal}
+                  />
+                )}
               </li>
             ))
           : '내역이 없습니다!'}
       </ul>
-    </Container>
+    </>
   );
 }
-
-const Container = styled.div``;
 
 const Title = styled.h1`
   margin-left: 0.5rem;
@@ -68,16 +96,21 @@ const Category = styled.span`
   display: flex;
 `;
 
+const Detail = styled.div`
+  display: flex;
+`;
+
 const Amount = styled.span<{
   $isSpend?: boolean;
 }>`
-  font-size: 1rem;
-
+  margin: 2px 8px;
   ${(props) =>
     props.$isSpend &&
     css`
       color: ${theme.colors.blue};
     `}
 `;
+
+const Buttons = styled.div``;
 
 export default SearchedDailyList;
