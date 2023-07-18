@@ -4,9 +4,10 @@ declare module 'styled-components' {
   export interface DefaultTheme {
     colors: {
       green: string;
-      lightgreen: string;
+      lightGreen: string;
+      deepGreen: string;
       red: string;
-      gray: string;
+      gray: string[];
       blue: string;
     };
   }

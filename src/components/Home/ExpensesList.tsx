@@ -1,47 +1,32 @@
-import SearchedDailyList from './SearchedDailyList';
-import { useEffect, useState } from 'react';
-import { calendarData } from '@/lib/api/Api';
-import { SelectedDateProps } from './Home';
-
-interface SummaryResponseItem {
-  _id: string;
-  totalAmount: number;
-}
+import SearchedDailyList from '@/components/Home/SearchedDailyList';
+import SearchedTagList from '@/components/Home/SearchedTagList';
 
 export interface SelectedDailyProps {
+  [x: string]: any;
   amount: number;
   category: string;
-  date: Date;
+  date: string;
   userId: string;
   _id: string;
 }
-interface ExpensesListProps {
-  selectedDate?: SelectedDateProps;
+interface CalendarDataProps {
+  dailyList: SelectedDailyProps[];
+  tag: string;
+  onItemUpdated: () => void;
 }
 
-function ExpensesList({ selectedDate }: ExpensesListProps) {
-  const [dailyList, setDailyList] = useState<SelectedDailyProps[]>([]);
-  const [cateoryList, setCateoryList] = useState<SearchResponseItem[]>([]);
-
-  useEffect(() => {
-    const fetchList = async () => {
-      if (selectedDate) {
-        const response = await calendarData(
-          selectedDate?.year as number,
-          selectedDate?.month as number,
-        );
-        setDailyList(response[selectedDate.currentDay]);
-      }
-    };
-    fetchList();
-  }, [selectedDate]);
-  // // 일별 소비 조회
-  // const category = await expenseSearch('식비'); // 검색어(식비)에 해당하는 소비 일자와 금액을 조회
-  // setCateoryList(category);
-
+function ExpensesList({ dailyList, tag, onItemUpdated }: CalendarDataProps) {
+  // tag가 존재면 TagList, 그렇지 않으면 DailyList 반환
   return (
     <>
-      <SearchedDailyList dailyList={dailyList} />
+      {tag ? (
+        <SearchedTagList dailyList={dailyList} tag={tag} />
+      ) : (
+        <SearchedDailyList
+          dailyList={dailyList}
+          onItemUpdated={onItemUpdated}
+        />
+      )}
     </>
   );
 }

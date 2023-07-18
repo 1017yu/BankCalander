@@ -13,10 +13,10 @@ const StyledButton = styled.button<{
   green?: boolean;
   lightgreen?: boolean;
   red?: boolean;
+  gray?: boolean;
 }>`
-  width: 50%;
-  height: 200px;
   cursor: pointer;
+  border-radius: 5px;
 
   ${(props) =>
     props.green &&
@@ -27,13 +27,20 @@ const StyledButton = styled.button<{
   ${(props) =>
     props.lightgreen &&
     css`
-      background-color: ${theme.colors.lightgreen};
+      background-color: ${theme.colors.lightGreen};
     `}
 
   ${(props) =>
     props.red &&
     css`
       background-color: ${theme.colors.red};
+    `}
+
+  ${(props) =>
+    props.gray &&
+    css`
+      background-color: ${theme.colors.gray[0]};
+      color: ${theme.colors.gray[2]};
     `}
 `;
 

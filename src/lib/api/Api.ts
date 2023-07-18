@@ -1,5 +1,6 @@
 import { API_URL, HEADERS, userId } from '@/lib/api/Base';
 
+
 // 소비 기록 작성
 export const createdExpense = async (data: ExpenseData) => {
   try {
@@ -79,7 +80,6 @@ export const expenseSummary = async (period: string) => {
     console.log(API_URL);
     if (res.ok) {
       const data: SummaryResponseItem[] = await res.json();
-      console.log(data);
       return data;
     }
 

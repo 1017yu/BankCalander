@@ -49,12 +49,10 @@ function NotCurrentMonth({
 }
 const Day = styled.button<DayProps>`
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   color: #888888;
-  border: none;
-  cursor: pointer;
-  background-color: inherit;
+  min-width: calc(100% / 7);
+  align-items: center;
 `;
 
 const DayContent = styled.div<DayProps>`

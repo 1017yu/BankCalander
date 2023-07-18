@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Collapse } from 'antd';
 import Chart from 'chart.js/auto';
 import { expenseSummary } from '@/lib/api/Api';
 
@@ -47,15 +48,15 @@ function App() {
   const currentMonth = currentDate.getMonth() + 1;
   const [selectedYear, setSelectedYear] = useState<number>(currentYear);
   const [selectedMonth, setSelectedMonth] = useState<number>(currentMonth);
-  const chartRef = useRef<HTMLCanvasElement>(null);
+  const chartRefs = useRef<(HTMLCanvasElement | null)[]>([]);
 
   useEffect(() => {
     fetchData();
   }, []);
 
   useEffect(() => {
-    renderChart();
-  }, [expenseData]);
+    updateCharts();
+  }, [selectedYear, selectedMonth, expenseData]);
 
   const fetchData = async () => {
     try {
@@ -74,95 +75,137 @@ function App() {
     setSelectedMonth(Number(event.target.value));
   };
 
-  const handleNextMonth = (): void => {
-    if (selectedMonth === 12) {
-      setSelectedYear(prevYear => prevYear + 1);
-      setSelectedMonth(1);
+  const handlePreviousMonth = (): void => {
+    if (selectedMonth === 1) {
+      setSelectedYear((prevYear) => prevYear - 1);
+      setSelectedMonth(12);
     } else {
-      setSelectedMonth(prevMonth => prevMonth + 1);
+      setSelectedMonth((prevMonth) => prevMonth - 1);
     }
   };
 
-  const handlePreviousMonth = (): void => {
-    if (selectedMonth === 1) {
-      setSelectedYear(prevYear => prevYear - 1);
-      setSelectedMonth(12);
+  const handleNextMonth = (): void => {
+    if (selectedMonth === 12) {
+      setSelectedYear((prevYear) => prevYear + 1);
+      setSelectedMonth(1);
     } else {
-      setSelectedMonth(prevMonth => prevMonth - 1);
+      setSelectedMonth((prevMonth) => prevMonth + 1);
     }
+  };
+
+  const updateCharts = () => {
+    chartRefs.current.forEach((chartRef, index) => {
+      if (chartRef) {
+        const ctx = chartRef.getContext('2d');
+        if (ctx) {
+          const weeksInMonth = getWeeksInMonth(selectedYear, selectedMonth);
+          if (weeksInMonth[index]) {
+            const week = weeksInMonth[index];
+            const weekTitle = index === 0 ? '첫째 주' : `${getOrdinalWeek(index)} 주`;
+            let existingChart = Chart.getChart(chartRef);
+            if (existingChart) {
+              existingChart.data.labels = week.map((date) => date.split('-')[2]);
+              existingChart.data.datasets[0].data = week.map((date) => {
+                const expenseItem = expenseData.find((item) => item._id === date);
+                return expenseItem ? expenseItem.totalAmount : 0;
+              });
+              existingChart.update();
+            } else {
+              existingChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: week.map((date) => date.split('-')[2]),
+                  datasets: [
+                    {
+                      label: `${weekTitle} 그래프`,
+                      data: week.map((date) => {
+                        const expenseItem = expenseData.find((item) => item._id === date);
+                        return expenseItem ? expenseItem.totalAmount : 0;
+                      }),
+                      backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                      borderColor: 'rgba(75, 192, 192, 1)',
+                      borderWidth: 1,
+                    },
+                  ],
+                },
+                options: {
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                    },
+                  },
+                },
+              });
+            }
+          }
+        }
+      }
+    });
   };
 
   const renderMonthGraph = (year: number, month: number) => {
     const weeksInMonth = getWeeksInMonth(year, month);
 
+    const weekData = weeksInMonth.map((week, index) => {
+      const weekTitle = index === 0 ? '첫째 주' : `${getOrdinalWeek(index)} 주`;
+
+      const weekExpense = week.reduce((total, date) => {
+        const expenseItem = expenseData.find((item) => item._id === date);
+        const totalAmount = expenseItem ? expenseItem.totalAmount : 0;
+        return total + totalAmount;
+      }, 0);
+
+      const startDay = Number(week[0].split('-')[2]);
+      const endDay = Number(week[week.length - 1].split('-')[2]);
+
+      return {
+        title: weekTitle,
+        period: `${month}월 ${startDay}일 - ${month}월 ${endDay}일`,
+        totalExpense: weekExpense,
+      };
+    });
+
     return (
-      <div>
-        {weeksInMonth.map((week, index) => {
-          const totalAmount = week.reduce((total, date) => {
-            const expenseItem = expenseData.find(item => item._id === date);
-            return total + (expenseItem ? expenseItem.totalAmount : 0);
-          }, 0);
-
-          const startDay = week[0].split('-')[2];
-          const endDay = week[week.length - 1].split('-')[2];
-
-          const weekTitle = index === 0 ? '첫째 주' : `${getOrdinalWeek(index + 1)} 주`;
-
-          return (
-            <div key={index}>
-              {weekTitle}
-              <ul>
-                {week.length === 1 ? (
-                  <li>{`${month}월 ${startDay}일`}</li>
-                ) : (
-                  <li>{`${month}월 ${startDay}일 - ${month}월 ${endDay}일`}</li>
-                )}
-                <li>{totalAmount} 원</li>
-              </ul>
+      <Collapse defaultActiveKey={[]} onChange={updateCharts}>
+        {weekData.map((week, index) => (
+          <Collapse.Panel key={index} header={week.title} showArrow={false} forceRender style={{ cursor: 'pointer', fontWeight: 'bold' }}>
+            <ul>
+              <li>{`${week.period}`}</li>
+              <li>{`총 금액: ${week.totalExpense} 원`}</li>
+            </ul>
+            <div>
+              <canvas
+                id={`chart-${index}`}
+                ref={(el) => {
+                  if (el) {
+                    chartRefs.current[index] = el;
+                  }
+                }}
+              />
             </div>
-          );
-        })}
-      </div>
+          </Collapse.Panel>
+        ))}
+      </Collapse>
     );
   };
 
-  const renderChart = () => {
-    if (chartRef.current) {
-      const ctx = chartRef.current.getContext('2d');
-      if (ctx) {
-        const weekLabels = getWeeksInMonth(selectedYear, selectedMonth).map((_, index) => `${getOrdinalWeek(index + 1)} 주`);
-        const amounts = getWeeksInMonth(selectedYear, selectedMonth).map(week =>
-          week.reduce((total, date) => {
-            const expenseItem = expenseData.find(item => item._id === date);
-            return total + (expenseItem ? expenseItem.totalAmount : 0);
-          }, 0)
-        );
+  const years = [];
+  for (let i = 2022; i <= 2099; i++) {
+    years.push(
+      <option key={i} value={i}>
+        {i}년
+      </option>
+    );
+  }
 
-        new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: weekLabels,
-            datasets: [
-              {
-                label: '주간 소비 금액',
-                data: amounts,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-              },
-            ],
-          },
-          options: {
-            scales: {
-              y: {
-                beginAtZero: true,
-              },
-            },
-          },
-        });
-      }
-    }
-  };
+  const months = [];
+  for (let i = 1; i <= 12; i++) {
+    months.push(
+      <option key={i} value={i}>
+        {i}월
+      </option>
+    );
+  }
 
   return (
     <div>
@@ -170,30 +213,14 @@ function App() {
       <div>
         <button onClick={handlePreviousMonth}>&lt;</button>
         <select value={selectedYear} onChange={handleYearChange}>
-          <option value={2022}>2022년</option>
-          <option value={2023}>2023년</option>
-          <option value={2024}>2024년</option>
-          <option value={2025}>2025년</option>
+          {years}
         </select>
         <select value={selectedMonth} onChange={handleMonthChange}>
-          <option value={1}>1월</option>
-          <option value={2}>2월</option>
-          <option value={3}>3월</option>
-          <option value={4}>4월</option>
-          <option value={5}>5월</option>
-          <option value={6}>6월</option>
-          <option value={7}>7월</option>
-          <option value={8}>8월</option>
-          <option value={9}>9월</option>
-          <option value={10}>10월</option>
-          <option value={11}>11월</option>
-          <option value={12}>12월</option>
+          {months}
         </select>
         <button onClick={handleNextMonth}>&gt;</button>
       </div>
-      <div>
-        {renderMonthGraph(selectedYear, selectedMonth)}
-      </div>
+      <div>{renderMonthGraph(selectedYear, selectedMonth)}</div>
     </div>
   );
 }

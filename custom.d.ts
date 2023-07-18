@@ -31,7 +31,7 @@ interface SummaryResponseItem {
   totalAmount: number;
 }
 
-type SummaryResponse = SearchResponseItem[];
+type SummaryResponse = SummaryResponseItem[];
 
 // 소비 기록을 수정하면 서버로부터 반환되는 응답 데이터
 type UpdateResponse = {

@@ -9,7 +9,7 @@ interface Option {
 interface DropdownProps {
   options: Option[];
   onSelect: (selectedOption: string) => void;
-  tag: string;
+  tag?: string;
 }
 
 function Dropdown({ options, onSelect, tag = "태그를 선택하세요." }: DropdownProps) {

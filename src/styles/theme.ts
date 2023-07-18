@@ -4,9 +4,10 @@ import { DefaultTheme } from 'styled-components';
 export const theme: DefaultTheme = {
   colors: {
     green: '#33ff99',
-    lightgreen: '#b9fad9',
+    lightGreen: '#b9fad9',
+    deepGreen: '#13bd7e',
     red: '#e73273',
-    gray: '#b9b7b7',
+    gray: ['#eaeaea96', '#B2B2B2', '#3C4048'],
     blue: '#8CC0DE',
   },
 };
