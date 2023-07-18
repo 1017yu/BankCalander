@@ -20,9 +20,11 @@ interface SearchedDailyList {
 
 function SearchedDailyList({ dailyList, onItemUpdated }: SearchedDailyList) {
   const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
+  const [selelctItem, setSelectItem] = useState<any | null>(null)
 
-  const handleOpenUpdateModal = () => {
+  const handleOpenUpdateModal = (item:any) => {
     setShowUpdateModal(true);
+    setSelectItem(item)
   };
 
   const handleCloseUpdateModal = () => {
@@ -55,17 +57,17 @@ function SearchedDailyList({ dailyList, onItemUpdated }: SearchedDailyList) {
                     </Amount>
                     <Buttons>
                       <button>상세</button>
-                      <button onClick={handleOpenUpdateModal}>수정</button>
+                      <button onClick={() => handleOpenUpdateModal(item)}>수정</button>
                     </Buttons>
                   </Detail>
                 </Wrapper>
-                {showUpdateModal && (
+                {showUpdateModal && selelctItem && (
                   <UpdateModal
                     key={index}
-                    amount={item.amount}
-                    category={item.category}
-                    date={item.date}
-                    _id={item._id}
+                    amount={selelctItem.amount}
+                    category={selelctItem.category}
+                    date={selelctItem.date}
+                    _id={selelctItem._id}
                     close={handleCloseUpdateModal}
                   />
                 )}

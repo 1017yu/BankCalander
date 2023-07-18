@@ -19,7 +19,7 @@ function ExpensesAmount({ amount, handleAmountChange }: ExpensesAmountProps) {
    
   return (
     <AmountContainer>
-        <Won>\</Won><AmountInput ref={inputRef} dir="rtl" type="text" value={amount.toLocaleString()} onChange={handleAmountChange}/>
+        <Won>&#8361;</Won><AmountInput ref={inputRef} dir="rtl" type="text" value={amount.toLocaleString()} onChange={handleAmountChange}/>
     </AmountContainer>
   )
 }
