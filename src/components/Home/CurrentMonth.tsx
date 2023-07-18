@@ -1,7 +1,8 @@
-import { DayProps } from '@/components/home/TheCalender';
+import { DayProps } from '@/components/Home/TheCalender';
 import { css, styled } from 'styled-components';
 import { theme } from '@/styles/theme';
-import { SelectedDailyProps } from '@/components/home/ExpensesList';
+import { SelectedDailyProps } from '@/components/Home/ExpensesList';
+import { useEffect } from 'react';
 
 interface CurrentMonthProps {
   year: number;
