@@ -18,6 +18,7 @@ interface GetDaysProps {
 }
 
 interface CalendarProps {
+  // eslint-disable-next-line no-unused-vars
   onDayClick: (year: number, month: number, currentDay: number) => void;
   setTag: React.Dispatch<React.SetStateAction<string>>;
   dailyList: SelectedDailyProps[];
