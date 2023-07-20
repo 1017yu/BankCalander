@@ -2,7 +2,6 @@ import { DayProps } from '@/components/Home/TheCalender';
 import { css, styled } from 'styled-components';
 import { theme } from '@/styles/theme';
 import { SelectedDailyProps } from '@/components/Home/ExpensesList';
-import { useEffect } from 'react';
 
 interface CurrentMonthProps {
   year: number;
@@ -10,6 +9,7 @@ interface CurrentMonthProps {
   currentDay: number;
   day: number;
   $isCurrentMonth: boolean;
+  // eslint-disable-next-line no-unused-vars
   onDayClick: (year: number, month: number, currentDay: number) => void;
   monthlyList?: SelectedDailyProps[];
 }
@@ -34,13 +34,12 @@ function CurrentMonth({
       if (monthlyList[currentDay]) {
         income = Object.values(monthlyList[currentDay])
           .filter((cur) => cur.amount > 0)
-          .reduce((acc: number, cur: any) => acc + cur.amount, 0)
+          .reduce((acc: number, cur: SelectedDailyProps) => acc + cur.amount, 0)
           .toLocaleString();
       }
     }
     return income !== 0 ? `+${income}` : '';
   };
-
   const dailyExpense = (currentDay: number) => {
     let expense = 0;
 
@@ -48,7 +47,7 @@ function CurrentMonth({
       if (monthlyList[currentDay]) {
         expense = Object.values(monthlyList[currentDay])
           .filter((cur) => cur.amount < 0)
-          .reduce((acc: number, cur: any) => acc + cur.amount, 0)
+          .reduce((acc: number, cur: SelectedDailyProps) => acc + cur.amount, 0)
           .toLocaleString();
       }
     }
