@@ -92,9 +92,6 @@ function Header({
           <Arrow onClick={onNext}>{rightIcon}</Arrow>
         </Month>
         <Search onClick={handleOpenSearchModal}>{searchIcon}</Search>
-        {showSearchModal && (
-          <SearchModal close={handleCloseSearchModal} setTag={setTag} />
-        )}
       </SearchWrapper>
       <InfoWrapper>
         <Balance>
@@ -115,14 +112,14 @@ function Header({
             </Link>
           </ButtonWrapper>
           <Add onClick={handleOpenAddModal}>+ 추가</Add>
-          {showAddModal && (
-            <AddModal
-              close={handleCloseAddModal}
-              onItemUpdated={onItemUpdated}
-            />
-          )}
         </Buttons>
       </InfoWrapper>
+      {showAddModal && (
+        <AddModal close={handleCloseAddModal} onItemUpdated={onItemUpdated} />
+      )}
+      {showSearchModal && (
+        <SearchModal close={handleCloseSearchModal} setTag={setTag} />
+      )}
     </StyledHeader>
   );
 }

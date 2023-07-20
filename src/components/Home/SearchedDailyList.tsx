@@ -3,6 +3,7 @@ import { css, styled } from 'styled-components';
 import { tags } from '@/lib/utils/Tags';
 import { useState } from 'react';
 import UpdateModal from '../modal/UpdateModal';
+import InfoModal from '../modal/InfoModal';
 
 interface SelectedDailyProps {
   [x: string]: any;
@@ -20,15 +21,26 @@ interface SearchedDailyList {
 
 function SearchedDailyList({ dailyList, onItemUpdated }: SearchedDailyList) {
   const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
-  const [selelctItem, setSelectItem] = useState<any | null>(null)
+  const [showInfoModal, setShowInfoModal] = useState<boolean>(false);
+  const [selelctItem, setSelectItem] = useState<any | null>(null);
 
-  const handleOpenUpdateModal = (item:any) => {
+  const handleOpenUpdateModal = (item: any) => {
     setShowUpdateModal(true);
-    setSelectItem(item)
+    setSelectItem(item);
   };
 
   const handleCloseUpdateModal = () => {
     setShowUpdateModal(false);
+    onItemUpdated();
+  };
+
+  const handleOpenInfoModal = (item: any) => {
+    setShowInfoModal(true);
+    setSelectItem(item);
+  };
+
+  const handleCloseInfoModal = () => {
+    setShowInfoModal(false);
     onItemUpdated();
   };
 
@@ -38,7 +50,6 @@ function SearchedDailyList({ dailyList, onItemUpdated }: SearchedDailyList) {
       return <div>{tag.icon}</div>;
     }
   };
-  console.log(dailyList);
   return (
     <>
       <Title></Title>
@@ -56,11 +67,25 @@ function SearchedDailyList({ dailyList, onItemUpdated }: SearchedDailyList) {
                       {item.amount.toLocaleString()}원
                     </Amount>
                     <Buttons>
-                      <button>상세</button>
-                      <button onClick={() => handleOpenUpdateModal(item)}>수정</button>
+                      <button onClick={() => handleOpenInfoModal(item)}>
+                        상세
+                      </button>
+                      <button onClick={() => handleOpenUpdateModal(item)}>
+                        수정
+                      </button>
                     </Buttons>
                   </Detail>
                 </Wrapper>
+                {showInfoModal && selelctItem && (
+                  <InfoModal
+                    key={index}
+                    amount={selelctItem.amount}
+                    category={selelctItem.category}
+                    date={selelctItem.date}
+                    close={handleCloseInfoModal}
+                  />
+                )}
+
                 {showUpdateModal && selelctItem && (
                   <UpdateModal
                     key={index}
