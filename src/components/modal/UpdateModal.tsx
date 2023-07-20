@@ -15,6 +15,7 @@ interface UpdateModalProps {
   date: string;
   _id: string;
   close: () => void;
+  onItemUpdated: () => void;
 }
 
 // props로 전달받은 amount를 initialAmount로 받음.
@@ -24,6 +25,7 @@ function UpdateModal({
   _id,
   date,
   close,
+  onItemUpdated,
 }: UpdateModalProps) {
   const [type, setType] = useState<string | undefined>();
   const [amount, setAmount] = useState<number>(Math.abs(initialAmount)); // porps로 받은 amount값을 렌더링될 때 정수로
@@ -81,6 +83,7 @@ function UpdateModal({
     };
 
     await updatedRecord(_id, data);
+    onItemUpdated();
     close();
   };
 
@@ -95,11 +98,11 @@ function UpdateModal({
   };
 
   // props로 전달 받은 date값을 변형
-  const krDate = new Date(date)
+  const krDate = new Date(date);
   const year = krDate.getFullYear(); // 연도
   const month = krDate.getMonth() + 1; // 월 (0부터 시작하므로 +1을 해줌)
   const day = krDate.getDate(); // 일
-  const creationDate = `${year}년 ${month}월 ${day}일`
+  const creationDate = `${year}년 ${month}월 ${day}일`;
 
   return (
     <Container>
