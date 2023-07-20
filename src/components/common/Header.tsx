@@ -1,10 +1,12 @@
-import { css, styled } from 'styled-components';
-import { leftIcon, rightIcon, searchIcon } from '@/lib/utils/icons';
 import Button from './Button';
 import { theme } from '@/styles/theme';
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { SelectedDailyProps } from '../home/ExpensesList';
 import { calendarData } from '@/lib/api/Api';
+import { css, styled } from 'styled-components';
+import SearchModal from '@/components/modal/SearchModal';
+import { SelectedDailyProps } from '@/components/Home/ExpensesList';
+import { leftIcon, rightIcon, searchIcon } from '@/lib/utils/Icons';
 import AddModal from '../modal/AddModal';
 
 interface HeaderProps {
@@ -12,28 +14,38 @@ interface HeaderProps {
   onNext: () => void;
   currentYear?: number;
   currentMonth?: number;
+  setTag: React.Dispatch<React.SetStateAction<string>>;
+  onItemUpdated: () => void;
+  monthlyList: SelectedDailyProps[];
 }
 
-function Header({ onPrev, onNext, currentYear, currentMonth }: HeaderProps) {
+function Header({
+  onPrev,
+  onNext,
+  currentYear,
+  currentMonth,
+  setTag,
+  onItemUpdated,
+  monthlyList,
+}: HeaderProps) {
   const [dailyList, setDailyList] = useState<SelectedDailyProps[]>([]);
+  const [showSearchModal, setShowSearchModal] = useState<boolean>(false);
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
-
   useEffect(() => {
-    const fetchList = async () => {
-      if (currentYear) {
-        const res = await calendarData(
-          currentYear as number,
-          currentMonth as number,
-        );
-        setDailyList(Object.values(res));
-      }
-    };
-    fetchList();
-  }, [currentMonth]);
+    setDailyList(Object.values(monthlyList));
+  }, [monthlyList]);
+
+  const handleOpenSearchModal = () => {
+    setShowSearchModal(true);
+  };
+  const handleCloseSearchModal = () => {
+    setShowSearchModal(false);
+  };
 
   const handleOpenAddModal = () => {
     setShowAddModal(true);
   };
+
   const handleCloseAddModal = () => {
     setShowAddModal(false);
   };
@@ -79,8 +91,7 @@ function Header({ onPrev, onNext, currentYear, currentMonth }: HeaderProps) {
           {currentYear}.{currentMonth}
           <Arrow onClick={onNext}>{rightIcon}</Arrow>
         </Month>
-        <Search onClick={handleOpenAddModal}>{searchIcon}</Search>
-        {showAddModal && <AddModal close={handleCloseAddModal} />}
+        <Search onClick={handleOpenSearchModal}>{searchIcon}</Search>
       </SearchWrapper>
       <InfoWrapper>
         <Balance>
@@ -92,20 +103,29 @@ function Header({ onPrev, onNext, currentYear, currentMonth }: HeaderProps) {
           </Income>
         </Balance>
         <Buttons>
-          <Button gray="true">상세 분석</Button>
-          <Button gray="true">주간 분석</Button>
-          {}
+          <ButtonWrapper>
+            <Link to={'/detail'}>
+              <Button gray="true">상세 분석</Button>
+            </Link>
+            <Link to={'/graph'}>
+              <Button gray="true">주간 분석</Button>
+            </Link>
+          </ButtonWrapper>
+          <Add onClick={handleOpenAddModal}>+ 추가</Add>
         </Buttons>
       </InfoWrapper>
+      {showAddModal && (
+        <AddModal close={handleCloseAddModal} onItemUpdated={onItemUpdated} />
+      )}
+      {showSearchModal && (
+        <SearchModal close={handleCloseSearchModal} setTag={setTag} />
+      )}
     </StyledHeader>
   );
 }
 
-const Detail = styled.button``;
-
-const Graph = styled.button``;
-
 const Search = styled.button`
+  margin-right: 10px;
   > svg {
     font-size: 1rem;
   }
@@ -117,6 +137,7 @@ const StyledHeader = styled.header`
   align-items: center;
   width: 100%;
   justify-content: space-between;
+  padding: 0.5rem 0;
 `;
 
 const SearchWrapper = styled.div`
@@ -154,13 +175,31 @@ const Balance = styled.div`
 `;
 
 const Buttons = styled.div`
+  display: flex;
   padding: 1.4rem 0;
+  margin-right: 1rem;
+  flex-direction: column;
+`;
 
-  > button {
-    margin-right: 0.5rem;
+const ButtonWrapper = styled.div`
+  display: flex;
+
+  > a > button {
     padding: 8px 8px;
     font-size: 0.5rem;
   }
+
+  > a:first-child {
+    margin-right: 0.5rem;
+  }
+`;
+
+const Add = styled.button`
+  display: flex;
+  margin-top: 1rem;
+  justify-content: right;
+  align-items: center;
+  font-size: 1rem;
 `;
 
 const Expense = styled.div`

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Collapse } from 'antd';
 import Chart from 'chart.js/auto';
 import { expenseSummary } from '@/lib/api/Api';
-import { Collapse } from 'antd';
 
 interface ExpenseItem {
   _id: string;
@@ -102,35 +102,41 @@ function App() {
           if (weeksInMonth[index]) {
             const week = weeksInMonth[index];
             const weekTitle = index === 0 ? '첫째 주' : `${getOrdinalWeek(index)} 주`;
-            const existingChart = Chart.getChart(chartRef);
+            let existingChart = Chart.getChart(chartRef);
             if (existingChart) {
-              existingChart.destroy();
-            }
-            new Chart(ctx, {
-              type: 'bar',
-              data: {
-                labels: week.map((date) => date.split('-')[2]),
-                datasets: [
-                  {
-                    label: `${weekTitle} 그래프`,
-                    data: week.map((date) => {
-                      const expenseItem = expenseData.find((item) => item._id === date);
-                      return expenseItem ? expenseItem.totalAmount : 0;
-                    }),
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1,
-                  },
-                ],
-              },
-              options: {
-                scales: {
-                  y: {
-                    beginAtZero: true,
+              existingChart.data.labels = week.map((date) => date.split('-')[2]);
+              existingChart.data.datasets[0].data = week.map((date) => {
+                const expenseItem = expenseData.find((item) => item._id === date);
+                return expenseItem ? expenseItem.totalAmount : 0;
+              });
+              existingChart.update();
+            } else {
+              existingChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: week.map((date) => date.split('-')[2]),
+                  datasets: [
+                    {
+                      label: `${weekTitle} 그래프`,
+                      data: week.map((date) => {
+                        const expenseItem = expenseData.find((item) => item._id === date);
+                        return expenseItem ? expenseItem.totalAmount : 0;
+                      }),
+                      backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                      borderColor: 'rgba(75, 192, 192, 1)',
+                      borderWidth: 1,
+                    },
+                  ],
+                },
+                options: {
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                    },
                   },
                 },
-              },
-            });
+              });
+            }
           }
         }
       }
@@ -159,27 +165,27 @@ function App() {
       };
     });
 
-    const { Panel } = Collapse;
-
-    const collapseItems = weekData.map((week, index) => (
-      <Panel key={index} header={week.title}>
-        <div>
-          <p>{week.period}</p>
-          <p>총 지출: {week.totalExpense.toLocaleString()}</p>
-          <canvas
-            id={`chart-${index}`}
-            ref={(el) => {
-              if (el) {
-                chartRefs.current[index] = el;
-              }
-            }}
-          />
-        </div>
-      </Panel>
-    ));
-
     return (
-      <Collapse defaultActiveKey={['1']}>{collapseItems}</Collapse>
+      <Collapse defaultActiveKey={[]} onChange={updateCharts}>
+        {weekData.map((week, index) => (
+          <Collapse.Panel key={index} header={week.title} showArrow={false} forceRender style={{ cursor: 'pointer', fontWeight: 'bold' }}>
+            <ul>
+              <li>{`${week.period}`}</li>
+              <li>{`총 금액: ${week.totalExpense} 원`}</li>
+            </ul>
+            <div>
+              <canvas
+                id={`chart-${index}`}
+                ref={(el) => {
+                  if (el) {
+                    chartRefs.current[index] = el;
+                  }
+                }}
+              />
+            </div>
+          </Collapse.Panel>
+        ))}
+      </Collapse>
     );
   };
 

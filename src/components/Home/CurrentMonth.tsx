@@ -1,7 +1,8 @@
-import { DayProps } from '@/components/home/TheCalender';
+import { DayProps } from '@/components/Home/TheCalender';
 import { css, styled } from 'styled-components';
 import { theme } from '@/styles/theme';
-import { SelectedDailyProps } from './ExpensesList';
+import { SelectedDailyProps } from '@/components/Home/ExpensesList';
+import { useEffect } from 'react';
 
 interface CurrentMonthProps {
   year: number;
@@ -77,7 +78,7 @@ const Day = styled.button<DayProps>`
   cursor: pointer;
   background-color: inherit;
   align-items: center;
-  min-width: calc(500px / 7);
+  min-width: calc(100% / 7);
 `;
 
 const DayContent = styled.div<DayProps>`

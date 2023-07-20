@@ -1,12 +1,12 @@
-import CurrentMonth from './CurrentMonth';
+import CurrentMonth from '@/components/Home/CurrentMonth';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import WeeklyExpenses from '@/components/home/WeeklyExpenses';
-import NotCurrentMonth from '@/components/home/NotCurrentMonth';
+import WeeklyExpenses from '@/components/Home/WeeklyExpenses';
+import NotCurrentMonth from '@/components/Home/NotCurrentMonth';
 import Header from '../common/Header';
 import { expenseSummary } from '@/lib/api/Api';
 import { theme } from '@/styles/theme';
-import { SelectedDailyProps } from './ExpensesList';
+import { SelectedDailyProps } from '@/components/Home/ExpensesList';
 
 export interface DayProps {
   $isCurrentMonth?: boolean;
@@ -19,12 +19,14 @@ interface GetDaysProps {
 
 interface CalendarProps {
   onDayClick: (year: number, month: number, currentDay: number) => void;
+  setTag: React.Dispatch<React.SetStateAction<string>>;
   dailyList: SelectedDailyProps[];
   monthlyList: SelectedDailyProps[];
   currentMonth: number;
   setCurrentMonth: React.Dispatch<React.SetStateAction<number>>;
   currentYear: number;
   setCurrentYear: React.Dispatch<React.SetStateAction<number>>;
+  onItemUpdated: () => void;
 }
 
 interface WeeklyListProps {
@@ -33,13 +35,14 @@ interface WeeklyListProps {
 }
 
 const TheCalendar = ({
+  setTag,
   onDayClick,
-  dailyList,
   monthlyList,
   currentMonth,
   setCurrentMonth,
   currentYear,
   setCurrentYear,
+  onItemUpdated,
 }: CalendarProps) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [weeklyList, setWeeklyList] = useState<WeeklyListProps[]>([]);
@@ -56,7 +59,6 @@ const TheCalendar = ({
   const getFirstDayIdx = ({ year, month }: GetDaysProps) => {
     return new Date(year, month, 1).getDay();
   };
-
   // 이전 Month로 이동하는 클릭 이벤트
   const handlePrevMonth = () => {
     let prevMonth: Date;
@@ -111,8 +113,6 @@ const TheCalendar = ({
     year: nextMonth.getFullYear(), // 이후 month의 연도(2023)
     month: nextMonth.getMonth(), // 이후 month index (7)
   });
-
-  console.log(monthlyList);
 
   const calendar = [];
   let currentDay = 1;
@@ -186,10 +186,13 @@ const TheCalendar = ({
   return (
     <Container>
       <Header
+        setTag={setTag}
         onPrev={handlePrevMonth}
         onNext={handleNextMonth}
         currentYear={currentYear}
         currentMonth={currentMonth}
+        onItemUpdated={onItemUpdated}
+        monthlyList={monthlyList}
       />
       <WeekDay>
         {weekDays.map((date) => (
@@ -234,7 +237,7 @@ const Dates = styled.div`
   min-height: 3.5rem;
   align-items: end;
   margin-bottom: 0.5rem;
-  min-width: calc(500px / 7);
+  min-width: calc(100% / 7);
   justify-content: center;
   color: ${theme.colors.gray[1]};
 `;

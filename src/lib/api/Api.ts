@@ -1,5 +1,6 @@
 import { API_URL, HEADERS, userId } from '@/lib/api/Base';
 
+
 // 소비 기록 작성
 export const createdExpense = async (data: ExpenseData) => {
   try {

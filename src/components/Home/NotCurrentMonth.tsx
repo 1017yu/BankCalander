@@ -1,4 +1,4 @@
-import { DayProps } from '@/components/home/TheCalender';
+import { DayProps } from '@/components/Home/TheCalender';
 import { css, styled } from 'styled-components';
 import { theme } from '@/styles/theme';
 
@@ -51,7 +51,7 @@ const Day = styled.button<DayProps>`
   display: flex;
   flex-direction: column;
   color: #888888;
-  min-width: calc(500px / 7);
+  min-width: calc(100% / 7);
   align-items: center;
 `;
 
