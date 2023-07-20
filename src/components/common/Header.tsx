@@ -1,13 +1,12 @@
 import Button from './Button';
 import { theme } from '@/styles/theme';
 import { Link } from 'react-router-dom';
+import AddModal from '../modal/AddModal';
 import { useEffect, useState } from 'react';
-import { calendarData } from '@/lib/api/Api';
 import { css, styled } from 'styled-components';
 import SearchModal from '@/components/modal/SearchModal';
 import { SelectedDailyProps } from '@/components/Home/ExpensesList';
 import { leftIcon, rightIcon, searchIcon } from '@/lib/utils/Icons';
-import AddModal from '../modal/AddModal';
 
 interface HeaderProps {
   onPrev: () => void;
@@ -55,7 +54,7 @@ function Header({
     dailyList.length > 0
       ? dailyList.reduce((acc, cur) => {
           // amount가 음수인 항목 filterling
-          const expenses = cur.filter(
+          const expenses = Object.values(cur).filter(
             (item: { amount: number }) => item.amount * 1 < 0,
           );
           // 필터링 된 expenses의 amount를 reduce로 모두 합함
@@ -71,7 +70,7 @@ function Header({
     dailyList.length > 0
       ? dailyList.reduce((acc, cur) => {
           // amount가 양수인 항목 filterling
-          const expenses = cur.filter(
+          const expenses = Object.values(cur).filter(
             (item: { amount: number }) => item.amount * 1 >= 0,
           );
           // 필터링 된 expenses의 amount를 reduce로 모두 합함
@@ -105,10 +104,10 @@ function Header({
         <Buttons>
           <ButtonWrapper>
             <Link to={'/detail'}>
-              <Button gray="true">상세 분석</Button>
+              <Button $gray="true">상세 분석</Button>
             </Link>
             <Link to={'/graph'}>
-              <Button gray="true">주간 분석</Button>
+              <Button $gray="true">주간 분석</Button>
             </Link>
           </ButtonWrapper>
           <Add onClick={handleOpenAddModal}>+ 추가</Add>

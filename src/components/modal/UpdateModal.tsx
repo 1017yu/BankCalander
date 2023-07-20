@@ -95,7 +95,11 @@ function UpdateModal({
   };
 
   // props로 전달 받은 date값을 변형
-  const krDate = new Date(date);
+  const krDate = new Date(date)
+  const year = krDate.getFullYear(); // 연도
+  const month = krDate.getMonth() + 1; // 월 (0부터 시작하므로 +1을 해줌)
+  const day = krDate.getDate(); // 일
+  const creationDate = `${year}년 ${month}월 ${day}일`
 
   return (
     <Container>
@@ -109,7 +113,7 @@ function UpdateModal({
               <FaTrashAlt />
             </DeleteButton>
           </ButtonContainer>
-          <DateContainer>{krDate.toLocaleDateString('ko-KR')}</DateContainer>
+          <DateContainer>{creationDate}</DateContainer>
           <ExpensesAmount
             amount={amount}
             handleAmountChange={handleAmountChange}

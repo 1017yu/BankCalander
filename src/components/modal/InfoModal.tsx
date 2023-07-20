@@ -33,6 +33,10 @@ function InfoModal({
   };
 
   const krDate = new Date(date)
+  const year = krDate.getFullYear(); // 연도
+  const month = krDate.getMonth() + 1; // 월 (0부터 시작하므로 +1을 해줌)
+  const day = krDate.getDate(); // 일
+  const creationDate = `${year}년 ${month}월 ${day}일`
 
   return (
     <Container>
@@ -43,27 +47,25 @@ function InfoModal({
             </BackButton>
         {type === 'deposit' ? (
             <>
-              <Span>&lt;</Span>
-              <TitleDeposit> 입금 상세 정보 </TitleDeposit>
-              <Span>&gt;</Span>
+              <TitleDeposit><Span>&lt;</Span> 입금 상세 정보 <Span>&gt;</Span></TitleDeposit>
             </>
         ) : (
             <>
-              <Span>&lt;</Span>
-              <TitleExpense> 지출 상세 정보 </TitleExpense>
-              <Span>&gt;</Span>
+             
+              <TitleExpense><Span>&lt;</Span> 지출 상세 정보 <Span>&gt;</Span></TitleExpense>
+              
             </>
         )}
-            <InfoDate>{krDate.toLocaleString()}</InfoDate>
-            <InfoAmount>금액: {amount.toLocaleString()} 원</InfoAmount>
+            <InfoDate>{creationDate}</InfoDate>
+            <InfoAmount><Title>금액</Title> {amount.toLocaleString()}원</InfoAmount>
            {type === 'deposit' ? (
              <>
-                <InfoTag>입금내역: {tag}</InfoTag>
+                <InfoTag><Title>입금내역</Title> {tag}</InfoTag>
              </>
            ) : (
             <>
-                <InfoTag>지출내역: {tag}</InfoTag>
-                <InfoPaymentMethod>결제방법: {paymentMethod}</InfoPaymentMethod>
+                <InfoTag><Title>지출내역</Title> {tag}</InfoTag>
+                <InfoPaymentMethod><Title>결제방법</Title> {paymentMethod}</InfoPaymentMethod>
             </>
            )}
         </Modal>
@@ -122,8 +124,9 @@ const Modal = styled.div`
 `;
 
 const Span = styled.span`
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
+  color: #000;
 `;
 
 const TitleDeposit = styled.div`
@@ -132,6 +135,8 @@ const TitleDeposit = styled.div`
   font-weight: bold;
   text-align: center;
   color: ${theme.colors.green};
+  display: flex;
+  gap: 5px;
 `;
 
 const TitleExpense = styled.div`
@@ -140,22 +145,32 @@ const TitleExpense = styled.div`
   font-weight: bold;
   text-align: center;
   color: ${theme.colors.red};
+  display: flex;
+  gap: 5px;
 `;
 
 const InfoDate = styled.div`
   margin-bottom: 25px;
+  font-weight: bold;
 `;
 
 const InfoAmount = styled.div`
   margin-bottom: 25px;
+  text-align: center;
+`;
+const Title = styled.div`
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 600;
 `;
 
 const InfoTag = styled.div`
   margin-bottom: 25px;
+  text-align: center;
 `;
 
 const InfoPaymentMethod = styled.div`
 margin-bottom: 25px;
-`
+`;
 
 export default InfoModal;
