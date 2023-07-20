@@ -34,7 +34,6 @@ function SearchedTagList({ dailyList, onItemUpdated }: SearchedTagList) {
 
   const handleCloseUpdateModal = () => {
     setShowUpdateModal(false);
-    onItemUpdated();
   };
 
   const handleOpenInfoModal = (item: SelectedDailyProps) => {
@@ -44,7 +43,6 @@ function SearchedTagList({ dailyList, onItemUpdated }: SearchedTagList) {
 
   const handleCloseInfoModal = () => {
     setShowInfoModal(false);
-    onItemUpdated();
   };
 
   const Icon = ({ label }: { label: string }) => {
@@ -55,7 +53,7 @@ function SearchedTagList({ dailyList, onItemUpdated }: SearchedTagList) {
   };
 
   return (
-    <Container>
+    <div>
       <Title></Title>
       <ul>
         {dailyList
@@ -104,17 +102,16 @@ function SearchedTagList({ dailyList, onItemUpdated }: SearchedTagList) {
                     date={selelctItem.date}
                     _id={selelctItem._id}
                     close={handleCloseUpdateModal}
+                    onItemUpdated={onItemUpdated}
                   />
                 )}
               </li>
             ))
           : '내역이 없습니다!'}
       </ul>
-    </Container>
+    </div>
   );
 }
-
-const Container = styled.div``;
 
 const Title = styled.h1`
   margin-left: 0.5rem;

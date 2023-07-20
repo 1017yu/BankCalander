@@ -19,7 +19,7 @@ interface SearchedDailyList {
   onItemUpdated: () => void;
 }
 
-function SearchedDailyList({ dailyList, onItemUpdated }: SearchedDailyList) {
+function ExpensesDailyList({ dailyList, onItemUpdated }: SearchedDailyList) {
   const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
   const [showInfoModal, setShowInfoModal] = useState<boolean>(false);
   const [selelctItem, setSelectItem] = useState<SelectedDailyProps | null>(
@@ -33,7 +33,6 @@ function SearchedDailyList({ dailyList, onItemUpdated }: SearchedDailyList) {
 
   const handleCloseUpdateModal = () => {
     setShowUpdateModal(false);
-    onItemUpdated();
   };
 
   const handleOpenInfoModal = (item: SelectedDailyProps) => {
@@ -43,7 +42,6 @@ function SearchedDailyList({ dailyList, onItemUpdated }: SearchedDailyList) {
 
   const handleCloseInfoModal = () => {
     setShowInfoModal(false);
-    onItemUpdated();
   };
 
   const Icon = ({ label }: { label: string }) => {
@@ -102,6 +100,7 @@ function SearchedDailyList({ dailyList, onItemUpdated }: SearchedDailyList) {
                     date={selelctItem.date}
                     _id={selelctItem._id}
                     close={handleCloseUpdateModal}
+                    onItemUpdated={onItemUpdated}
                   />
                 )}
               </li>
@@ -155,4 +154,4 @@ const Buttons = styled.div`
   }
 `;
 
-export default SearchedDailyList;
+export default ExpensesDailyList;
