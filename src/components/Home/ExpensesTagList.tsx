@@ -1,10 +1,10 @@
 import { useState } from 'react';
+import Button from '../common/Button';
 import { theme } from '@/styles/theme';
 import { tags } from '@/lib/utils/Tags';
 import InfoModal from '../modal/InfoModal';
 import UpdateModal from '../modal/UpdateModal';
 import { css, styled } from 'styled-components';
-import Button from '../common/Button';
 
 interface SelectedDailyProps {
   amount: number;
@@ -14,13 +14,13 @@ interface SelectedDailyProps {
   _id: string;
 }
 
-interface SearchedTagList {
+interface ExpensesTagList {
   dailyList: SelectedDailyProps[];
   tag: string;
   onItemUpdated: () => void;
 }
 
-function SearchedTagList({ dailyList, onItemUpdated }: SearchedTagList) {
+function ExpensesTagList({ dailyList, onItemUpdated }: ExpensesTagList) {
   const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
   const [showInfoModal, setShowInfoModal] = useState<boolean>(false);
   const [selelctItem, setSelectItem] = useState<SelectedDailyProps | null>(
@@ -120,15 +120,15 @@ const Title = styled.h1`
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  border-top: 1px solid #000;
   margin-bottom: 0.5rem;
+  border-top: 1px solid #000;
   padding: 1rem 0.5rem 0.5rem;
+  justify-content: space-between;
 `;
 
 const Category = styled.div`
-  color: ${theme.colors.gray};
   display: flex;
+  color: ${theme.colors.gray};
 `;
 
 const Detail = styled.div`
@@ -149,13 +149,13 @@ const Amount = styled.div<{
 
 const Buttons = styled.div`
   > button {
-    font-size: 0.5rem;
     padding: 4px 8px;
     margin-left: 5px;
+    font-size: 0.5rem;
   }
   > button:hover {
     transform: scale(110%);
   }
 `;
 
-export default SearchedTagList;
+export default ExpensesTagList;

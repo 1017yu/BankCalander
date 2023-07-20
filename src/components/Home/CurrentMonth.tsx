@@ -1,6 +1,6 @@
-import { DayProps } from '@/components/Home/TheCalender';
-import { css, styled } from 'styled-components';
 import { theme } from '@/styles/theme';
+import { css, styled } from 'styled-components';
+import { DayProps } from '@/components/Home/Calendar';
 import { SelectedDailyProps } from '@/components/Home/ExpensesList';
 
 interface CurrentMonthProps {
