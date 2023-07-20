@@ -1,10 +1,10 @@
-import { theme } from '@/styles/theme';
-import { css, styled } from 'styled-components';
-import { tags } from '@/lib/utils/Tags';
 import { useState } from 'react';
-import UpdateModal from '../modal/UpdateModal';
-import InfoModal from '../modal/InfoModal';
-import Button from '../common/Button';
+import { theme } from '@/styles/theme';
+import { tags } from '@/lib/utils/Tags';
+import Button from '@/components/common/Button';
+import { css, styled } from 'styled-components';
+import InfoModal from '@/components/modal/InfoModal';
+import UpdateModal from '@/components/modal/UpdateModal';
 
 interface SelectedDailyProps {
   amount: number;
@@ -14,12 +14,12 @@ interface SelectedDailyProps {
   _id: string;
 }
 
-interface SearchedDailyList {
+interface ExpensesDailyList {
   dailyList: SelectedDailyProps[];
   onItemUpdated: () => void;
 }
 
-function SearchedDailyList({ dailyList, onItemUpdated }: SearchedDailyList) {
+function ExpensesDailyList({ dailyList, onItemUpdated }: ExpensesDailyList) {
   const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
   const [showInfoModal, setShowInfoModal] = useState<boolean>(false);
   const [selelctItem, setSelectItem] = useState<SelectedDailyProps | null>(
@@ -33,7 +33,6 @@ function SearchedDailyList({ dailyList, onItemUpdated }: SearchedDailyList) {
 
   const handleCloseUpdateModal = () => {
     setShowUpdateModal(false);
-    onItemUpdated();
   };
 
   const handleOpenInfoModal = (item: SelectedDailyProps) => {
@@ -43,7 +42,6 @@ function SearchedDailyList({ dailyList, onItemUpdated }: SearchedDailyList) {
 
   const handleCloseInfoModal = () => {
     setShowInfoModal(false);
-    onItemUpdated();
   };
 
   const Icon = ({ label }: { label: string }) => {
@@ -102,6 +100,7 @@ function SearchedDailyList({ dailyList, onItemUpdated }: SearchedDailyList) {
                     date={selelctItem.date}
                     _id={selelctItem._id}
                     close={handleCloseUpdateModal}
+                    onItemUpdated={onItemUpdated}
                   />
                 )}
               </li>
@@ -155,4 +154,4 @@ const Buttons = styled.div`
   }
 `;
 
-export default SearchedDailyList;
+export default ExpensesDailyList;

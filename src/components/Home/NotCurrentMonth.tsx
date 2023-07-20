@@ -1,6 +1,6 @@
-import { DayProps } from '@/components/Home/TheCalender';
-import { css, styled } from 'styled-components';
 import { theme } from '@/styles/theme';
+import { css, styled } from 'styled-components';
+import { DayProps } from '@/components/Home/Calendar';
 
 interface NotCurrentMonthProps {
   week: number;
@@ -50,7 +50,7 @@ function NotCurrentMonth({
 const Day = styled.button<DayProps>`
   display: flex;
   flex-direction: column;
-  color: #888888;
+  color: ${theme.colors.gray[3]};
   min-width: calc(100% / 7);
   align-items: center;
 `;
@@ -70,13 +70,10 @@ const DayContent = styled.div<DayProps>`
       color: ${theme.colors.red};
     `}
     
-
-  ${(props) => props.$isCurrentMonth && css``}
-
    ${(props) =>
     !props.$isCurrentMonth &&
     css`
-      color: #b9b7b7;
+      color: ${theme.colors.gray[1]};
     `}
 `;
 export default NotCurrentMonth;

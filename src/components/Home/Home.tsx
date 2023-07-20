@@ -1,9 +1,9 @@
+import { styled } from 'styled-components';
 import { useEffect, useState } from 'react';
-import TheCalendar from '@/components/Home/TheCalender';
+import UserId from '@/components/Home/UserId';
+import TheCalendar from '@/components/Home/Calendar';
 import ExpensesList from '@/components/Home/ExpensesList';
 import { calendarData, expenseSearch } from '@/lib/api/Api';
-import { styled } from 'styled-components';
-import UserId from './UserId';
 
 export interface SelectedDateProps {
   year: number;
@@ -22,7 +22,7 @@ interface SelectedDailyProps {
 function Home() {
   const [tag, setTag] = useState(''); // 카테고리 소비 태그
   const [dailyList, setDailyList] = useState<SelectedDailyProps[]>([]);
-  const [monthlyList, setMonthlyList] = useState<SelectedDailyProps[]>([]);
+  const [monthlyList, setMonthlyList] = useState([]);
   const [selectedDate, setSelectedDate] = useState<SelectedDateProps>();
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
@@ -43,13 +43,16 @@ function Home() {
     const fetchData = async () => {
       const res = await calendarData(currentYear, currentMonth);
       setMonthlyList(res);
-      if (selectedDate) {
-        setDailyList(res[selectedDate.currentDay]);
-      }
     };
 
     fetchData();
-  }, [selectedDate, currentYear, currentMonth, tag]);
+  }, [currentYear, currentMonth, tag]);
+
+  useEffect(() => {
+    if (selectedDate) {
+      setDailyList(monthlyList[selectedDate.currentDay]);
+    }
+  }, [selectedDate, monthlyList]);
 
   useEffect(() => {
     const fetchCategoryList = async () => {

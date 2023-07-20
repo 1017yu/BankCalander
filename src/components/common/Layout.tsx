@@ -9,9 +9,9 @@ function Layout() {
   );
 }
 const Container = styled.div`
-  max-width: 500px;
-  margin: 0 auto;
   height: 100vh;
+  margin: 0 auto;
+  max-width: 500px;
 `;
 
 export default Layout;
