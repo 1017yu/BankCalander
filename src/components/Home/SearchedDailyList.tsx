@@ -4,9 +4,9 @@ import { tags } from '@/lib/utils/Tags';
 import { useState } from 'react';
 import UpdateModal from '../modal/UpdateModal';
 import InfoModal from '../modal/InfoModal';
+import Button from '../common/Button';
 
 interface SelectedDailyProps {
-  [x: string]: any;
   amount: number;
   category: string;
   date: string;
@@ -22,9 +22,11 @@ interface SearchedDailyList {
 function SearchedDailyList({ dailyList, onItemUpdated }: SearchedDailyList) {
   const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
   const [showInfoModal, setShowInfoModal] = useState<boolean>(false);
-  const [selelctItem, setSelectItem] = useState<any | null>(null);
+  const [selelctItem, setSelectItem] = useState<SelectedDailyProps | null>(
+    null,
+  );
 
-  const handleOpenUpdateModal = (item: any) => {
+  const handleOpenUpdateModal = (item: SelectedDailyProps) => {
     setShowUpdateModal(true);
     setSelectItem(item);
   };
@@ -34,7 +36,7 @@ function SearchedDailyList({ dailyList, onItemUpdated }: SearchedDailyList) {
     onItemUpdated();
   };
 
-  const handleOpenInfoModal = (item: any) => {
+  const handleOpenInfoModal = (item: SelectedDailyProps) => {
     setShowInfoModal(true);
     setSelectItem(item);
   };
@@ -67,12 +69,18 @@ function SearchedDailyList({ dailyList, onItemUpdated }: SearchedDailyList) {
                       {item.amount.toLocaleString()}원
                     </Amount>
                     <Buttons>
-                      <button onClick={() => handleOpenInfoModal(item)}>
+                      <Button
+                        $gray="true"
+                        onClick={() => handleOpenInfoModal(item)}
+                      >
                         상세
-                      </button>
-                      <button onClick={() => handleOpenUpdateModal(item)}>
+                      </Button>
+                      <Button
+                        $gray="true"
+                        onClick={() => handleOpenUpdateModal(item)}
+                      >
                         수정
-                      </button>
+                      </Button>
                     </Buttons>
                   </Detail>
                 </Wrapper>
@@ -117,8 +125,7 @@ const Wrapper = styled.div`
   padding: 1rem 0.5rem 0.5rem;
 `;
 
-const Category = styled.span`
-  font-size: 1rem;
+const Category = styled.div`
   color: ${theme.colors.gray};
   display: flex;
 `;
@@ -127,7 +134,7 @@ const Detail = styled.div`
   display: flex;
 `;
 
-const Amount = styled.span<{
+const Amount = styled.div<{
   $isSpend?: boolean;
 }>`
   margin: 2px 8px;
@@ -137,7 +144,15 @@ const Amount = styled.span<{
       color: ${theme.colors.blue};
     `}
 `;
-
-const Buttons = styled.div``;
+const Buttons = styled.div`
+  > button {
+    font-size: 0.5rem;
+    padding: 4px 8px;
+    margin-left: 5px;
+  }
+  > button:hover {
+    transform: scale(110%);
+  }
+`;
 
 export default SearchedDailyList;
