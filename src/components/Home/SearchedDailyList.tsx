@@ -1,7 +1,15 @@
 import { theme } from '@/styles/theme';
 import { css, styled } from 'styled-components';
-import { SelectedDailyProps } from './ExpensesList';
 import { tags } from '@/lib/utils/Tags';
+
+interface SelectedDailyProps {
+  [x: string]: any;
+  amount: number;
+  category: string;
+  date: string;
+  userId: string;
+  _id: string;
+}
 
 function SearchedDailyList({ dailyList }: { dailyList: SelectedDailyProps[] }) {
   const Icon = ({ label }: { label: string }) => {
@@ -23,7 +31,9 @@ function SearchedDailyList({ dailyList }: { dailyList: SelectedDailyProps[] }) {
                     <Icon label={[...item.category.split(',')][0]} />
                     <Title>{[...item.category.split(',')][0]}</Title>
                   </Category>
-                  <Amount $isSpend={item.amount > 0}>{item.amount}</Amount>
+                  <Amount $isSpend={item.amount > 0}>
+                    {item.amount.toLocaleString()}원
+                  </Amount>
                 </Wrapper>
               </li>
             ))
@@ -57,7 +67,7 @@ const Category = styled.span`
 const Amount = styled.span<{
   $isSpend?: boolean;
 }>`
-  font-size: 2rem;
+  font-size: 1rem;
 
   ${(props) =>
     props.$isSpend &&

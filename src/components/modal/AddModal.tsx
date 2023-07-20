@@ -62,19 +62,20 @@ function AddModal({ close }: AddModalProps) {
     };
 
     await createdExpense(data);
-    close()
+    close();
   };
 
-  const handleRef = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (e.target === modalRef.current) close();
   };
 
-
   return (
     <Container>
-      <AddModalWraaper ref={modalRef} onClick={handleRef}>
+      <AddModalWraaper ref={modalRef} onClick={handleClick}>
         <Modal>
-          <BackButton onClick={close}><FaArrowLeft /></BackButton>
+          <BackButton onClick={close}>
+            <FaArrowLeft />
+          </BackButton>
           <ButtonCotainer>
             {/*입금 버튼*/}
             <DepositButton
@@ -124,16 +125,17 @@ const Container = styled.div`
 `;
 
 const BackButton = styled.button`
-border: none;
-font-size: 20px;
-margin: 15px;
-cursor: pointer;
-background-color: #fff;
-position: relative;
-left: -150px;
+  border: none;
+  font-size: 20px;
+  margin: 15px;
+  cursor: pointer;
+  background-color: #fff;
+  position: relative;
+  left: -150px;
 
-&: hover {
-  color: ${theme.colors.red};
+  &:hover {
+    color: ${theme.colors.red};
+  }
 `;
 
 const ButtonCotainer = styled.div`
@@ -141,7 +143,6 @@ const ButtonCotainer = styled.div`
   gap: 50px;
   justify-content: center;
   margin: 10px;
-  left: 
 `;
 
 const DepositButton = styled.button<{

@@ -72,7 +72,6 @@ export const depositTags = [
   { label: '기타', icon: etcIcon },
 ];
 
-
 const CashIcon = () => <StyledCashIcon>{cashIcon}</StyledCashIcon>;
 const DebitCardIcon = () => <StyledDebitCardIcon>{debitCardIcon}</StyledDebitCardIcon>;
 const CreditCardIcon = () => <StyledCreditCardIcon>{creditCardIcon}</StyledCreditCardIcon>;
