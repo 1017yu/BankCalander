@@ -1,9 +1,9 @@
+import { styled } from 'styled-components';
 import { useEffect, useState } from 'react';
-import TheCalendar from '@/components/Home/TheCalender';
+import UserId from '@/components/Home/UserId';
+import TheCalendar from '@/components/Home/Calendar';
 import ExpensesList from '@/components/Home/ExpensesList';
 import { calendarData, expenseSearch } from '@/lib/api/Api';
-import { styled } from 'styled-components';
-import UserId from './UserId';
 
 export interface SelectedDateProps {
   year: number;
@@ -52,7 +52,7 @@ function Home() {
     if (selectedDate) {
       setDailyList(monthlyList[selectedDate.currentDay]);
     }
-  }, [selectedDate, monthlyList])
+  }, [selectedDate, monthlyList]);
 
   useEffect(() => {
     const fetchCategoryList = async () => {

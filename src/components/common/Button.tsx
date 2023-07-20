@@ -37,8 +37,8 @@ const StyledButton = styled.button<{
     ${(props) =>
     props.$gray &&
     css`
-      background-color: ${theme.colors.gray[0]};
       color: ${theme.colors.gray[2]};
+      background-color: ${theme.colors.gray[0]};
     `};
 `;
 

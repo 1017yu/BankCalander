@@ -1,11 +1,11 @@
-import CurrentMonth from '@/components/Home/CurrentMonth';
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { theme } from '@/styles/theme';
+import { useEffect, useState } from 'react';
+import { expenseSummary } from '@/lib/api/Api';
+import Header from '@/components/common/Header';
+import CurrentMonth from '@/components/Home/CurrentMonth';
 import WeeklyExpenses from '@/components/Home/WeeklyExpenses';
 import NotCurrentMonth from '@/components/Home/NotCurrentMonth';
-import Header from '../common/Header';
-import { expenseSummary } from '@/lib/api/Api';
-import { theme } from '@/styles/theme';
 import { SelectedDailyProps } from '@/components/Home/ExpensesList';
 
 export interface DayProps {
@@ -206,10 +206,10 @@ const TheCalendar = ({
 };
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 `;
 
 const Calendar = styled.div`
@@ -219,27 +219,27 @@ const Calendar = styled.div`
 const WeekWrapper = styled.div``;
 
 const Week = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  margin-bottom: 0.5rem;
-  min-height: 3.5rem;
   width: 100%;
+  display: flex;
+  min-height: 3.5rem;
+  margin-bottom: 0.5rem;
+  justify-content: space-evenly;
 `;
 
 const WeekDay = styled.div`
-  display: flex;
   width: 100%;
-  justify-content: space-evenly;
+  display: flex;
   align-items: end;
+  justify-content: space-evenly;
 `;
 
 const Dates = styled.div`
   display: flex;
-  min-height: 3.5rem;
   align-items: end;
+  min-height: 3.5rem;
   margin-bottom: 0.5rem;
-  min-width: calc(100% / 7);
   justify-content: center;
+  min-width: calc(100% / 7);
   color: ${theme.colors.gray[1]};
 `;
 
