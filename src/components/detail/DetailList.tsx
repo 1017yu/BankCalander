@@ -17,7 +17,8 @@ function DetailList({summaries}: Summaries) {
   }
 
   // table
-  const tableitemSource = summaries.map((item) => ({
+  const tableitemSource = summaries.map((item, index) => ({
+    key: index+1,
     summaiesDate : item._id,
     summariesAmount: item.totalAmount >= 0 ? item.totalAmount.toLocaleString() : <StyleListExpense>{item.totalAmount.toLocaleString()}</StyleListExpense>
   }))
