@@ -32,4 +32,5 @@ const StyledSelectChart = styled.select`
   height: 30px;
   font-size: 20px;
   text-align: center;
+  margin-left: 20px;
 `
