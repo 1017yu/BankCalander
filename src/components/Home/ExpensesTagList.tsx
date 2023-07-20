@@ -21,28 +21,28 @@ interface ExpensesTagList {
 }
 
 function ExpensesTagList({ dailyList, onItemUpdated }: ExpensesTagList) {
-  const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
-  const [showInfoModal, setShowInfoModal] = useState<boolean>(false);
+  const [showUpdateModal, setShowUpdateModal] = useState<any>(null);
+  const [showInfoModal, setShowInfoModal] = useState<any>(null);
   const [selelctItem, setSelectItem] = useState<SelectedDailyProps | null>(
     null,
   );
 
-  const handleOpenUpdateModal = (item: SelectedDailyProps) => {
-    setShowUpdateModal(true);
+  const handleOpenUpdateModal = (item: SelectedDailyProps, index: number) => {
+    setShowUpdateModal(index);
     setSelectItem(item);
   };
 
   const handleCloseUpdateModal = () => {
-    setShowUpdateModal(false);
+    setShowUpdateModal(null);
   };
 
-  const handleOpenInfoModal = (item: SelectedDailyProps) => {
-    setShowInfoModal(true);
+  const handleOpenInfoModal = (item: SelectedDailyProps, index: number) => {
+    setShowInfoModal(index);
     setSelectItem(item);
   };
 
   const handleCloseInfoModal = () => {
-    setShowInfoModal(false);
+    setShowInfoModal(null);
   };
 
   const Icon = ({ label }: { label: string }) => {
@@ -71,20 +71,20 @@ function ExpensesTagList({ dailyList, onItemUpdated }: ExpensesTagList) {
                     <Buttons>
                       <Button
                         $gray="true"
-                        onClick={() => handleOpenInfoModal(item)}
+                        onClick={() => handleOpenInfoModal(item, index)}
                       >
                         상세
                       </Button>
                       <Button
                         $gray="true"
-                        onClick={() => handleOpenUpdateModal(item)}
+                        onClick={() => handleOpenUpdateModal(item, index)}
                       >
                         수정
                       </Button>
                     </Buttons>
                   </Detail>
                 </Wrapper>
-                {showInfoModal && selelctItem && (
+                {showInfoModal === index && selelctItem && (
                   <InfoModal
                     key={index}
                     amount={selelctItem.amount}
@@ -94,7 +94,7 @@ function ExpensesTagList({ dailyList, onItemUpdated }: ExpensesTagList) {
                   />
                 )}
 
-                {showUpdateModal && selelctItem && (
+                {showUpdateModal === index && selelctItem && (
                   <UpdateModal
                     key={index}
                     amount={selelctItem.amount}
