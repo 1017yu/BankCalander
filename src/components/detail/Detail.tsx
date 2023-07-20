@@ -9,6 +9,9 @@ import SelectChart from './SelectChart';
 import SelectCategory from './SelectCategory';
 import SelectMonthly from './SelectMonthly';
 import {Table} from 'antd'
+import { FaArrowLeft } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { theme } from '@/styles/theme';
 
 const { RangePicker } = DatePicker;
 
@@ -21,6 +24,7 @@ function Detail () {
   const [summaries, setSummeries] = useState<SummaryResponse>([])
   const [sortSummaries, setSortSummeries] = useState<SummaryResponse>([])
   const [selectDays, setSelectDays] = useState(false)
+  const navigate = useNavigate()
 
   const periodApi = async (selectedPeriod: string) => {
     try {
@@ -166,8 +170,15 @@ function Detail () {
     }
   }
 
+  const hanldeBackPage = () => {
+    navigate('/')
+  }
+
   return (
     <>
+    <BackButton onClick={hanldeBackPage}>
+            <FaArrowLeft />
+          </BackButton>
       <Check>
         <SelectPeriod onPeriodChange={handlePeriod} />
         <SelectChart onSelectChart = {handleChart}/>
@@ -234,3 +245,17 @@ const StyleExpeses = styled.div `
   margin-left: auto;
   margin-right: auto;
 `
+
+const BackButton = styled.button`
+  border: none;
+  font-size: 20px;
+  margin: 15px;
+  cursor: pointer;
+  background-color: #fff;
+  position: relative;
+/*   left: - 50px; */
+
+  &:hover {
+    color: ${theme.colors.red};
+  }
+`;

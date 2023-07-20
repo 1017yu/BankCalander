@@ -2,6 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Collapse } from 'antd';
 import Chart from 'chart.js/auto';
 import { expenseSummary } from '@/lib/api/Api';
+import { FaArrowLeft } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { theme } from '@/styles/theme';
+import styled from 'styled-components';
 
 interface ExpenseItem {
   _id: string;
@@ -49,6 +53,7 @@ function App() {
   const [selectedYear, setSelectedYear] = useState<number>(currentYear);
   const [selectedMonth, setSelectedMonth] = useState<number>(currentMonth);
   const chartRefs = useRef<(HTMLCanvasElement | null)[]>([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchData();
@@ -165,6 +170,8 @@ function App() {
       };
     });
 
+   
+
     return (
       <Collapse defaultActiveKey={[]} onChange={updateCharts}>
         {weekData.map((week, index) => (
@@ -207,8 +214,15 @@ function App() {
     );
   }
 
+  const hanldeBackPage = () => {
+    navigate('/')
+  }
+
   return (
     <div>
+       <BackButton onClick={hanldeBackPage}>
+            <FaArrowLeft />
+          </BackButton>
       <h1>주간 그래프</h1>
       <div>
         <button onClick={handlePreviousMonth}>&lt;</button>
@@ -224,5 +238,19 @@ function App() {
     </div>
   );
 }
+
+const BackButton = styled.button`
+  border: none;
+  font-size: 20px;
+  margin: 15px;
+  cursor: pointer;
+  background-color: #fff;
+  position: relative;
+/*   left: - 50px; */
+
+  &:hover {
+    color: ${theme.colors.red};
+  }
+`;
 
 export default App;
