@@ -42,12 +42,20 @@ function InfoModal({
               <FaArrowLeft />
             </BackButton>
         {type === 'deposit' ? (
-            <Title>&lt; 입금 상세 정보 &gt;</Title>
+            <>
+              <Span>&lt;</Span>
+              <TitleDeposit> 입금 상세 정보 </TitleDeposit>
+              <Span>&gt;</Span>
+            </>
         ) : (
-            <Title>&lt; 지출 상세 정보 &gt;</Title>
+            <>
+              <Span>&lt;</Span>
+              <TitleExpense> 지출 상세 정보 </TitleExpense>
+              <Span>&gt;</Span>
+            </>
         )}
             <InfoDate>{krDate.toLocaleString()}</InfoDate>
-            <InfoAmount>금액: {amount} 원</InfoAmount>
+            <InfoAmount>금액: {amount.toLocaleString()} 원</InfoAmount>
            {type === 'deposit' ? (
              <>
                 <InfoTag>입금내역: {tag}</InfoTag>
@@ -113,25 +121,38 @@ const Modal = styled.div`
   width: 100%;
 `;
 
-const Title = styled.div`
-margin-bottom: 25px;
-font-size: 18px;
-font-weight: bold;
-text-align: center;
-`
+const Span = styled.span`
+  font-size: 18px;
+  font-weight: bold;
+`;
+
+const TitleDeposit = styled.div`
+  margin-bottom: 25px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  color: ${theme.colors.green};
+`;
+
+const TitleExpense = styled.div`
+  margin-bottom: 25px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  color: ${theme.colors.red};
+`;
 
 const InfoDate = styled.div`
-margin-bottom: 25px;
-
+  margin-bottom: 25px;
 `;
 
 const InfoAmount = styled.div`
-margin-bottom: 25px;
-`
+  margin-bottom: 25px;
+`;
 
 const InfoTag = styled.div`
-margin-bottom: 25px;
-`
+  margin-bottom: 25px;
+`;
 
 const InfoPaymentMethod = styled.div`
 margin-bottom: 25px;

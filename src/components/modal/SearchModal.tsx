@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { styled, css } from 'styled-components';
+import React, { useRef } from 'react';
+import { styled } from 'styled-components';
 import { theme } from '@/styles/theme';
 import { FaArrowLeft } from 'react-icons/fa';
 import AllTag from './AllTag';
@@ -10,15 +10,7 @@ interface SearchModalProps {
 }
 
 function SearchModal({ close, setTag }: SearchModalProps) {
-  const [activeButton, setActiveButton] = useState(''); // 버튼 활성화 상태 확인
   const modalRef = useRef(null);
-
-  const handleButtonClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
-    const formType = e.currentTarget.dataset.formType; // 데이터셋을 이용한 타입 지정
-    setActiveButton(formType || ''); // 지정된 type에 따라 버튼 활성화
-  };
 
   const handleTagChange = (tags: string) => {
     setTag(tags);
@@ -63,93 +55,6 @@ const BackButton = styled.button`
 
   &:hover {
     color: ${theme.colors.red};
-  }
-`;
-
-const ButtonCotainer = styled.div`
-  display: flex;
-  gap: 50px;
-  justify-content: center;
-  margin: 10px;
-`;
-
-const DepositButton = styled.button<{
-  $green?: string;
-  $active?: boolean;
-}>`
-  width: 100px;
-  height: 30px;
-  border-radius: 8px;
-  font-size: 18px;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  transition: all ease 1s 0s;
-
-  ${(props) =>
-    props.$green &&
-    css`
-      &:hover {
-        background-color: ${theme.colors.green};
-        color: #ffffffdb;
-        background-image: linear-gradient(315deg, #b9fad9, transparent);
-      }
-    `}
-
-  ${(props) =>
-    props.$active &&
-    css`
-      background-color: ${theme.colors.green};
-      color: #ffffffdb;
-      background-image: linear-gradient(315deg, #b9fad9, transparent);
-    `}
-`;
-
-const ExpenseButton = styled.button<{
-  $red?: string;
-  $active?: boolean;
-}>`
-  width: 100px;
-  height: 30px;
-  border-radius: 8px;
-  font-size: 18px;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  transition: all ease 1s 0s;
-
-  ${(props) =>
-    props.$red &&
-    css`
-      &:hover {
-        background-color: ${theme.colors.red};
-        color: #ffffffdb;
-        background-image: linear-gradient(315deg, #e6b0c3, transparent);
-      }
-    `}
-
-  ${(props) =>
-    props.$active &&
-    css`
-      background-color: ${theme.colors.red};
-      color: #ffffffdb;
-      background-image: linear-gradient(315deg, #e6b0c3, transparent);
-    `}
-`;
-
-const Submit = styled.button`
-  width: 250px;
-  height: 50px;
-  margin: 10px;
-  cursor: pointer;
-  border-radius: 8px;
-  border: none;
-  font-size: 18px;
-  font-weight: bold;
-
-  &:hover {
-    background-color: #33ff99;
-    color: #ffffffdb;
   }
 `;
 
