@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState, useEffect, useRef } from 'react';
 import { Collapse } from 'antd';
 import Chart from 'chart.js/auto';
@@ -19,7 +20,7 @@ function getWeeksInMonth(year: number, month: number): string[][] {
   const lastDay = new Date(year, month, 0);
 
   let currentWeek: string[] = [];
-  let currentDate = firstDay;
+  const currentDate = firstDay;
 
   while (currentDate <= lastDay) {
     const dateStr = `${year}-${month.toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
@@ -61,7 +62,7 @@ function App() {
 
   useEffect(() => {
     updateCharts();
-  }, [selectedYear, selectedMonth, expenseData]);
+  },);
 
   const fetchData = async () => {
     try {
@@ -170,15 +171,14 @@ function App() {
       };
     });
 
-   
 
     return (
-      <Collapse defaultActiveKey={[]} onChange={updateCharts}>
+      <Collapse accordion defaultActiveKey={[]} onChange={updateCharts}>
         {weekData.map((week, index) => (
           <Collapse.Panel key={index} header={week.title} showArrow={false} forceRender style={{ cursor: 'pointer', fontWeight: 'bold' }}>
             <ul>
               <li>{`${week.period}`}</li>
-              <li>{`총 금액: ${week.totalExpense} 원`}</li>
+              <Li>{`총 금액: ${week.totalExpense} 원`}</Li>
             </ul>
             <div>
               <canvas
@@ -220,19 +220,19 @@ function App() {
 
   return (
     <div>
-       <BackButton onClick={hanldeBackPage}>
+      <BackButton onClick={hanldeBackPage}>
             <FaArrowLeft />
           </BackButton>
-      <h1>주간 그래프</h1>
+      <H1>주간 그래프</H1>
       <div>
-        <button onClick={handlePreviousMonth}>&lt;</button>
-        <select value={selectedYear} onChange={handleYearChange}>
+        <Button onClick={handlePreviousMonth}>&lt;</Button>
+        <Select value={selectedYear} onChange={handleYearChange}>
           {years}
-        </select>
-        <select value={selectedMonth} onChange={handleMonthChange}>
+        </Select>
+        <Select value={selectedMonth} onChange={handleMonthChange}>
           {months}
-        </select>
-        <button onClick={handleNextMonth}>&gt;</button>
+        </Select>
+        <Button onClick={handleNextMonth}>&gt;</Button>
       </div>
       <div>{renderMonthGraph(selectedYear, selectedMonth)}</div>
     </div>
@@ -252,5 +252,22 @@ const BackButton = styled.button`
     color: ${theme.colors.red};
   }
 `;
+
+const Button = styled.button`
+  font-size: 20px;
+`
+
+const Li = styled.li`
+  color: red;
+`
+
+const H1 = styled.h1`
+  font-size: 25px;
+  padding-left: 200px;
+`
+
+const Select = styled.select`
+  font-size: 16px;
+`
 
 export default App;
