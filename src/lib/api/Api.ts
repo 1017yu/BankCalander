@@ -77,7 +77,6 @@ export const expenseSummary = async (period: string) => {
         headers: HEADERS,
       },
     );
-    console.log(API_URL);
     if (res.ok) {
       const data: SummaryResponseItem[] = await res.json();
       return data;
