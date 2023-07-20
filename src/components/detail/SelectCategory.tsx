@@ -59,4 +59,5 @@ const StyledSelectCategory = styled.select`
   height: 30px;
   font-size: 18px;
   text-align: center;
+  margin-left: 20px;
 `

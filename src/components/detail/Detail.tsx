@@ -25,7 +25,7 @@ function Detail () {
   const periodApi = async (selectedPeriod: string) => {
     try {
       const response = await expenseSummary(selectedPeriod);
-      setSummeries(response)
+      setSummeries(response  )
       console.log(response)
     } catch (error) {
       console.log('error :', error)
@@ -72,12 +72,14 @@ function Detail () {
     }
   };
 
+  console.log(selectDays)
+
   const handleSelectPeriod = (value: string) => {
     setSelectPeriod(value)
   }
 
   // 카테고리 검색
-  const [categories, setCategories] = useState<SearchResponseItem[]>([])
+  const [categories, setCategories] = useState<SearchResponse>([])
   const [selectCategories, setSelectCategories] = useState('')
 
   const categoryApi = async() => {
@@ -125,7 +127,7 @@ function Detail () {
       </div>
     ),
     categoryName: categories.category.replace(/, .*$/, ''),
-    categoryAmount: categories.amount.toLocaleString(),
+    categoryAmount: Number(categories.amount) >= 0 ? categories.amount.toLocaleString() : <StyleExpeses>{categories.amount.toLocaleString()}</StyleExpeses>,
     categoryDate: categories.date.replace(/T.*$/, '')
   }))
 
@@ -133,7 +135,7 @@ function Detail () {
     {
       title:'번호',
       dataIndex: 'key',
-      ket: 'key'
+      key: 'key'
     },
     {
       title: '카테고리',
@@ -152,6 +154,18 @@ function Detail () {
     },
   ]
 
+  const selectCategoryAmount = selectCategories ? categories.filter((category) => category.date.includes(selectPeriod)) : categories;
+
+  let income = 0
+  let expenses = 0
+  for(let i = 0; i < filterCategories.length; i++) {
+    if(selectCategoryAmount[i].amount >= 0) {
+      income += selectCategoryAmount[i].amount
+    } else {
+      expenses += selectCategoryAmount[i].amount
+    }
+  }
+
   return (
     <>
       <Check>
@@ -165,13 +179,8 @@ function Detail () {
           />
         </StyleRangePicker>
       )}
-      <div>
-        <DetailChart summaries = {sortSummaries} period = {period} selectChart = {chart} />
-      </div>
-      <div>
-        <DetailList summaries = {sortSummaries}/>
-      </div>
-      <div>-------------------------------------------------------------------------</div>
+      <DetailChart summaries = {sortSummaries} period = {period} selectChart = {chart} />
+      <DetailList summaries = {sortSummaries}/>
       <StyledSelect>
         <SelectMonthly summaries = {sortSummaries} onSelectPeriod = {handleSelectPeriod}/>
         <SelectCategory onSelectCategory = {handleSelectCategory} />
@@ -181,6 +190,10 @@ function Detail () {
         columns={itemColumns}
         pagination={{pageSize: 5, simple: true}}
       />
+      <StyledTotalCategoryAmount> 
+        <StyleIncome> 수입 : {income.toLocaleString()}원</StyleIncome> 
+        <StyleExpeses> 지출 : {expenses.toLocaleString()}원</StyleExpeses>
+      </StyledTotalCategoryAmount>
     </>
   );
 }
@@ -189,16 +202,35 @@ export default Detail
 
 const Check = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 `;
 
 const StyleRangePicker = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
 `
 
 const StyledSelect = styled.div `
  display: flex;
+ justify-content: center;
+ flex-align: justify;
+ margin-bottom: 20px;
+`
+
+const StyledTotalCategoryAmount = styled.div`
+  display: flex;
+  margin: 30px;
+  justify-content: center;
+`
+
+const StyleIncome = styled.div`
+ color: black;
+ margin-left: auto;
+`
+
+const StyleExpeses = styled.div `
+  color: red;
+  margin-left: auto;
+  margin-right: auto;
 `

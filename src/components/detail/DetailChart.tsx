@@ -72,6 +72,7 @@ function DeatilChart({summaries, period, selectChart}: Summaries) {
     return () => {
       myChart.destroy();
     };
+
   }, [summaries, period, selectChart]);
 
   return (
