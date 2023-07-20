@@ -33,6 +33,10 @@ function InfoModal({
   };
 
   const krDate = new Date(date)
+  const year = krDate.getFullYear(); // 연도
+  const month = krDate.getMonth() + 1; // 월 (0부터 시작하므로 +1을 해줌)
+  const day = krDate.getDate(); // 일
+  const creationDate = `${year}년 ${month}월 ${day}일`
 
   return (
     <Container>
@@ -52,7 +56,7 @@ function InfoModal({
               
             </>
         )}
-            <InfoDate>{krDate.toLocaleString()}</InfoDate>
+            <InfoDate>{creationDate}</InfoDate>
             <InfoAmount><Title>금액</Title> {amount.toLocaleString()}원</InfoAmount>
            {type === 'deposit' ? (
              <>
