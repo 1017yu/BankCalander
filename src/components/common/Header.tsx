@@ -131,12 +131,12 @@ const Search = styled.button`
 `;
 
 const StyledHeader = styled.header`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 100%;
-  justify-content: space-between;
+  display: flex;
   padding: 0.5rem 0;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const SearchWrapper = styled.div`
@@ -147,8 +147,8 @@ const SearchWrapper = styled.div`
 
 const Month = styled.div`
   display: flex;
-  align-items: center;
   font-size: 1.5rem;
+  align-items: center;
   margin-left: 0.5rem;
 `;
 
@@ -163,8 +163,8 @@ const InfoWrapper = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 `;
 
 const Balance = styled.div`
@@ -195,35 +195,35 @@ const ButtonWrapper = styled.div`
 
 const Add = styled.button`
   display: flex;
-  margin-top: 1rem;
-  justify-content: right;
-  align-items: center;
   font-size: 1rem;
+  margin-top: 1rem;
+  align-items: center;
+  justify-content: right;
 `;
 
 const Expense = styled.div`
   display: flex;
+  font-size: 12px;
   margin-left: 1.5rem;
   margin-bottom: 1rem;
-  font-size: 12px;
-  color: ${theme.colors.gray[1]};
   align-items: center;
+  color: ${theme.colors.gray[1]};
 `;
 
 const Income = styled.div`
   display: flex;
-  margin-left: 1.5rem;
   font-size: 12px;
-  color: ${theme.colors.gray[1]};
   align-items: center;
+  margin-left: 1.5rem;
+  color: ${theme.colors.gray[1]};
 `;
 
 const Price = styled.div<{
   $deepGreen?: boolean;
 }>`
-  margin-left: 4px;
-  font-size: 1rem;
   color: black;
+  font-size: 1rem;
+  margin-left: 4px;
 
   ${(props) =>
     props.$deepGreen &&

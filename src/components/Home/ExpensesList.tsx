@@ -1,5 +1,5 @@
-import SearchedDailyList from '@/components/Home/SearchedDailyList';
-import SearchedTagList from '@/components/Home/SearchedTagList';
+import ExpensesTagList from '@/components/Home/ExpensesTagList';
+import ExpensesDailyList from '@/components/Home/ExpensesDailyList';
 
 export interface SelectedDailyProps {
   amount: number;
@@ -19,13 +19,13 @@ function ExpensesList({ dailyList, tag, onItemUpdated }: CalendarDataProps) {
   return (
     <>
       {tag ? (
-        <SearchedTagList
+        <ExpensesTagList
           dailyList={dailyList}
           tag={tag}
           onItemUpdated={onItemUpdated}
         />
       ) : (
-        <SearchedDailyList
+        <ExpensesDailyList
           dailyList={dailyList}
           onItemUpdated={onItemUpdated}
         />

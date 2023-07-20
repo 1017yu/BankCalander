@@ -1,6 +1,6 @@
-import { weekToNumFn } from '@/lib/utils/weekNumFn';
 import { theme } from '@/styles/theme';
 import { css, styled } from 'styled-components';
+import { weekToNumFn } from '@/lib/utils/weekNumFn';
 
 interface WeeklyListProps {
   _id?: string;
@@ -46,11 +46,11 @@ const Wrapper = styled.div<{
   $isPositive?: boolean;
 }>`
   display: flex;
-  justify-content: right;
-  padding-right: 2px;
   font-size: 0.8rem;
-  background-color: ${theme.colors.gray[0]};
+  padding-right: 2px;
   align-items: center;
+  justify-content: right;
+  background-color: ${theme.colors.gray[0]};
   ${(props) =>
     props.$isPositive &&
     css`
