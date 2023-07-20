@@ -20,6 +20,7 @@ function AddModal({ close, onItemUpdated }: AddModalProps) {
   const [tag, setTag] = useState(''); // 카테고리 소비 태그
   const [paymentMethod, setPaymentMethod] = useState(''); // 결제 방식
   const [activeButton, setActiveButton] = useState(''); // 버튼 활성화 상태 확인
+  const [selectDate, setSelectDate] = useState('')
   const modalRef = useRef(null);
 
   const handleButtonClick = (
@@ -59,7 +60,7 @@ function AddModal({ close, onItemUpdated }: AddModalProps) {
     const data = {
       amount: formAmount,
       category: category,
-      date: new Date().toISOString(),
+      date: new Date(selectDate).toString(),
     };
 
     await createdExpense(data);
@@ -68,6 +69,11 @@ function AddModal({ close, onItemUpdated }: AddModalProps) {
     }
     close();
   };
+
+  const handleDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
+    setSelectDate(input)
+  }
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (e.target === modalRef.current) close();
@@ -80,6 +86,7 @@ function AddModal({ close, onItemUpdated }: AddModalProps) {
           <BackButton onClick={close}>
             <FaArrowLeft />
           </BackButton>
+          <StyleDate type="date" required value={selectDate} onChange={handleDate}/>
           <ButtonCotainer>
             {/*입금 버튼*/}
             <DepositButton
@@ -140,6 +147,11 @@ const BackButton = styled.button`
   &:hover {
     color: ${theme.colors.red};
   }
+`;
+
+const StyleDate = styled.input`
+  width: 50%;
+  text-align: center;
 `;
 
 const ButtonCotainer = styled.div`
