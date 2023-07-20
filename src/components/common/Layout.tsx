@@ -1,4 +1,3 @@
-import { theme } from '@/styles/theme';
 import { Outlet } from 'react-router-dom';
 import { styled } from 'styled-components';
 
