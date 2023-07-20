@@ -29,9 +29,9 @@ function DeatilChart({summaries, period, selectChart}: Summaries) {
     })
 
     const dynaminColor = function () {
-      let r = Math.floor(Math.random() * 255)
-      let g = Math.floor(Math.random() * 255)
-      let b = Math.floor(Math.random() * 255)
+      const r: number = Math.floor(Math.random() * 255)
+      const g: number = Math.floor(Math.random() * 255)
+      const b: number = Math.floor(Math.random() * 255)
       return 'rgba(' + r + ',' + g + ',' + b + ',0.6)'
     }
 
