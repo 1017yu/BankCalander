@@ -27,7 +27,6 @@ interface CalendarProps {
   currentYear: number;
   setCurrentYear: React.Dispatch<React.SetStateAction<number>>;
   onItemUpdated: () => void;
-  dailyList: SelectedDailyProps[];
 }
 
 interface WeeklyListProps {
@@ -44,7 +43,6 @@ const TheCalendar = ({
   currentYear,
   setCurrentYear,
   onItemUpdated,
-  dailyList,
 }: CalendarProps) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [weeklyList, setWeeklyList] = useState<WeeklyListProps[]>([]);
@@ -183,7 +181,7 @@ const TheCalendar = ({
       setWeeklyList(res);
     };
     fetchList();
-  }, [dailyList]);
+  }, [monthlyList]);
 
   return (
     <Container>

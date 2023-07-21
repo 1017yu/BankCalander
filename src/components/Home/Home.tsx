@@ -75,7 +75,6 @@ function Home() {
         setCurrentYear={setCurrentYear}
         monthlyList={monthlyList}
         onItemUpdated={onItemUpdated}
-        dailyList={dailyList}
       />
 
       <ExpensesList
