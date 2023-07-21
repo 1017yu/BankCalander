@@ -59,7 +59,7 @@ const DayContent = styled.div<DayProps>`
   ${(props) =>
     props.$day === 7 &&
     css`
-      color: blue;
+      color: ${theme.colors.blue};
     `}
 
   ${(props) =>

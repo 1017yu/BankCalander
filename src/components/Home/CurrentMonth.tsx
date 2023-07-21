@@ -79,11 +79,12 @@ const Day = styled.button<DayProps>`
 
 const DayContent = styled.div<DayProps>`
   padding: 4px 0;
+  color: black;
 
   ${(props) =>
     props.$day === 7 &&
     css`
-      color: blue;
+      color: ${theme.colors.blue};
     `}
 
   ${(props) =>
