@@ -178,7 +178,7 @@ function App() {
           <Collapse.Panel key={index} header={week.title} showArrow={false} forceRender style={{ cursor: 'pointer', fontWeight: 'bold' }}>
             <ul>
               <li>{`${week.period}`}</li>
-              <Li>{`총 금액: ${week.totalExpense} 원`}</Li>
+              <Li>{`총 금액: ${week.totalExpense .toLocaleString()} 원`}</Li>
             </ul>
             <div>
               <canvas
@@ -224,7 +224,7 @@ function App() {
             <FaArrowLeft />
           </BackButton>
       <H1>주간 그래프</H1>
-      <div>
+      <Div>
         <Button onClick={handlePreviousMonth}>&lt;</Button>
         <Select value={selectedYear} onChange={handleYearChange}>
           {years}
@@ -233,11 +233,17 @@ function App() {
           {months}
         </Select>
         <Button onClick={handleNextMonth}>&gt;</Button>
-      </div>
+      </Div>
       <div>{renderMonthGraph(selectedYear, selectedMonth)}</div>
     </div>
   );
 }
+
+const Div = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+`
 
 const BackButton = styled.button`
   border: none;
@@ -263,7 +269,8 @@ const Li = styled.li`
 
 const H1 = styled.h1`
   font-size: 25px;
-  padding-left: 200px;
+  margin-bottom: 33px;
+  padding-left: 190px;
 `
 
 const Select = styled.select`
