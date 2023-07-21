@@ -17,8 +17,8 @@ const SelectMonthly = ({summaries, onSelectPeriod}: Summaries) => {
         <option value = ''>
           기간
         </option>
-        {summaries.map((item) => 
-        <option value = {item._id}>
+        {summaries.map((item, index) => 
+        <option key = {index} value = {item._id}>
           {item._id}
         </option>
         )}

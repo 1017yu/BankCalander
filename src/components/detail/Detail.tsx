@@ -125,11 +125,7 @@ function Detail () {
   }
   // table
   const tableitemSource = filterCategories.map((categories, index) => ({
-    key : (
-      <div>
-        <p>{index + 1}</p>
-      </div>
-    ),
+    key : index + 1,
     categoryName: categories.category.replace(/, .*$/, ''),
     categoryAmount: Number(categories.amount) >= 0 ? categories.amount.toLocaleString() : <StyleExpeses>{categories.amount.toLocaleString()}</StyleExpeses>,
     categoryDate: categories.date.replace(/T.*$/, '')
