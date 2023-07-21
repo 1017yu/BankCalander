@@ -48,15 +48,13 @@ function NotCurrentMonth({
   );
 }
 const Day = styled.button<DayProps>`
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  color: ${theme.colors.gray[3]};
-  min-width: calc(100% / 7);
-  align-items: center;
+  justify-content: space-evenly;
 `;
 
 const DayContent = styled.div<DayProps>`
-  color: #000;
+  padding: 4px 0;
 
   ${(props) =>
     props.$day === 7 &&

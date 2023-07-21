@@ -72,17 +72,12 @@ function CurrentMonth({
 }
 const Day = styled.button<DayProps>`
   display: flex;
-  flex-direction: column;
-  color: ${theme.colors.gray[1]};
-  cursor: pointer;
-  background-color: inherit;
   align-items: center;
+  flex-direction: column;
   min-width: calc(100% / 7);
 `;
 
 const DayContent = styled.div<DayProps>`
-  color: #000;
-  text-align: center;
   padding: 4px 0;
 
   ${(props) =>
@@ -114,5 +109,6 @@ const Income = styled.div`
 
 const Expense = styled.div`
   font-size: 0.5rem;
+  color: ${theme.colors.gray[1]};
 `;
 export default CurrentMonth;
