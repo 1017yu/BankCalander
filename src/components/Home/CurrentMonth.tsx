@@ -71,6 +71,7 @@ function CurrentMonth({
   );
 }
 const Day = styled.button<DayProps>`
+  color: black;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -79,7 +80,6 @@ const Day = styled.button<DayProps>`
 
 const DayContent = styled.div<DayProps>`
   padding: 4px 0;
-  color: black;
 
   ${(props) =>
     props.$day === 7 &&
