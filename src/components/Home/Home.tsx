@@ -1,7 +1,6 @@
-import { styled } from 'styled-components';
 import { useEffect, useState } from 'react';
 import UserId from '@/components/Home/UserId';
-import TheCalendar from '@/components/Home/Calendar';
+import Calendar from '@/components/Home/Calendar';
 import ExpensesList from '@/components/Home/ExpensesList';
 import { calendarData, expenseSearch } from '@/lib/api/Api';
 
@@ -65,18 +64,18 @@ function Home() {
   }, [tag]);
 
   return (
-    <Container>
+    <>
       <UserId />
-      <TheCalendar
+      <Calendar
         setTag={setTag}
         onDayClick={onDayClick}
-        dailyList={dailyList}
         currentMonth={currentMonth}
         setCurrentMonth={setCurrentMonth}
         currentYear={currentYear}
         setCurrentYear={setCurrentYear}
         monthlyList={monthlyList}
         onItemUpdated={onItemUpdated}
+        dailyList={dailyList}
       />
 
       <ExpensesList
@@ -84,10 +83,8 @@ function Home() {
         tag={tag}
         onItemUpdated={onItemUpdated}
       />
-    </Container>
+    </>
   );
 }
-
-const Container = styled.div``;
 
 export default Home;

@@ -53,7 +53,7 @@ function ExpensesTagList({ dailyList, onItemUpdated }: ExpensesTagList) {
   };
 
   return (
-    <div>
+    <>
       <Title></Title>
       <ul>
         {dailyList
@@ -109,7 +109,7 @@ function ExpensesTagList({ dailyList, onItemUpdated }: ExpensesTagList) {
             ))
           : '내역이 없습니다!'}
       </ul>
-    </div>
+    </>
   );
 }
 

@@ -40,6 +40,7 @@ function CurrentMonth({
     }
     return income !== 0 ? `+${income}` : '';
   };
+
   const dailyExpense = (currentDay: number) => {
     let expense = 0;
 
@@ -55,19 +56,17 @@ function CurrentMonth({
   };
 
   return (
-    <>
-      <Day
-        key={`${month}-${currentDay}`}
-        $isCurrentMonth={$isCurrentMonth}
-        onClick={handleClick}
-      >
-        <DayContent $day={day} $isCurrentMonth={$isCurrentMonth}>
-          {currentDay}
-        </DayContent>
-        <Income>{dailyIncome(currentDay)}</Income>
-        <Expense>{dailyExpense(currentDay)}</Expense>
-      </Day>
-    </>
+    <Day
+      key={`${month}-${currentDay}`}
+      $isCurrentMonth={$isCurrentMonth}
+      onClick={handleClick}
+    >
+      <DayContent $day={day} $isCurrentMonth={$isCurrentMonth}>
+        {currentDay}
+      </DayContent>
+      <Income>{dailyIncome(currentDay)}</Income>
+      <Expense>{dailyExpense(currentDay)}</Expense>
+    </Day>
   );
 }
 const Day = styled.button<DayProps>`
@@ -91,7 +90,7 @@ const DayContent = styled.div<DayProps>`
   ${(props) =>
     props.$day === 7 &&
     css`
-      color: ${theme.colors.blue};
+      color: ${theme.colors.deepBlue};
     `}
 
   ${(props) =>
