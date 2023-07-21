@@ -4,6 +4,7 @@ import NotFound from '@/components/common/NotFound';
 import Detail from '@/components/detail/Detail';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from '@/components/Home/Home';
+import '@/App.css'
 
 const App = () => {
   return (
