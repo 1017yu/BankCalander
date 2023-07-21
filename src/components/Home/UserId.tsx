@@ -110,6 +110,7 @@ const LogInButton = styled.button`
     @media screen and (max-width:500px) {
       background-color: #fff;
       color: #000;
+      display: block;
   
       &:hover {
         background-color: #000;

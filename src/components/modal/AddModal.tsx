@@ -87,7 +87,8 @@ function AddModal({ close, onItemUpdated }: AddModalProps) {
           <BackButton onClick={close}>
             <FaArrowLeft />
           </BackButton>
-          <StyleDate type="date" required value={selectDate} onChange={handleDate}/>
+          <StyleDateLabel htmlFor="dateInput">날짜 선택</StyleDateLabel>
+          <StyleDate type="date" id="dateInput" required value={selectDate} onChange={handleDate}/>
           <ButtonCotainer>
             {/*입금 버튼*/}
             <DepositButton
@@ -148,6 +149,11 @@ const BackButton = styled.button`
   &:hover {
     color: ${theme.colors.red};
   }
+`;
+
+const StyleDateLabel = styled.label`
+  margin-bottom: 8px;
+  font-weight: bold;
 `;
 
 const StyleDate = styled.input`
