@@ -47,7 +47,7 @@ const TheCalendar = ({
 }: CalendarProps) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [weeklyList, setWeeklyList] = useState<WeeklyListProps[]>([]);
-  const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
+  const weekDate = ['일', '월', '화', '수', '목', '금', '토'];
 
   // 마지막 날짜 반환 함수
   const getLastDate = ({ year, month }: GetDaysProps) => {
@@ -196,7 +196,7 @@ const TheCalendar = ({
         monthlyList={monthlyList}
       />
       <WeekDay>
-        {weekDays.map((date) => (
+        {weekDate.map((date) => (
           <Dates key={`${date}`}>{date}</Dates>
         ))}
       </WeekDay>
