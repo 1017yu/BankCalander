@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import ExpensesAmount from './ExpensesAmount';
 import ExpensesTag from './ExpensesTag';
 import DepositTag from './DepositTag';
@@ -20,15 +20,9 @@ function AddModal({ close, onItemUpdated }: AddModalProps) {
   const [tag, setTag] = useState(''); // 카테고리 소비 태그
   const [paymentMethod, setPaymentMethod] = useState(''); // 결제 방식
   const [activeButton, setActiveButton] = useState(''); // 버튼 활성화 상태 확인
-  const [selectDate, setSelectDate] = useState('')
+  const today = new Date().toISOString().slice(0, 10);
+  const [selectDate, setSelectDate] = useState(today);
   const modalRef = useRef(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (inputRef.current) {
-        inputRef.current.focus();
-    }
-}, []);
 
   const handleButtonClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -93,7 +87,7 @@ function AddModal({ close, onItemUpdated }: AddModalProps) {
           <BackButton onClick={close}>
             <FaArrowLeft />
           </BackButton>
-          <StyleDate type="date" ref={inputRef} required value={selectDate} onChange={handleDate}/>
+          <StyleDate type="date" required value={selectDate} onChange={handleDate}/>
           <ButtonCotainer>
             {/*입금 버튼*/}
             <DepositButton
