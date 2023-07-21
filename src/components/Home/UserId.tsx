@@ -78,6 +78,16 @@ const LogOutButton = styled.button`
     color: #fff;
     background-color: #000;
   }
+
+  @media screen and (max-width:300px) {
+    background-color: #fff;
+    color: #000;
+
+    &:hover {
+      background-color: #000;
+      color: #fff;
+    }
+}
 `;
 
 const LogInForm = styled.form`
@@ -96,6 +106,19 @@ const LogInButton = styled.button`
   &:hover {
     color: #fff;
     background-color: #000;
+
+    @media screen and (max-width:300px) {
+      background-color: #fff;
+      color: #000;
+  
+      &:hover {
+        background-color: #000;
+        color: #fff;
+      }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
   }
 `;
 
