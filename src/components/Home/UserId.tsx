@@ -82,7 +82,7 @@ const LogOutButton = styled.button`
     background-color: #000;
   }
 
-  @media screen and (max-width:500px) {
+  @media screen and (max-width: 500px) {
     background-color: #fff;
     color: #000;
 
@@ -90,7 +90,7 @@ const LogOutButton = styled.button`
       background-color: #000;
       color: #fff;
     }
-}
+  }
 `;
 
 const LogInForm = styled.form`
@@ -112,14 +112,15 @@ const LogInButton = styled.button`
     color: #fff;
     background-color: #000;
 
-    @media screen and (max-width:500px) {
+    @media screen and (max-width: 500px) {
       background-color: #fff;
       color: #000;
-  
+
       &:hover {
         background-color: #000;
         color: #fff;
       }
+    }
   }
 
   &:disabled {
