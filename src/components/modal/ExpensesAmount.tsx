@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef, useEffect } from 'react'
+import { ChangeEvent/* , useRef, useEffect  */} from 'react'
 import styled from 'styled-components'
 
 interface ExpensesAmountProps {
@@ -7,7 +7,7 @@ interface ExpensesAmountProps {
   }
 
 function ExpensesAmount({ amount, handleAmountChange }: ExpensesAmountProps) {
-    const inputRef = useRef<HTMLInputElement>(null);
+/*     const inputRef = useRef<HTMLInputElement>(null); */
 
 /*     useEffect(() => {
         if (inputRef.current) {
