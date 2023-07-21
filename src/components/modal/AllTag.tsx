@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import styled from 'styled-components';
 import { tags } from '@/lib/utils/Tags';

@@ -73,8 +73,8 @@ function AddModal({ close, onItemUpdated }: AddModalProps) {
 
   const handleDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
-    setSelectDate(input)
-  }
+    setSelectDate(input);
+  };
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (e.target === modalRef.current) close();
@@ -88,7 +88,13 @@ function AddModal({ close, onItemUpdated }: AddModalProps) {
             <FaArrowLeft />
           </BackButton>
           <StyleDateLabel htmlFor="dateInput">날짜 선택</StyleDateLabel>
-          <StyleDate type="date" id="dateInput" required value={selectDate} onChange={handleDate}/>
+          <StyleDate
+            type="date"
+            id="dateInput"
+            required
+            value={selectDate}
+            onChange={handleDate}
+          />
           <ButtonCotainer>
             {/*입금 버튼*/}
             <DepositButton
@@ -159,7 +165,6 @@ const StyleDateLabel = styled.label`
 const StyleDate = styled.input`
   width: 50%;
   text-align: center;
-    }
 `;
 
 const ButtonCotainer = styled.div`

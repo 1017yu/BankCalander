@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -12,7 +13,11 @@ interface DropdownProps {
   tag?: string;
 }
 
-function Dropdown({ options, onSelect, tag = "태그를 선택하세요." }: DropdownProps) {
+function Dropdown({
+  options,
+  onSelect,
+  tag = '태그를 선택하세요.',
+}: DropdownProps) {
   const [isClosed, setIsClosed] = useState(true); // 드롭다운 형식을 여닫는 상태관리
   const [selectedOption, setSelectedOption] = useState(tag); // tag를 선택하기 전 초기값
 

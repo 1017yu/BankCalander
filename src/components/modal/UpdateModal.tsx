@@ -39,7 +39,7 @@ function UpdateModal({
   // useEffect를 사용해서 마운트 될 때 initialAmount가 0보다 크거나 같으면 type은 deposit 아니면 expense가 된다.
   useEffect(() => {
     setType(initialAmount >= 0 ? 'deposit' : 'expense');
-  }, []);
+  }, [initialAmount]);
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
