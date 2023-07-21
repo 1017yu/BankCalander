@@ -126,6 +126,7 @@ function Header({
 const Search = styled.button`
   margin-right: 10px;
   > svg {
+    color: black;
     font-size: 1rem;
   }
 `;
@@ -157,6 +158,9 @@ const Arrow = styled.button`
   cursor: pointer;
   background: none;
   font-size: 1.5rem;
+  > svg {
+    color: black;
+  }
 `;
 
 const InfoWrapper = styled.div`
@@ -195,6 +199,7 @@ const ButtonWrapper = styled.div`
 
 const Add = styled.button`
   display: flex;
+  color: black;
   font-size: 1rem;
   margin-top: 1rem;
   align-items: center;
