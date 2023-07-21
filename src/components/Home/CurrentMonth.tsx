@@ -108,7 +108,7 @@ const DayContent = styled.div<DayProps>`
 `;
 
 const Income = styled.div`
-  font-size: 4px;
+  font-size: 0.5rem;
   color: ${theme.colors.deepGreen};
 `;
 

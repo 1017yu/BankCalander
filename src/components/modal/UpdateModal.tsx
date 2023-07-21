@@ -89,6 +89,7 @@ function UpdateModal({
 
   const handleDeleted = async () => {
     await deletedRecord(_id);
+    onItemUpdated();
     close();
   };
 

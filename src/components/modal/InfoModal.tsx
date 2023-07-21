@@ -170,7 +170,8 @@ const InfoTag = styled.div`
 `;
 
 const InfoPaymentMethod = styled.div`
-margin-bottom: 25px;
+  margin-bottom: 25px;
+  text-align: center;
 `;
 
 export default InfoModal;
