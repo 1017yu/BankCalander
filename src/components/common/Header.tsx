@@ -1,7 +1,7 @@
 import Button from './Button';
 import { theme } from '@/styles/theme';
 import { Link } from 'react-router-dom';
-import AddModal from '../modal/AddModal';
+import AddModal from '@/components/modal/AddModal';
 import { useEffect, useState } from 'react';
 import { css, styled } from 'styled-components';
 import SearchModal from '@/components/modal/SearchModal';

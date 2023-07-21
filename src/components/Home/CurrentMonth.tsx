@@ -79,7 +79,14 @@ const Day = styled.button<DayProps>`
 `;
 
 const DayContent = styled.div<DayProps>`
+  width: 2rem;
   padding: 4px 0;
+  border-radius: 10%;
+
+  &:hover {
+    scale: calc(110%);
+    background-color: ${theme.colors.lightGreen};
+  }
 
   ${(props) =>
     props.$day === 7 &&

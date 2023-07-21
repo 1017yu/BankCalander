@@ -9,5 +9,6 @@ export const theme: DefaultTheme = {
     red: '#e73273',
     gray: ['#eaeaea96', '#B2B2B2', '#3C4048'],
     blue: '#8CC0DE',
+    deepBlue: '#0000ff',
   },
 };
