@@ -11,7 +11,7 @@ function Layout() {
 const Container = styled.div`
   height: 100vh;
   margin: 0 auto;
-  max-width: 500px;
+  max-width: 480px;
 `;
 
 export default Layout;
