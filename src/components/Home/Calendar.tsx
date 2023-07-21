@@ -21,13 +21,13 @@ interface CalendarProps {
   // eslint-disable-next-line no-unused-vars
   onDayClick: (year: number, month: number, currentDay: number) => void;
   setTag: React.Dispatch<React.SetStateAction<string>>;
-  dailyList: SelectedDailyProps[];
   monthlyList: SelectedDailyProps[];
   currentMonth: number;
   setCurrentMonth: React.Dispatch<React.SetStateAction<number>>;
   currentYear: number;
   setCurrentYear: React.Dispatch<React.SetStateAction<number>>;
   onItemUpdated: () => void;
+  dailyList: SelectedDailyProps[];
 }
 
 interface WeeklyListProps {
@@ -44,6 +44,7 @@ const TheCalendar = ({
   currentYear,
   setCurrentYear,
   onItemUpdated,
+  dailyList,
 }: CalendarProps) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [weeklyList, setWeeklyList] = useState<WeeklyListProps[]>([]);
@@ -115,8 +116,8 @@ const TheCalendar = ({
     month: nextMonth.getMonth(), // 이후 month index (7)
   });
 
-  const calendar = [];
-  let currentDay = 1;
+  const calendar = []; // 화면에 뿌릴 달력 요소들을 담는 Array
+  let currentDay = 1; // 1일부터 채워나감
 
   // week 0주차부터 5주차까지
   for (let week = 0; week <= 5; week++) {
@@ -182,7 +183,7 @@ const TheCalendar = ({
       setWeeklyList(res);
     };
     fetchList();
-  }, []);
+  }, [dailyList]);
 
   return (
     <Container>
