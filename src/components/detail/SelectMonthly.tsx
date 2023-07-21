@@ -7,7 +7,6 @@ interface Summaries {
 
 const SelectMonthly = ({summaries, onSelectPeriod}: Summaries) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value)
     onSelectPeriod(e.target.value)
     e.target.blur();
   }

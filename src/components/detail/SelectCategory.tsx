@@ -1,10 +1,11 @@
 import styled from 'styled-components'
 
 interface OnSelectCategory {
+  summaries: SearchResponseItem[]
   onSelectCategory: (value: string) => void
 }
 
-function SelectCategory({onSelectCategory}: OnSelectCategory) {
+function SelectCategory({summaries, onSelectCategory}: OnSelectCategory) {
 
   const handleChangeCategory = (e:React.ChangeEvent<HTMLSelectElement>) => {
     onSelectCategory(e.target.value)
@@ -13,42 +14,17 @@ function SelectCategory({onSelectCategory}: OnSelectCategory) {
 
   return (
     <>
-      <StyledSelectCategory onChange={handleChangeCategory}>
-        <option value = ''>
-          카테고리
+    <StyledSelectCategory onChange={handleChangeCategory} >
+      <option value = ''>
+        카테고리
+      </option>
+      {summaries.map((item, index) => 
+        <option key = {index} value = {item.category}>
+          {item.category.replace(/, .*$/, '')}
         </option>
-        <option>
-          교육
-        </option>
-        <option>
-          교통비
-        </option>
-        <option>
-          급여
-        </option>
-        <option>
-          기타
-        </option>
-        <option>
-          생필품
-        </option>
-        <option>
-          식비
-        </option>
-        <option>
-          용돈
-        </option>
-        <option>
-          의료/건강
-        </option>
-        <option>
-          카드대금
-        </option>
-        <option>
-          통신비
-        </option>
-      </StyledSelectCategory>
-    </>
+      )}
+    </StyledSelectCategory>
+  </>
 
   )
 }

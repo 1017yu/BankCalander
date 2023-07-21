@@ -30,7 +30,6 @@ function Detail () {
     try {
       const response = await expenseSummary(selectedPeriod);
       setSummeries(response  )
-      console.log(response)
     } catch (error) {
       console.log('error :', error)
     }
@@ -40,7 +39,6 @@ function Detail () {
     if(period !== '기간선택') {
       periodApi(period)
     } else {
-      console.log(period)
       setPeriod('daily')
     }
   }, [period])
@@ -63,8 +61,8 @@ function Detail () {
 
   const selectDay = (dates: any, dateStrings: string[]) => {
     if (dates && dates.length > 0) {
-      console.log(dates)
       setSelectDays(true);
+      console.log(selectDays)
       const [startDay, endDay] = dateStrings;
       const filteredSummaries = summaries.filter((summary) => {
         return summary._id >= startDay && summary._id <= endDay;
@@ -75,8 +73,6 @@ function Detail () {
       sortSummariesFunc();
     }
   };
-
-  console.log(selectDays)
 
   const handleSelectPeriod = (value: string) => {
     setSelectPeriod(value)
@@ -102,7 +98,6 @@ function Detail () {
   }, [selectCategories])
 
   const handleSelectCategory = (value: string) => {
-      console.log(value)
       setSelectCategories(value)
   }
 
@@ -191,7 +186,7 @@ function Detail () {
       <DetailList summaries = {sortSummaries}/>
       <StyledSelect>
         <SelectMonthly summaries = {sortSummaries} onSelectPeriod = {handleSelectPeriod}/>
-        <SelectCategory onSelectCategory = {handleSelectCategory} />
+        <SelectCategory summaries = {categories} onSelectCategory = {handleSelectCategory} />
       </StyledSelect>
       <Table
         dataSource={tableitemSource}
