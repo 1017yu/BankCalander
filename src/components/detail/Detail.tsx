@@ -12,6 +12,7 @@ import {Table} from 'antd'
 import { FaArrowLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { theme } from '@/styles/theme';
+import './Detail.css'
 
 const { RangePicker } = DatePicker;
 
@@ -180,12 +181,12 @@ function Detail () {
         <SelectChart onSelectChart = {handleChart}/>
       </Check>
       {period === 'daily' && (
-        <StyleRangePicker>
+        <StyleDatePicker>
           <RangePicker
             onChange={selectDay}
             size ='small'
           />
-        </StyleRangePicker>
+        </StyleDatePicker>
       )}
       <DetailChart summaries = {sortSummaries} period = {period} selectChart = {chart} />
       <DetailList summaries = {sortSummaries}/>
@@ -214,10 +215,11 @@ const Check = styled.div`
   justify-content: center;
 `;
 
-const StyleRangePicker = styled.div`
+const StyleDatePicker = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  
 `
 
 const StyledSelect = styled.div `
