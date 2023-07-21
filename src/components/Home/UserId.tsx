@@ -63,6 +63,7 @@ const Wrapper = styled.div`
 
 const User = styled.span`
   font-weight: bold;
+  text-align: center;
 `;
 
 const LogOutForm = styled.form`
@@ -73,6 +74,8 @@ const LogOutButton = styled.button`
   margin-left: 10px;
   font-weight: bold;
   border-radius: 8px;
+  background-color: #fff;
+  color: #000;
 
   &:hover {
     color: #fff;
@@ -102,6 +105,8 @@ const LogInButton = styled.button`
   margin-left: 10px;
   font-weight: bold;
   border-radius: 8px;
+  background-color: #fff;
+  color: #000;
 
   &:hover {
     color: #fff;
@@ -110,7 +115,6 @@ const LogInButton = styled.button`
     @media screen and (max-width:500px) {
       background-color: #fff;
       color: #000;
-      display: block;
   
       &:hover {
         background-color: #000;
