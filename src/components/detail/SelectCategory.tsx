@@ -8,6 +8,7 @@ function SelectCategory({onSelectCategory}: OnSelectCategory) {
 
   const handleChangeCategory = (e:React.ChangeEvent<HTMLSelectElement>) => {
     onSelectCategory(e.target.value)
+    e.target.blur();
   }
 
   return (

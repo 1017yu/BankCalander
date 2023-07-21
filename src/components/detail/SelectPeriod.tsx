@@ -8,6 +8,7 @@ const SelectPeriod: React.FC<OnPeriodProps> = ({ onPeriodChange }) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     onPeriodChange(value);
+    e.target.blur();
   };
 
   return (

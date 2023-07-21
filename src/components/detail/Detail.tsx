@@ -183,6 +183,7 @@ function Detail () {
         <StyleRangePicker>
           <RangePicker
             onChange={selectDay}
+            size ='small'
           />
         </StyleRangePicker>
       )}
@@ -216,6 +217,7 @@ const Check = styled.div`
 const StyleRangePicker = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
 `
 
 const StyledSelect = styled.div `

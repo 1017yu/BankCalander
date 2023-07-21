@@ -8,6 +8,7 @@ function SelectChart({onSelectChart}: OnSelectChartProps) {
   const handleSelectChart = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value
     onSelectChart(value)
+    e.target.blur();
   }
   
   return (

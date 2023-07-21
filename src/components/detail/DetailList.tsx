@@ -42,7 +42,7 @@ function DetailList({summaries}: Summaries) {
       <Table
         dataSource={tableitemSource}
         columns={itemColumns}
-        pagination = {false}
+        pagination={{pageSize: 5, simple: true}}
         size="small"
       />
       <StyleAmount>
