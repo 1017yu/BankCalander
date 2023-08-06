@@ -2,7 +2,7 @@
 
 ## 배포사이트
 
-[이게머니]('https://thisismoney.netlify.app/')
+[이게머니](https://thisismoney.netlify.app/)
 
 ## 프로젝트 팀원
 
